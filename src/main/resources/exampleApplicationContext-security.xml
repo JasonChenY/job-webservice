@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- Disable security on static resources -->
+    <security:http pattern="/static/**" security="none"/>
+
+    <!-- Enable Spring Security -->
+    <security:http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true">
+        <security:csrf disabled="true"/>
+        <!-- Adds the custom login filter to the Spring Security filter chain -->
+        <security:custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER"/>
+        <!-- Add the logout filter to the Spring Security filter chain -->
+        <security:logout logout-url="/api/logout" delete-cookies="true" invalidate-session="true" success-handler-ref="restLogoutSuccessHandler"/>
+
+        <security:openid-login login-page="/openidlogin.jsp" user-service-ref="registeringUserService"
+                      authentication-failure-url="/openidlogin.jsp?login_error=true">
+            <security:attribute-exchange identifier-match="https://www.google.com/.*">
+                <security:openid-attribute name="email" type="http://axschema.org/contact/email" required="true" count="1"/>
+                <security:openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true" />
+                <security:openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true" />
+            </security:attribute-exchange>
+            <security:attribute-exchange identifier-match=".*yahoo.com.*">
+                <security:openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
+                <security:openid-attribute name="fullname" type="http://axschema.org/namePerson" required="true" />
+            </security:attribute-exchange>
+            <security:attribute-exchange identifier-match=".*myopenid.com.*">
+                <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
+                <security:openid-attribute name="fullname" type="http://schema.openid.net/namePerson" required="true" />
+            </attribute-exchange>
+        </openid-login>
+
+    </security:http>
+
+    <!-- Enable @PreAuthorize and @PostAuthorize annotations -->
+    <security:global-method-security pre-post-annotations="enabled">
+        <!-- Adds a reference to the used expression handler bean -->
+        <security:expression-handler ref="expressionHandler"/>
+    </security:global-method-security>
+
+    <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator" ref="todoPermissionEvaluator" />
+    </bean>
+
+    <bean id="todoPermissionEvaluator" class="com.tiaonaer.ws.security.authorization.TodoPermissionEvaluator"/>
+
+    <!-- Configures the authentication entry point -->
+    <bean id="restAuthenticationEntryPoint" class="com.tiaonaer.ws.security.authentication.RestAuthenticationEntryPoint"/>
+
+    <!-- Configures a custom login filter bean -->
+    <bean id="loginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationFailureHandler" ref="restAuthenticationFailureHandler"/>
+        <property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
+        <property name="filterProcessesUrl" value="/api/login"/>
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="postOnly" value="true"/>
+    </bean>
+
+    <!-- Configures a custom authentication success handler that returns the HTTP status code 200 instead of the 301 HTTP status code -->
+    <bean id="restAuthenticationSuccessHandler" class="com.tiaonaer.ws.security.authentication.RestAuthenticationSuccessHandler"/>
+
+    <!-- Configures a custom authentication failure handler -->
+    <bean id="restAuthenticationFailureHandler" class="com.tiaonaer.ws.security.authentication.RestAuthenticationFailureHandler"/>
+
+    <!-- Configures a custom logout success handler -->
+    <bean id="restLogoutSuccessHandler" class="com.tiaonaer.ws.security.authentication.RestLogoutSuccessHandler"/>
+
+    <!-- Configures in-memory implementation of the UserDetailsService implementation -->
+    <!--security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="user" password="password" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager-->
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref='myUserDetailsService'/>
+    </security:authentication-manager>
+
+    <bean id="myUserDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+</beans>
