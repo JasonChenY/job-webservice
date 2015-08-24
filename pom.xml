@@ -5,7 +5,7 @@
     <artifactId>criteria-pagination</artifactId>
     <packaging>war</packaging>
     <version>0.1</version>
-    <name>Spring Data Solr - Criteria Pagination</name>
+    <name>Spring Data Solr - jobws</name>
     <description>
         This example application demonstrates how we can paginate the query results of queries
 	created by using the criteria API of Spring Data Solr.
@@ -75,7 +75,7 @@
     </profiles>
 
     <build>
-        <finalName>spring-data-solr-criteria</finalName>
+        <finalName>jobws</finalName>
         <filters>
             <filter>profiles/${build.profile.id}/config.properties</filter>
         </filters>
@@ -97,7 +97,7 @@
         </resources>
 
         <plugins>
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.7</version>
@@ -129,9 +129,9 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <!-- Used for unit tests -->
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
@@ -141,9 +141,9 @@
                         <exclude>**/IT*.java</exclude>
                     </excludes>
                 </configuration>
-            </plugin>
+            </plugin-->
             <!-- Used for integration tests -->
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.12</version>
@@ -151,7 +151,7 @@
                     <systemPropertiesFile>${project.basedir}/profiles/${build.profile.id}/system.properties</systemPropertiesFile>
                 </configuration>
                 <executions>
-                    <!-- States that both integration-test and verify goals of the Failsafe Maven plugin are executed. -->
+                    <States that both integration-test and verify goals of the Failsafe Maven plugin are executed.>
                     <execution>
                         <id>integration-tests</id>
                         <goals>
@@ -159,12 +159,12 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <!-- Skips integration tests if the value of skip.integration.tests property is true -->
+                            <Skips integration tests if the value of skip.integration.tests property is true>
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -37,7 +37,7 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
-        <property name="packagesToScan" value="com.tiaonaer.ws.todo.model"/>
+        <property name="packagesToScan" value="com.tiaonaer.ws.job.model"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -49,5 +49,5 @@
         </property>
     </bean>
 
-    <jpa:repositories base-package="com.tiaonaer.ws.todo.repository"/>
+    <jpa:repositories base-package="com.tiaonaer.ws.job.repository"/>
 </beans>

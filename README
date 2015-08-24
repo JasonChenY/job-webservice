@@ -23,3 +23,7 @@ RUNNING TESTS:
 - You can run unit tests by using this command: mvn test -P dev
 - You can run integration tests by using a command: mvn verify -P integration-test
 
+
+
+insert into users values('user','password',1);
+

@@ -24,7 +24,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.tiaonaer.ws.todo.repository.jpa")
+@EnableJpaRepositories(basePackages = "com.tiaonaer.ws.job.repository.jpa")
 public class PersistenceContext {
 
     protected static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
@@ -38,14 +38,14 @@ public class PersistenceContext {
     private static final String PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY = "hibernate.ejb.naming_strategy";
     private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 
-    private static final String PROPERTY_PACKAGES_TO_SCAN = "com.tiaonaer.ws.todo.model";
+    private static final String PROPERTY_PACKAGES_TO_SCAN = "com.tiaonaer.ws.job.model";
 
     @Resource
     private Environment environment;
-
+/*
     @Value("${init-db:false}")
     private String initDatabase;
-
+*/
     @Bean
     public DataSource dataSource() {
         /*
@@ -62,7 +62,7 @@ public class PersistenceContext {
         dataSource.setPassword(environment.getProperty(PROPERTY_NAME_DATABASE_PASSWORD));
         return dataSource;
     }
-
+/*
     @Bean
     public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
@@ -73,7 +73,7 @@ public class PersistenceContext {
         dataSourceInitializer.setEnabled(Boolean.parseBoolean(initDatabase));
         return dataSourceInitializer;
     }
-
+*/
     @Bean
     public JpaTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();

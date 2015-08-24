@@ -26,8 +26,8 @@ import java.util.List;
 @EnableWebMvc
 @ComponentScan(basePackages = {
         "com.tiaonaer.ws.common",
-        "com.tiaonaer.ws.todo.controller",
-        "com.tiaonaer.ws.todo.service",
+        "com.tiaonaer.ws.job.controller",
+        "com.tiaonaer.ws.job.service",
         "com.tiaonaer.ws.security",
         "com.tiaonaer.ws.user.controller"
 })

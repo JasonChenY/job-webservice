@@ -15,24 +15,6 @@
         <security:custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER"/>
         <!-- Add the logout filter to the Spring Security filter chain -->
         <security:logout logout-url="/api/logout" delete-cookies="true" invalidate-session="true" success-handler-ref="restLogoutSuccessHandler"/>
-
-        <security:openid-login login-page="/openidlogin.jsp" user-service-ref="registeringUserService"
-                      authentication-failure-url="/openidlogin.jsp?login_error=true">
-            <security:attribute-exchange identifier-match="https://www.google.com/.*">
-                <security:openid-attribute name="email" type="http://axschema.org/contact/email" required="true" count="1"/>
-                <security:openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true" />
-                <security:openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true" />
-            </security:attribute-exchange>
-            <security:attribute-exchange identifier-match=".*yahoo.com.*">
-                <security:openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
-                <security:openid-attribute name="fullname" type="http://axschema.org/namePerson" required="true" />
-            </security:attribute-exchange>
-            <security:attribute-exchange identifier-match=".*myopenid.com.*">
-                <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
-                <security:openid-attribute name="fullname" type="http://schema.openid.net/namePerson" required="true" />
-            </attribute-exchange>
-        </openid-login>
-
     </security:http>
 
     <!-- Enable @PreAuthorize and @PostAuthorize annotations -->

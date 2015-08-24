@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * @author Petri Kainulainen
  */
 @Configuration
-@EnableSolrRepositories("com.tiaonaer.ws.todo.repository.solr")
+@EnableSolrRepositories("com.tiaonaer.ws.job.repository.solr")
 @Profile("dev")
 public class EmbeddedSolrContext {
 
