@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 @Component
 public class SecurityContextUtil {

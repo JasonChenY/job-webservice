@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 @Controller
 public class UserController {

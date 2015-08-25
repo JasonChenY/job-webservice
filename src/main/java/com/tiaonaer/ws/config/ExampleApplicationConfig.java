@@ -10,7 +10,7 @@ import javax.servlet.*;
 import java.util.EnumSet;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 public class ExampleApplicationConfig implements WebApplicationInitializer {
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";

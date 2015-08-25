@@ -1,6 +1,5 @@
 package com.tiaonaer.ws.config;
 
-import com.jolbox.bonecp.BoneCPDataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -20,7 +19,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 @Configuration
 @EnableTransactionManagement

@@ -1,7 +1,7 @@
 package com.tiaonaer.ws.user.dto;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 public enum SecurityRole {
     ROLE_USER

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 public class TodoPermissionEvaluator implements PermissionEvaluator {
 

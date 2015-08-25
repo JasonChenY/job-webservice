@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.JstlView;
 import java.util.List;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 @Configuration
 @EnableWebMvc

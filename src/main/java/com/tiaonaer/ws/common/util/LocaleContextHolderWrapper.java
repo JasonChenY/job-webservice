@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 @Component
 public class LocaleContextHolderWrapper {

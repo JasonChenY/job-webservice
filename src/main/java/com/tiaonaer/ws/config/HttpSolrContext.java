@@ -11,7 +11,7 @@ import org.springframework.data.solr.server.support.HttpSolrServerFactoryBean;
 import javax.annotation.Resource;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 @Configuration
 @EnableSolrRepositories("com.tiaonaer.ws.job.repository.solr")

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override

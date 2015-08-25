@@ -3,7 +3,7 @@ package com.tiaonaer.ws.user.dto;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
- * @author Petri Kainulainen
+ * @author jason.y.chen
  */
 public class UserDTO {
 
