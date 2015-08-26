@@ -1,5 +1,9 @@
+drop table if exists favorites;
+drop table if exists comments;
 drop table if exists authorities;
 drop table if exists users;
+drop table if exists todos;
+
 create table users(
 	username varchar(50) not null, 
 	password varchar(50) not null,
@@ -14,6 +18,31 @@ create table authorities (
 );
 create unique index ix_auth_username on authorities (username,authority);
 
+create table comments(
+        id BIGINT NOT NULL AUTO_INCREMENT primary key, 
+        user_id varchar(100) not null,
+        job_id varchar(100) not null,
+        creation_time datetime not null,
+        content longtext not null,
+        anonymous boolean not null default false,
+        constraint fk_comments_users foreign key(user_id) references users(username) 
+);
+
+create table favorites(
+        user_id varchar(100) not null,
+        job_id varchar(100) not null,
+        primary key(user_id, job_id),
+        constraint fk_favorites_users foreign key(user_id) references users(username)
+);
+
+create table todos(
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        creation_time datetime NOT NULL, 
+        description longtext,  
+        modification_time datetime NOT NULL, 
+        title varchar(100), 
+        version bigint NOT NULL
+);
 
 insert into users values('user', 'password', 1);
 insert into authorities values('user', 'ROLE_USER');
@@ -30,3 +59,6 @@ insert into todos values(9,'2015-08-25 11:17:31','test9','2015-08-25 11:17:31','
 insert into todos values(10,'2015-08-25 11:17:31','test10','2015-08-25 11:17:31','test10',0);
 insert into todos values(11,'2015-08-25 11:17:31','test11','2015-08-25 11:17:31','test11',0);
 insert into todos values(12,'2015-08-25 11:17:31','test12','2015-08-25 11:17:31','test12',0);
+
+
+

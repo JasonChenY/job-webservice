@@ -28,24 +28,7 @@ public class JobDocument implements SearchableJobDefinition {
     private @Indexed(JOB_DESCRIPTION) String job_description;
     private @Indexed(JOB_INDEX_DATE) Date job_index_date;
     private @Indexed(JOB_CATEGORY_DOMAIN) String job_category_domain;
-
-    /* Following fields are not from solr, but from database */
-    private int num_favorited;
-    private int num_comments;
-
-    public int getNum_comments() {
-        return num_comments;
-    }
-    public void setNum_comments(int num_comments) {
-        this.num_comments = num_comments;
-    }
-    public int getNum_favorited() {
-        return num_favorited;
-    }
-    public void setNum_favorited(int num_favorited) {
-        this.num_favorited = num_favorited;
-    }
-
+    private @Indexed(JOB_EXPIRED) Boolean job_expired;
 
     public String getId() {
         return id;
@@ -131,6 +114,9 @@ public class JobDocument implements SearchableJobDefinition {
     public void setJob_category_domain(String job_category_domain) {
         this.job_category_domain = job_category_domain;
     }
+
+    public Boolean getJob_expired() {return job_expired; }
+    public void setJob_expired(Boolean job_expired) { this.job_expired = job_expired;}
 
     @Override
     public String toString() {

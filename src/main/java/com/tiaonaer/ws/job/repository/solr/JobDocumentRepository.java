@@ -23,15 +23,14 @@ public interface JobDocumentRepository extends CustomJobDocumentRepository, Solr
             JobDocument.JOB_EXPIRED + ":false"
     })
     @Facet(fields = { JobDocument.JOB_COMPANY, JobDocument.JOB_LOCATION },
-           minCount=1,
-           queries = {
-                   JobDocument.JOB_POST_DATE + ":[NOW-1DAY TO NOW]",
-                   JobDocument.JOB_POST_DATE + ":[NOW-7DAY TO NOW]",
-                   JobDocument.JOB_POST_DATE + ":[NOW-31DAY TO NOW]",
-                   JobDocument.JOB_POST_DATE + ":[NOW-365DAY TO NOW]"
-            }
+           minCount=1, limit=1000
+           /*Bug in Jackson ? queries = { JobDocument.JOB_POST_DATE + ":[NOW-1DAY TO NOW]",
+                       JobDocument.JOB_POST_DATE + ":[NOW-7DAY TO NOW]",
+                       JobDocument.JOB_POST_DATE + ":[NOW-31DAY TO NOW]",
+                       JobDocument.JOB_POST_DATE + ":[NOW-365DAY TO NOW]"
+           }*/
     )
-    public FacetPage<JobDocument> getInitJobsWithFacet(Pageable page);
+    public FacetPage<JobDocument> getJobsWithFacet(Pageable page);
 
     /*
     FacetPage<Book> booksFacetPage = bookRepository.findByNameAndFacetOnCategories(bookName, new PageRequest(0, 10));

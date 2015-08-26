@@ -14,7 +14,7 @@ public interface CustomJobDocumentRepository {
 
     public long count(String searchTerm);
 
-    public Page<JobDocument> search(List<String> companies, List<String> locations, String searchTerm, Pageable page);
+    public Page<JobDocument> search(String query, List<String> filter_query, int days, Pageable page);
 
     public void update(Job job);
 }
