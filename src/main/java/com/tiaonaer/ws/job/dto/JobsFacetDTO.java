@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import org.springframework.data.domain.Page;
 import com.tiaonaer.ws.job.document.JobDocument;
 import com.tiaonaer.ws.job.dto.JobDTO;
 import com.tiaonaer.ws.job.dto.PageNavigation;
@@ -16,7 +17,15 @@ public class JobsFacetDTO extends PageNavigation {
     private Map<String, Long> companies = new HashMap<String, Long>();
     private Map<String, Long> locations = new HashMap<String, Long>();
 
-    public void addJobDTO(JobDTO job) { jobs.add(job);}
+    public JobsFacetDTO(Page<?> page) { super(page);}
+
+    public void feedDTOs(List<JobDocument> models) {
+        for (JobDocument job : models ) {
+            JobDTO dto = new JobDTO(job);
+            /* here should fetch the favorites and comments number from db */
+            jobs.add(dto);
+        }
+    }
     public List<JobDTO> getJobs() { return jobs; }
 
     public void addFacetField(String field, String value, long count) {

@@ -23,6 +23,7 @@ create table comments(
         user_id varchar(100) not null,
         job_id varchar(100) not null,
         creation_time datetime not null,
+        modification_time datetime,
         content longtext not null,
         anonymous boolean not null default false,
         constraint fk_comments_users foreign key(user_id) references users(username) 

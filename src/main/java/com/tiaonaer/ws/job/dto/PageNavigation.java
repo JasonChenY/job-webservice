@@ -1,5 +1,6 @@
 package com.tiaonaer.ws.job.dto;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -13,4 +14,14 @@ public class PageNavigation {
     public long totalElements;
     public Pageable nextPagable;
     public Pageable previousPagable;
+
+    public PageNavigation(Page<?> page) {
+        this.pageNumber = page.getNumber();
+        this.pageSize = page.getSize();
+        this.totalPages = page.getTotalPages();
+        this.numberOfElements = page.getNumberOfElements();
+        this.totalElements = page.getTotalElements();
+        this.nextPagable = page.nextPageable();
+        this.previousPagable = page.previousPageable();
+    }
 }

@@ -30,4 +30,11 @@ public class SecurityContextUtil {
 
         return principal;
     }
+    public String getUser_id() {
+        UserDetails principal = getPrincipal();
+        if ( principal != null )
+            return principal.getUsername();
+        else
+            return null;
+    }
 }

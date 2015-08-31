@@ -14,9 +14,9 @@ import java.util.Collection;
 /**
  * @author jason.y.chen
  */
-public class TodoPermissionEvaluator implements PermissionEvaluator {
+public class CustomPermissionEvaluator implements PermissionEvaluator {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TodoPermissionEvaluator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomPermissionEvaluator.class);
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
@@ -25,7 +25,7 @@ public class TodoPermissionEvaluator implements PermissionEvaluator {
 
         boolean hasPermission = false;
 
-        if (targetDomainObject.equals("Todo")) {
+        if (targetDomainObject.equals("Todo") || targetDomainObject.equals("Comment") ) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
                 LOGGER.debug("User is not anonymous. Evaluation permission");

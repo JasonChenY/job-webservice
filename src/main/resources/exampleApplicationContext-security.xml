@@ -24,10 +24,10 @@
     </security:global-method-security>
 
     <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-        <property name="permissionEvaluator" ref="todoPermissionEvaluator" />
+        <property name="permissionEvaluator" ref="CustomPermissionEvaluator" />
     </bean>
 
-    <bean id="todoPermissionEvaluator" class="com.tiaonaer.ws.security.authorization.TodoPermissionEvaluator"/>
+    <bean id="CustomPermissionEvaluator" class="com.tiaonaer.ws.security.authorization.CustomPermissionEvaluator"/>
 
     <!-- Configures the authentication entry point -->
     <bean id="restAuthenticationEntryPoint" class="com.tiaonaer.ws.security.authentication.RestAuthenticationEntryPoint"/>

@@ -29,31 +29,13 @@ public class JobService {
     @Resource
     private JobDocumentRepository solrRepository;
 
-    private void composeJobFacetDTO(List<JobDocument> jobs, JobsFacetDTO dto) {
-        for (JobDocument job : jobs ) {
-            JobDTO jobdto = new JobDTO(job);
-            /* here should fetch the favorites and comments number from db */
-            dto.addJobDTO(jobdto);
-        }
-    }
-    private void composeNavigation(Page<JobDocument> jobs, JobsFacetDTO dto ) {
-        dto.pageNumber = jobs.getNumber();
-        dto.pageSize = jobs.getSize();
-        dto.totalPages = jobs.getTotalPages();
-        dto.numberOfElements = jobs.getNumberOfElements();
-        dto.totalElements = jobs.getTotalElements();
-        dto.nextPagable = jobs.nextPageable();
-        dto.previousPagable = jobs.previousPageable();
-    }
-
     @Transactional
     public JobsFacetDTO getJobsWithFacet() {
         LOGGER.debug("enter getJobsWithFacet");
         // Only need get jobs with facets without other query parameter, ignore them.
         FacetPage<JobDocument> jobs = solrRepository.getJobsWithFacet(new PageRequest(0, 10));
-        JobsFacetDTO dto = new JobsFacetDTO();
-        composeJobFacetDTO(jobs.getContent(), dto);
-        composeNavigation(jobs, dto);
+        JobsFacetDTO dto = new JobsFacetDTO(jobs);
+        dto.feedDTOs(jobs.getContent());
 
         for (Page<? extends FacetEntry> page : jobs.getAllFacets()) {
             for (FacetEntry facetEntry : page.getContent()) {
@@ -71,9 +53,8 @@ public class JobService {
         LOGGER.debug("enter getJobs");
         // inside javascript: ?page.page=6&page.size=2&page.sort=id&page.sort.dir=desc   for Pageable.
         Page<JobDocument> jobs = solrRepository.search(query, filter_queries, days, pageable);
-        JobsFacetDTO dto = new JobsFacetDTO();
-        composeJobFacetDTO(jobs.getContent(), dto);
-        composeNavigation(jobs, dto);
+        JobsFacetDTO dto = new JobsFacetDTO(jobs);
+        dto.feedDTOs(jobs.getContent());
         return dto;
     }
 }
