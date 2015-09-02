@@ -12,4 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select u from Comment u where u.job_id = ?1")
     Page<Comment> findByJob_id(String job_id, Pageable pageable);
+
+    @Query("select count(u) from Comment u where u.job_id = ?1")
+    int count(String job_id);
 }

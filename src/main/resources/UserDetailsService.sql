@@ -2,6 +2,7 @@ drop table if exists favorites;
 drop table if exists comments;
 drop table if exists authorities;
 drop table if exists users;
+drop table if exists complaints;
 drop table if exists todos;
 
 create table users(
@@ -34,6 +35,20 @@ create table favorites(
         user_id varchar(100) not null,
         job_id varchar(200) not null,
         constraint fk_favorites_users foreign key(user_id) references users(username)
+);
+
+create table complains(
+        id BIGINT NOT NULL AUTO_INCREMENT primary key,
+        user_id varchar(100) not null,
+        job_id varchar(200) not null,
+        type int not null,
+        content longtext,
+        creation_time datetime not null,
+        status int not null,
+        approve_time datetime,
+        approve_user_id varchar(100),
+        constraint fk_complains_users foreign key(user_id) references users(username),
+        constraint fk_complains_users2 foreign key(approve_user_id) references users(username)
 );
 
 create table todos(

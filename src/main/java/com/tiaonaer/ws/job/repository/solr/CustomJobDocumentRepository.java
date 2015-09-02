@@ -16,7 +16,7 @@ public interface CustomJobDocumentRepository {
 
     public Page<JobDocument> search(String query, List<String> filter_query, int days, Pageable page);
 
-    public void update(Job job);
+    public void update(JobDocument job);
 
     public JobDocument findByJobID(String job_id);
 }

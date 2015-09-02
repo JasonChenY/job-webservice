@@ -114,7 +114,7 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
     }
 
     @Override
-    public void update(Job job) {
+    public void update(JobDocument job) {
         LOGGER.debug("Performing partial update for todo entry: {}", job);
 
         PartialUpdate update = new PartialUpdate(JobDocument.JOB_UNIQUE_ID, job.getId());

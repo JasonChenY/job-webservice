@@ -19,13 +19,7 @@ public class JobsFacetDTO extends PageNavigation {
 
     public JobsFacetDTO(Page<?> page) { super(page);}
 
-    public void feedDTOs(List<JobDocument> models) {
-        for (JobDocument job : models ) {
-            JobDTO dto = new JobDTO(job);
-            /* here should fetch the favorites and comments number from db */
-            jobs.add(dto);
-        }
-    }
+    public void addJobDTO(JobDTO dto) { jobs.add(dto); }
     public List<JobDTO> getJobs() { return jobs; }
 
     public void addFacetField(String field, String value, long count) {

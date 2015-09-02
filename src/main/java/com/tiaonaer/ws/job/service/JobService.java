@@ -4,9 +4,12 @@ import com.tiaonaer.ws.job.document.JobDocument;
 import com.tiaonaer.ws.job.dto.JobDTO;
 import com.tiaonaer.ws.job.dto.JobsFacetDTO;
 import com.tiaonaer.ws.job.model.Job;
+import com.tiaonaer.ws.job.repository.jpa.CommentRepository;
+import com.tiaonaer.ws.job.repository.jpa.FavoriteRepository;
 import com.tiaonaer.ws.job.repository.solr.JobDocumentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -29,14 +32,19 @@ public class JobService {
     @Resource
     private JobDocumentRepository solrRepository;
 
+    @Resource
+    private CommentRepository commentRepository;
+
+    @Resource
+    private FavoriteRepository favoriteRepository;
+
     @Transactional
     public JobsFacetDTO getJobsWithFacet() {
         LOGGER.debug("enter getJobsWithFacet");
         // Only need get jobs with facets without other query parameter, ignore them.
         FacetPage<JobDocument> jobs = solrRepository.getJobsWithFacet(new PageRequest(0, 10));
         JobsFacetDTO dto = new JobsFacetDTO(jobs);
-        dto.feedDTOs(jobs.getContent());
-
+        JobPage2JobsDTO(jobs, dto);
         for (Page<? extends FacetEntry> page : jobs.getAllFacets()) {
             for (FacetEntry facetEntry : page.getContent()) {
                 String keyname = (String)(((Field)facetEntry.getKey()).getName());
@@ -54,7 +62,16 @@ public class JobService {
         // inside javascript: ?page.page=6&page.size=2&page.sort=id&page.sort.dir=desc   for Pageable.
         Page<JobDocument> jobs = solrRepository.search(query, filter_queries, days, pageable);
         JobsFacetDTO dto = new JobsFacetDTO(jobs);
-        dto.feedDTOs(jobs.getContent());
+        JobPage2JobsDTO(jobs, dto);
         return dto;
+    }
+
+    private void JobPage2JobsDTO(Page<JobDocument> jobs, JobsFacetDTO dto) {
+        for ( JobDocument doc : jobs.getContent() ) {
+            JobDTO jobdto = new JobDTO(doc);
+            jobdto.setComments_num(commentRepository.count(doc.getId()));
+            jobdto.setFavorities_num(favoriteRepository.count(doc.getId()));
+            dto.addJobDTO(jobdto);
+        }
     }
 }

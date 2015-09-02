@@ -22,4 +22,8 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     // for checking whether the user already favorited specific job, this check can be done in client side.
     @Query("select count(u) from Favorite u where u.user_id = :user_id and u.job_id = :job_id")
     int count(@Param("job_id")String job_id, @Param("user_id")String user_id);
+
+    // for get count of favorites for specific job ( display in joblist )
+    @Query("select count(u) from Favorite u where u.job_id = ?1")
+    int count(String job_id);
 }
