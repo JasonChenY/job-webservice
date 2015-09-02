@@ -3,19 +3,18 @@ package com.tiaonaer.ws.job.service;
 import com.tiaonaer.ws.job.document.JobDocument;
 import com.tiaonaer.ws.job.dto.JobDTO;
 import com.tiaonaer.ws.job.dto.JobsFacetDTO;
-import com.tiaonaer.ws.job.model.Job;
 import com.tiaonaer.ws.job.repository.jpa.CommentRepository;
 import com.tiaonaer.ws.job.repository.jpa.FavoriteRepository;
 import com.tiaonaer.ws.job.repository.solr.JobDocumentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.solr.core.query.Field;
 import org.springframework.data.solr.core.query.result.FacetEntry;
 import org.springframework.data.solr.core.query.result.FacetPage;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
@@ -74,4 +73,16 @@ public class JobService {
             dto.addJobDTO(jobdto);
         }
     }
+
+    @PreAuthorize("hasPermission('Jobs', 'update')")
+    public JobDTO update(JobDTO dto) {
+        JobDocument doc = new JobDocument();
+        // now we only care about and will only update job_expired.
+        doc.setId(dto.getId());
+        doc.setJob_expired(dto.getJob_expired());
+        solrRepository.update(doc);
+        return dto;
+    }
+
+    // TODO: add batch delete service, should delete entries in favorites, comments, complains table as well.
 }

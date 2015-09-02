@@ -25,7 +25,9 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
         boolean hasPermission = false;
 
-        if (targetDomainObject.equals("Todo") || targetDomainObject.equals("Comment")
+        if (targetDomainObject.equals("Todo")
+                || targetDomainObject.equals("Jobs")
+                || targetDomainObject.equals("Comment")
                 || targetDomainObject.equals("Favorite")
                 || targetDomainObject.equals("Complain") ) {
             Object principal = authentication.getPrincipal();
