@@ -25,7 +25,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
         boolean hasPermission = false;
 
-        if (targetDomainObject.equals("Todo") || targetDomainObject.equals("Comment") ) {
+        if (targetDomainObject.equals("Todo") || targetDomainObject.equals("Comment")
+                || targetDomainObject.equals("Favorite") ) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
                 LOGGER.debug("User is not anonymous. Evaluation permission");

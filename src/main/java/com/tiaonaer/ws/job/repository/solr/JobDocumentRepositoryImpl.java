@@ -34,6 +34,13 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
         return solrTemplate.count(countQuery);
     }
 
+    public JobDocument findByJobID(String job_id) {
+        LOGGER.debug("Finding job via job id: {}", job_id);
+        Criteria condition = new Criteria(JobDocument.JOB_UNIQUE_ID).is(job_id);
+        SimpleQuery query = new SimpleQuery(condition);
+        return solrTemplate.queryForObject(query, JobDocument.class);
+    }
+
     /* Create dynamic query, to be extended to include job_post_date */
     @Override
     public Page<JobDocument> search(String query, List<String> filter_query, int days, Pageable page) {

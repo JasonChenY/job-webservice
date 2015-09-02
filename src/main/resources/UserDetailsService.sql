@@ -21,7 +21,7 @@ create unique index ix_auth_username on authorities (username,authority);
 create table comments(
         id BIGINT NOT NULL AUTO_INCREMENT primary key, 
         user_id varchar(100) not null,
-        job_id varchar(100) not null,
+        job_id varchar(200) not null,
         creation_time datetime not null,
         modification_time datetime,
         content longtext not null,
@@ -30,9 +30,9 @@ create table comments(
 );
 
 create table favorites(
+        id BIGINT NOT NULL AUTO_INCREMENT primary key,
         user_id varchar(100) not null,
-        job_id varchar(100) not null,
-        primary key(user_id, job_id),
+        job_id varchar(200) not null,
         constraint fk_favorites_users foreign key(user_id) references users(username)
 );
 
