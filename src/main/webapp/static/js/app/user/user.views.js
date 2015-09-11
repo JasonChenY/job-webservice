@@ -4,7 +4,7 @@ TodoApp.Views.LoginView = Marionette.ItemView.extend({
         "click #login-button": "login"
     },
     login: function() {
-        window.log("Log in");
+        console.log("Log in");
         var user = {};
         user.username = $("#user-username").val();
         user.password = $("#user-password").val();

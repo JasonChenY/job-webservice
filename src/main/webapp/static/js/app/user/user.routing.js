@@ -1,6 +1,6 @@
 TodoApp.UserRouting = function() {
     var UserRouting = {};
-
+    console.log("TodoApp.UserRouting")
     UserRouting.Router = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             "user/login": "login",
@@ -12,7 +12,7 @@ TodoApp.UserRouting = function() {
         UserRouting.router = new UserRouting.Router({
             controller: TodoApp.Controllers.UserController
         });
-
+        console.log("Trigger routing:started")
         TodoApp.vent.trigger("routing:started");
     });
 

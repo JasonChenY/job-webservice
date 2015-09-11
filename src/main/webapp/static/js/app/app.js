@@ -84,14 +84,14 @@ TodoApp.getLoggedInUser = function(callback) {
         url: "/api/user",
         success: function(data) {
             if (data.username) {
-                window.log("Found logged in user: ", data);
+                console.log("Found logged in user: ", data);
                 TodoApp.user = new TodoApp.Models.User(data);
                 if (callback) {
                     callback();
                 }
             }
             else {
-                window.log("Logged in user was not found.")
+                console.log("Logged in user was not found.")
             }
         }
     });
@@ -109,10 +109,10 @@ TodoApp.showLogoutLinkAndSearchForm = function() {
 };
 
 $(document).bind('ajaxStart', function() {
-    window.log("ajaxStart");
+    console.log("ajaxStart");
     TodoApp.spinner.spin(document.getElementById('activity-indicator'));
 }).bind('ajaxError', function(event, request ,settings) {
-    window.log('ajaxError with status code: ', request.status);
+    console.log('ajaxError with status code: ', request.status);
 
     TodoApp.spinner.stop();
 
@@ -122,16 +122,16 @@ $(document).bind('ajaxStart', function() {
         }
         else if (request.status == 401) {
             if (TodoApp.user !== 'anonymous') {
-                window.log("Found user: ", TodoApp.user)
+                console.log("Found user: ", TodoApp.user)
                 TodoApp.vent.trigger("error:notAuthorized");
             }
             else {
                 if (request.statusText === "Bad credentials") {
-                    window.log("Login failed.")
+                    console.log("Login failed.")
                     TodoApp.vent.trigger("user:loginFailed");
                 }
                 else {
-                    window.log("User is anonymous")
+                    console.log("User is anonymous")
                     TodoApp.vent.trigger("user:login");
                 }
             }
@@ -141,7 +141,7 @@ $(document).bind('ajaxStart', function() {
         }
     }
 }).bind('ajaxStop', function() {
-    window.log("ajaxStop");
+    console.log("ajaxStop");
     TodoApp.spinner.stop();
 });
 
