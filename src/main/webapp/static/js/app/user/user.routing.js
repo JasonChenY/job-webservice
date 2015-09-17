@@ -1,19 +1,20 @@
-TodoApp.UserRouting = function() {
+TiaonaerApp.UserRouting = function() {
     var UserRouting = {};
-    console.log("TodoApp.UserRouting")
+    console.log("UserRouting")
     UserRouting.Router = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
+            "": "home",
             "user/login": "login",
             "user/logout": "logout"
         }
     });
 
-    TodoApp.addInitializer(function(){
+    TiaonaerApp.addInitializer(function(){
         UserRouting.router = new UserRouting.Router({
-            controller: TodoApp.Controllers.UserController
+            controller: TiaonaerApp.Controllers.UserController
         });
         console.log("Trigger routing:started")
-        TodoApp.vent.trigger("routing:started");
+        TiaonaerApp.vent.trigger("routing:started");
     });
 
     return UserRouting;

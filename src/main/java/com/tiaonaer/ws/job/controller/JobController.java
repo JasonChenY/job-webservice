@@ -68,7 +68,7 @@ public class JobController {
         LOGGER.debug("Finding all jobs entries.");
         // In fact should create model object Job in JobService, and translate Job to JobDTO in controller.
         if ( facet )
-            return service.getJobsWithFacet();
+            return service.getJobsWithFacet(pageable);
         else
             return service.getJobs(query, filter_queries, days, pageable);
     }

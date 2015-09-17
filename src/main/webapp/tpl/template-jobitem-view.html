@@ -1,0 +1,18 @@
+<a href="#job/view/<%= id %>" data-transition="pop">
+    <%= job_title %>
+    <p>
+        <span><%= job_company %></span>
+        <span><%= job_location %></span>
+        <span><% print(new Date(job_post_date).toLocaleDateString()); %></span>
+        <span><%=favorities_num%>次收藏</span>
+        <span><%=comments_num%>条评论</span>
+    </p>
+    <pre>
+        <% print(strip_tags(job_description)); %>
+    </pre>
+</a>
+<% if (favorite_id === 0) { %>
+<a href="#" data-icon="star" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-star ui-btn-b" data-role="button">收藏</a>
+<% } else { %>
+<a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-minus ui-btn-b" data-role="button">取消</a>
+<% } %>

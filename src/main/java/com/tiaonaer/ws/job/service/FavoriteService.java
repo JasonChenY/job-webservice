@@ -50,7 +50,7 @@ public class FavoriteService {
         } else {
             Favorite model = new Favorite(dto.getJob_id(),securityContextUtil.getUser_id());
             Favorite persisted = repository.save(model);
-            return modelToDTO(persisted);
+            return modelToDTO(persisted,1);
         }
     }
 
@@ -81,29 +81,35 @@ public class FavoriteService {
         LOGGER.debug("Finding all Favorite for job {}, page: {}", job_id, pageable);
 
         Page<Favorite> favorites = null;
+        int type = 0;
         if ( false /* user_id hasAuthority(ROLE_ADMIN) */ ) {
-            if ( job_id != null  )
+            if ( job_id != null  ) {
                 favorites = repository.findByJob_id(job_id, pageable);
-            else
+                type = 1;
+            } else {
                 favorites = repository.findAll(pageable);
+                type = 2;
+            }
         } else {
             // normal user to get own favorite lists
             favorites = repository.findByUser_id(securityContextUtil.getUser_id(), pageable);
+            type = 0;
         }
 
         FavoritesDTO dto = new FavoritesDTO(favorites);
         for ( Favorite model: favorites.getContent() ) {
-            dto.addFavorite(modelToDTO(model));
+            dto.addFavorite(modelToDTO(model, type));
         }
         return dto;
     }
 
-    public FavoriteDTO modelToDTO(Favorite model) {
+    public FavoriteDTO modelToDTO(Favorite model, int type) {
         FavoriteDTO dto = new FavoriteDTO(model);
         // fetching job_title and job_company here
         JobDocument doc = solrRepository.findByJobID(model.getJob_id());
         if ( doc == null ) {
             LOGGER.warn("404 Favorited Job not exist in repository, data mismatch, id: {}", model.getJob_id());
+            dto.setJob_title("Sorry, this job already deleted!");
         } else {
             dto.setJob_title(doc.getJob_title());
             dto.setJob_company(doc.getJob_company());

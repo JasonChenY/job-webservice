@@ -1,26 +1,33 @@
-TodoApp.vent.on("user:login", function(){
+TiaonaerApp.vent.on("routing:started", function(){
+    if( ! Backbone.History.started) {
+        console.log("Backbone.history.start()");
+        Backbone.history.start();
+    }
+})
+
+TiaonaerApp.vent.on("user:login", function(){
     console.log("handle user:login")
     Backbone.history.navigate("#/user/login");
 });
 
-TodoApp.vent.on("user:loginFailed", function() {
+TiaonaerApp.vent.on("user:loginFailed", function() {
     var translatedErrorMessage = i18n.t("loginFailed");
-    var errorMessage = new TodoApp.Models.FeedbackMessage({message: translatedErrorMessage});
-    var errorMessageView = new TodoApp.Views.ErrorMessageView({model: errorMessage});
-    TodoApp.messageRegion.show(errorMessageView);
+    var errorMessage = new TiaonaerApp.Models.FeedbackMessage({message: translatedErrorMessage});
+    var errorMessageView = new TiaonaerApp.Views.ErrorMessageView({model: errorMessage});
+    TiaonaerApp.messageRegion.show(errorMessageView);
 });
 
-TodoApp.vent.on("user:loginSuccess", function() {
-    console.log("handle user:loginSuccess")
+TiaonaerApp.vent.on("user:loginSuccess", function() {
+    console.log("handle user:loginSuccess");
     var showTodoList = function() {
         Backbone.history.navigate("#/");
-        TodoApp.showLogoutLinkAndSearchForm();
+        TiaonaerApp.showLogoutLinkAndSearchForm();
     }
 
-    TodoApp.getLoggedInUser(showTodoList);
+    TiaonaerApp.getLoggedInUser(showTodoList);
 });
 
-TodoApp.vent.on("user:logoutSuccess", function() {
-   TodoApp.setUserAsAnonymous();
+TiaonaerApp.vent.on("user:logoutSuccess", function() {
+    TiaonaerApp.setUserAsAnonymous();
     Backbone.history.navigate("#/");
 });

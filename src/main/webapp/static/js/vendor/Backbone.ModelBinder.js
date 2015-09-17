@@ -1,14 +1,21 @@
-// Backbone.ModelBinder v0.1.6
-// (c) 2012 Bart Wood
+// Backbone.ModelBinder v1.1.0
+// (c) 2015 Bart Wood
 // Distributed Under MIT License
 
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['underscore', 'jquery', 'backbone'], factory);
+    } else if(typeof module !== 'undefined' && module.exports) {
+        // CommonJS
+        module.exports = factory(
+            require('underscore'),
+            require('jquery'),
+            require('backbone')
+        );
     } else {
         // Browser globals
-        factory(_, $, Backbone);
+        factory(_, jQuery, Backbone);
     }
 }(function(_, $, Backbone){
 
@@ -16,28 +23,32 @@
         throw 'Please include Backbone.js before Backbone.ModelBinder.js';
     }
 
-    Backbone.ModelBinder = function(modelSetOptions){
-        _.bindAll(this);
-	this._modelSetOptions = modelSetOptions || {};
+    Backbone.ModelBinder = function(){
+        _.bindAll.apply(_, [this].concat(_.functions(this)));
+    };
+
+    // Static setter for class level options
+    Backbone.ModelBinder.SetOptions = function(options){
+        Backbone.ModelBinder.options = options;
     };
 
     // Current version of the library.
-    Backbone.ModelBinder.VERSION = '0.1.6';
+    Backbone.ModelBinder.VERSION = '1.1.0';
     Backbone.ModelBinder.Constants = {};
     Backbone.ModelBinder.Constants.ModelToView = 'ModelToView';
     Backbone.ModelBinder.Constants.ViewToModel = 'ViewToModel';
 
     _.extend(Backbone.ModelBinder.prototype, {
 
-        bind:function (model, rootEl, attributeBindings, modelSetOptions) {
+        bind:function (model, rootEl, attributeBindings, options) {
             this.unbind();
 
             this._model = model;
             this._rootEl = rootEl;
-	        this._modelSetOptions = _.extend({}, this._modelSetOptions, modelSetOptions);
+            this._setOptions(options);
 
-            if (!this._model) throw 'model must be specified';
-            if (!this._rootEl) throw 'rootEl must be specified';
+            if (!this._model) this._throwException('model must be specified');
+            if (!this._rootEl) this._throwException('rootEl must be specified');
 
             if(attributeBindings){
                 // Create a deep clone of the attribute bindings
@@ -54,10 +65,10 @@
             this._bindViewToModel();
         },
 
-	    bindCustomTriggers: function (model, rootEl, triggers, attributeBindings, modelSetOptions) {
-           this._triggers = triggers;
-           this.bind(model, rootEl, attributeBindings, modelSetOptions)
-    	},
+        bindCustomTriggers: function (model, rootEl, triggers, attributeBindings, modelSetOptions) {
+            this._triggers = triggers;
+            this.bind(model, rootEl, attributeBindings, modelSetOptions);
+        },
 
         unbind:function () {
             this._unbindModelToView();
@@ -66,6 +77,26 @@
             if(this._attributeBindings){
                 delete this._attributeBindings;
                 this._attributeBindings = undefined;
+            }
+        },
+
+        _setOptions: function(options){
+            this._options = _.extend({
+                boundAttribute: 'name'
+            }, Backbone.ModelBinder.options, options);
+
+            // initialize default options
+            if(!this._options['modelSetOptions']){
+                this._options['modelSetOptions'] = {};
+            }
+            this._options['modelSetOptions'].changeSource = 'ModelBinder';
+
+            if(!this._options['changeTriggers']){
+                this._options['changeTriggers'] = {'': 'change', '[contenteditable]': 'blur'};
+            }
+
+            if(!this._options['initialCopyDirection']){
+                this._options['initialCopyDirection'] = Backbone.ModelBinder.Constants.ModelToView;
             }
         },
 
@@ -86,7 +117,7 @@
                     attributeBinding = {elementBindings: [inputBinding]};
                 }
                 else {
-                    throw 'Unsupported type passed to Model Binder ' + attributeBinding;
+                    this._throwException('Unsupported type passed to Model Binder ' + attributeBinding);
                 }
 
                 // Add a linkage from the element binding back to the attribute binding
@@ -100,24 +131,25 @@
             }
         },
 
-        // If the bindings are not specified, the default binding is performed on the name attribute
+        // If the bindings are not specified, the default binding is performed on the specified attribute, name by default
         _initializeDefaultBindings: function(){
-            var elCount, namedEls, namedEl, name, attributeBinding;
-            this._attributeBindings = {};
-            namedEls = $('[name]', this._rootEl);
+            var elCount, elsWithAttribute, matchedEl, name, attributeBinding;
 
-            for(elCount = 0; elCount < namedEls.length; elCount++){
-                namedEl = namedEls[elCount];
-                name = $(namedEl).attr('name');
+            this._attributeBindings = {};
+            elsWithAttribute = $('[' + this._options['boundAttribute'] + ']', this._rootEl);
+
+            for(elCount = 0; elCount < elsWithAttribute.length; elCount++){
+                matchedEl = elsWithAttribute[elCount];
+                name = $(matchedEl).attr(this._options['boundAttribute']);
 
                 // For elements like radio buttons we only want a single attribute binding with possibly multiple element bindings
                 if(!this._attributeBindings[name]){
                     attributeBinding =  {attributeName: name};
-                    attributeBinding.elementBindings = [{attributeBinding: attributeBinding, boundEls: [namedEl]}];
+                    attributeBinding.elementBindings = [{attributeBinding: attributeBinding, boundEls: [matchedEl]}];
                     this._attributeBindings[name] = attributeBinding;
                 }
                 else{
-                    this._attributeBindings[name].elementBindings.push({attributeBinding: this._attributeBindings[name], boundEls: [namedEl]});
+                    this._attributeBindings[name].elementBindings.push({attributeBinding: this._attributeBindings[name], boundEls: [matchedEl]});
                 }
             }
         },
@@ -137,7 +169,7 @@
                     }
 
                     if (foundEls.length === 0) {
-                        throw 'Bad binding found. No elements returned for binding selector ' + elementBinding.selector;
+                        this._throwException('Bad binding found. No elements returned for binding selector ' + elementBinding.selector);
                     }
                     else {
                         elementBinding.boundEls = [];
@@ -153,7 +185,9 @@
         _bindModelToView: function () {
             this._model.on('change', this._onModelChange, this);
 
-            this.copyModelAttributesToView();
+            if(this._options['initialCopyDirection'] === Backbone.ModelBinder.Constants.ModelToView){
+                this.copyModelAttributesToView();
+            }
         },
 
         // attributesToCopy is an optional parameter - if empty, all attributes
@@ -170,6 +204,34 @@
             }
         },
 
+        copyViewValuesToModel: function(){
+            var bindingKey, attributeBinding, bindingCount, elementBinding, elCount, el;
+            for (bindingKey in this._attributeBindings) {
+                attributeBinding = this._attributeBindings[bindingKey];
+
+                for (bindingCount = 0; bindingCount < attributeBinding.elementBindings.length; bindingCount++) {
+                    elementBinding = attributeBinding.elementBindings[bindingCount];
+
+                    if(this._isBindingUserEditable(elementBinding)){
+                        if(this._isBindingRadioGroup(elementBinding)){
+                            el = this._getRadioButtonGroupCheckedEl(elementBinding);
+                            if(el){
+                                this._copyViewToModel(elementBinding, el);
+                            }
+                        }
+                        else {
+                            for(elCount = 0; elCount < elementBinding.boundEls.length; elCount++){
+                                el = $(elementBinding.boundEls[elCount]);
+                                if(this._isElUserEditable(el)){
+                                    this._copyViewToModel(elementBinding, el);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
         _unbindModelToView: function(){
             if(this._model){
                 this._model.off('change', this._onModelChange);
@@ -178,29 +240,20 @@
         },
 
         _bindViewToModel: function () {
-            if (this._triggers) {
-                _.each(this._triggers, function (event, selector) {
-                    $(this._rootEl).delegate(selector, event, this._onElChanged);
-                }, this);
-            }
-            else {
-                $(this._rootEl).delegate('', 'change', this._onElChanged);
-                // The change event doesn't work properly for contenteditable elements - but blur does
-                $(this._rootEl).delegate('[contenteditable]', 'blur', this._onElChanged);
+            _.each(this._options['changeTriggers'], function (event, selector) {
+                $(this._rootEl).on(event, selector, this._onElChanged);
+            }, this);
+
+            if(this._options['initialCopyDirection'] === Backbone.ModelBinder.Constants.ViewToModel){
+                this.copyViewValuesToModel();
             }
         },
 
         _unbindViewToModel: function () {
-            if (this._rootEl) {
-                if (this._triggers) {
-                    _.each(this._triggers, function (event, selector) {
-                        $(this._rootEl).undelegate(selector, event, this._onElChanged);
-                    }, this);
-                }
-                else {
-                    $(this._rootEl).undelegate('', 'change', this._onElChanged);
-                    $(this._rootEl).undelegate('[contenteditable]', 'blur', this._onElChanged);
-                }
+            if(this._options && this._options['changeTriggers']){
+                _.each(this._options['changeTriggers'], function (event, selector) {
+                    $(this._rootEl).off(event, selector, this._onElChanged);
+                }, this);
             }
         },
 
@@ -222,6 +275,37 @@
             return elBinding.elAttribute === undefined ||
                 elBinding.elAttribute === 'text' ||
                 elBinding.elAttribute === 'html';
+        },
+
+        _isElUserEditable: function(el){
+            var isContentEditable = el.attr('contenteditable');
+            return isContentEditable || el.is('input') || el.is('select') || el.is('textarea');
+        },
+
+        _isBindingRadioGroup: function(elBinding){
+            var elCount, el;
+            var isAllRadioButtons = elBinding.boundEls.length > 0;
+            for(elCount = 0; elCount < elBinding.boundEls.length; elCount++){
+                el = $(elBinding.boundEls[elCount]);
+                if(el.attr('type') !== 'radio'){
+                    isAllRadioButtons = false;
+                    break;
+                }
+            }
+
+            return isAllRadioButtons;
+        },
+
+        _getRadioButtonGroupCheckedEl: function(elBinding){
+            var elCount, el;
+            for(elCount = 0; elCount < elBinding.boundEls.length; elCount++){
+                el = $(elBinding.boundEls[elCount]);
+                if(el.attr('type') === 'radio' && el.prop('checked')){
+                    return el;
+                }
+            }
+
+            return undefined;
         },
 
         _getElBindings:function (findEl) {
@@ -296,7 +380,7 @@
                     el.text(convertedValue);
                     break;
                 case 'enabled':
-                    el.attr('disabled', !convertedValue);
+                    el.prop('disabled', !convertedValue);
                     break;
                 case 'displayed':
                     el[convertedValue ? 'show' : 'hide']();
@@ -309,7 +393,9 @@
                     break;
                 case 'class':
                     var previousValue = this._model.previous(elementBinding.attributeBinding.attributeName);
-                    if(!_.isUndefined(previousValue)){
+                    var currentValue = this._model.get(elementBinding.attributeBinding.attributeName);
+                    // is current value is now defined then remove the class the may have been set for the undefined value
+                    if(!_.isUndefined(previousValue) || !_.isUndefined(currentValue)){
                         previousValue = this._getConvertedValue(Backbone.ModelBinder.Constants.ModelToView, elementBinding, previousValue);
                         el.removeClass(previousValue);
                     }
@@ -327,40 +413,35 @@
             if(el.attr('type')){
                 switch (el.attr('type')) {
                     case 'radio':
-                        if (el.val() === convertedValue) {
-                            el.attr('checked', 'checked');
-                        }
+                        el.prop('checked', el.val() === convertedValue);
                         break;
                     case 'checkbox':
-                        if (convertedValue) {
-                            el.attr('checked', 'checked');
-                        }
-                        else {
-                            el.removeAttr('checked');
-                        }
+                         el.prop('checked', !!convertedValue);
+                        break;
+                    case 'file':
                         break;
                     default:
                         el.val(convertedValue);
                 }
             }
             else if(el.is('input') || el.is('select') || el.is('textarea')){
-                el.val(convertedValue);
+                el.val(convertedValue || (convertedValue === 0 ? '0' : ''));
             }
             else {
-                el.text(convertedValue);
+                el.text(convertedValue || (convertedValue === 0 ? '0' : ''));
             }
         },
 
         _copyViewToModel: function (elementBinding, el) {
-            var value, convertedValue;
+            var result, value, convertedValue;
 
             if (!el._isSetting) {
 
                 el._isSetting = true;
-                this._setModel(elementBinding, $(el));
+                result = this._setModel(elementBinding, $(el));
                 el._isSetting = false;
 
-                if(elementBinding.converter){
+                if(result && elementBinding.converter){
                     value = this._model.get(elementBinding.attributeBinding.attributeName);
                     convertedValue = this._getConvertedValue(Backbone.ModelBinder.Constants.ModelToView, elementBinding, value);
                     this._setEl($(el), elementBinding, convertedValue);
@@ -387,16 +468,30 @@
             var elVal = this._getElValue(elementBinding, el);
             elVal = this._getConvertedValue(Backbone.ModelBinder.Constants.ViewToModel, elementBinding, elVal);
             data[elementBinding.attributeBinding.attributeName] = elVal;
-	        var opts = _.extend({}, this._modelSetOptions, {changeSource: 'ModelBinder'});
-            this._model.set(data, opts);
+            return this._model.set(data,  this._options['modelSetOptions']);
         },
 
         _getConvertedValue: function (direction, elementBinding, value) {
+
             if (elementBinding.converter) {
-                value = elementBinding.converter(direction, value, elementBinding.attributeBinding.attributeName, this._model);
+                value = elementBinding.converter(direction, value, elementBinding.attributeBinding.attributeName, this._model, elementBinding.boundEls);
+            }
+            else if(this._options['converter']){
+                value = this._options['converter'](direction, value, elementBinding.attributeBinding.attributeName, this._model, elementBinding.boundEls);
             }
 
             return value;
+        },
+
+        _throwException: function(message){
+            if(this._options.suppressThrows){
+                if(typeof(console) !== 'undefined' && console.error){
+                    console.error(message);
+                }
+            }
+            else {
+                throw message;
+            }
         }
     });
 

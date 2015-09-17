@@ -1,11 +1,13 @@
 package com.tiaonaer.ws.job.service;
 
+import com.tiaonaer.ws.job.model.Favorite;
 import com.tiaonaer.ws.job.document.JobDocument;
 import com.tiaonaer.ws.job.dto.JobDTO;
 import com.tiaonaer.ws.job.dto.JobsFacetDTO;
 import com.tiaonaer.ws.job.repository.jpa.CommentRepository;
 import com.tiaonaer.ws.job.repository.jpa.FavoriteRepository;
 import com.tiaonaer.ws.job.repository.solr.JobDocumentRepository;
+import com.tiaonaer.ws.security.util.SecurityContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,11 +39,14 @@ public class JobService {
     @Resource
     private FavoriteRepository favoriteRepository;
 
+    @Resource
+    private SecurityContextUtil securityContextUtil;
+
     @Transactional
-    public JobsFacetDTO getJobsWithFacet() {
+    public JobsFacetDTO getJobsWithFacet(Pageable pageable) {
         LOGGER.debug("enter getJobsWithFacet");
         // Only need get jobs with facets without other query parameter, ignore them.
-        FacetPage<JobDocument> jobs = solrRepository.getJobsWithFacet(new PageRequest(0, 10));
+        FacetPage<JobDocument> jobs = solrRepository.getJobsWithFacet(pageable);
         JobsFacetDTO dto = new JobsFacetDTO(jobs);
         JobPage2JobsDTO(jobs, dto);
         for (Page<? extends FacetEntry> page : jobs.getAllFacets()) {
@@ -70,6 +75,8 @@ public class JobService {
             JobDTO jobdto = new JobDTO(doc);
             jobdto.setComments_num(commentRepository.count(doc.getId()));
             jobdto.setFavorities_num(favoriteRepository.count(doc.getId()));
+            List<Favorite> favorite = favoriteRepository.favorite(doc.getId(), securityContextUtil.getUser_id());
+            if ( favorite.size() > 0 ) jobdto.setFavorite_id(favorite.get(0).getId());
             dto.addJobDTO(jobdto);
         }
     }

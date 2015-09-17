@@ -1,0 +1,42 @@
+<!--div id="joblist_page" data-role="page" data-quicklinks="true" class="ui-responsive-panel" data-title="跳哪儿"-->
+    <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
+        <a href="#home" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="true" class="ui-nodisc-icon">Home</a>
+        <h1>列表</h1>
+        <a href="#jobsearch" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="true" class="ui-nodisc-icon">高级</a>
+    </div>
+
+    <div role="main" class="ui-content jqm-content jqm-fullwidth">
+
+        <!--div class="ui-mini" style="overflow: hidden; padding-right: .10em;">
+            <input type="search" id="jobsearch_keyword" class="ui-mini" value="" placeholder="输入关键字查找" style="width: 100%;">
+        </div>
+        <button id="btn_search" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-search" style="float: right; !important">搜索</button-->
+        <!--form action="search.php" method="get">
+            <input type="submit" id="btn_search" value="搜索" style="float: right" />
+            <div style="overflow: hidden; padding-right: .5em;">
+                <input type="text" name="term" style="width: 100%;" />
+            </div>
+        </form-->
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a" style="width:75%">
+                <input type="text" id="jobsearch_keyword" value="" placeholder="输入关键字查找">
+            </div>
+            <div class="ui-block-b" style="width:25%">
+                <button id="btn_search" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-search">搜索</button>
+            </div>
+        </fieldset>
+        <div data-iscroll='{"vScrollbar": true, "wrapperAdd":-80}' data-role="content" class="joblist_iscroller_wrapper">
+            <!--div class="iscroll-pulldown">
+                <span class="iscroll-pull-icon"></span><span class="iscroll-pull-label" data-iscroll-loading-text="正在读取数据..." data-iscroll-pulled-text="松开开始读取">下拉读取更多</span>
+            </div-->
+            <ul id="joblist" data-role="listview" data-filter="false" data-inset="false" data-split-icon="star" data-split-theme="b"></ul>
+            <!--div class="iscroll-pullup">
+                <span class="iscroll-pull-icon"></span><span class="iscroll-pull-label" data-iscroll-loading-text="正在读取数据..." data-iscroll-pulled-text="松开开始读取">上滑读取更多</span>
+            </div-->
+        </div>
+    </div>
+
+    <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
+        <div class="pagination"></div>
+    </div>
+<!--/div-->

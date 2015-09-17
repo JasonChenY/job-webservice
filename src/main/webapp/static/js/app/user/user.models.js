@@ -1,1 +1,1 @@
-TodoApp.Models.User = Backbone.Model.extend();
+TiaonaerApp.Models.User = Backbone.Model.extend();

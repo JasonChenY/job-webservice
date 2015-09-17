@@ -1,0 +1,48 @@
+<div data-role="page" id="jobsearch">
+    <div data-role="tabs">
+        <div data-role="navbar" class="iscroll-fixed" data-position="fixed">
+            <ul>
+                <li><a href="#jobfilter_company_tab" data-theme="b" data-ajax="false" class="ui-btn-active ui-state-persist">选择公司</a></li>
+                <li><a href="#jobfilter_location_tab" data-theme="b" data-ajax="false">选择地点</a></li>
+                <li><a href="#jobfilter_date_tab" data-theme="b" data-ajax="false">发布日期</a></li>
+            </ul>
+        </div>
+        <div class="ui-body ui-body-d ui-corner-all ui-mini" id="jobfilter_company_tab">
+            <input id="jobfilter_company_input" data-type="search" class="iscroll-fixed">
+            <div data-iscroll='{"wrapperAdd":-40}'  data-role="content" class="page_jobfilter_iscroller_wrapper">
+                <div data-role="controlgroup" id="jobfilter_company_ctlgrp" data-filter="true" data-input="#jobfilter_company_input"></div>
+            </div>
+        </div>
+        <div class="ui-body ui-body-d ui-corner-all ui-mini" id="jobfilter_location_tab">
+            <input id="jobfilter_location_input" data-type="search" class="iscroll-fixed">
+            <div data-iscroll='{"wrapperAdd":-40}' data-role="content" class="page_jobfilter_iscroller_wrapper">
+                <div data-role="controlgroup" id="jobfilter_location_ctlgrp" data-filter="true" data-input="#jobfilter_location_input"></div>
+            </div>
+        </div>
+        <div class="ui-body ui-body-d ui-corner-all ui-mini" id="jobfilter_date_tab">
+            <fieldset data-role="controlgroup" data-iconpos="left" data-mini="true" id="jobfilter_date_ctlgrp">
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_all" value="-1" checked="checked">
+                <label for="jobfilter_date_all">所有时间</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_0" value="0">
+                <label for="jobfilter_date_0">最近一天</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_3" value="3">
+                <label for="jobfilter_date_3">最近三天</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_7" value="7">
+                <label for="jobfilter_date_7">最近一周</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_14" value="14">
+                <label for="jobfilter_date_14">最近二周</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_30" value="30">
+                <label for="jobfilter_date_30">最近一月</label>
+            </fieldset>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b">
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a"><input type="text" data-clear-btn="true" name="jobfilter_keyword_txt" id="jobfilter_keyword" value="" placeholder="关键字查找职位"></div>
+            <div class="ui-block-b" style="text-align: right;" data-role="controlgroup" data-type="horizontal">
+                <a href="#" id="jobfilter_reset" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline">重置</a>
+                <a href="#" id="jobfilter_search" data-rel="close" class="ui-btn ui-icon-search ui-btn-icon-left ui-btn-inline">搜索</a>
+            </div>
+        </fieldset>
+    </div>
+</div>

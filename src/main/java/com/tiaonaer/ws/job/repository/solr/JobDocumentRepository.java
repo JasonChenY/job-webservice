@@ -16,7 +16,7 @@ public interface JobDocumentRepository extends CustomJobDocumentRepository, Solr
     @Query(value="*:*", filters = {JobDocument.JOB_EXPIRED + ":true"})
     public Page<JobDocument> findAllExpiredJobs(Pageable page);
 
-
+    //http://192.168.137.128/api/job?q=*:*&job_type:0&job_expired:false&facet=true&fq=&facet.field=job_company&facet.field=job_location&facet.mincount=1&sort=job_post_date+desc&wt=json&indent=true
     /* Used for the initial url to get facets information */
     @Query(value = "*:*", filters = {
             JobDocument.JOB_TYPE + ":0",

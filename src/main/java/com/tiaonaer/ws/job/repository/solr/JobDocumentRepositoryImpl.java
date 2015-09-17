@@ -1,7 +1,6 @@
 package com.tiaonaer.ws.job.repository.solr;
 
 import com.tiaonaer.ws.job.document.JobDocument;
-import com.tiaonaer.ws.job.model.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

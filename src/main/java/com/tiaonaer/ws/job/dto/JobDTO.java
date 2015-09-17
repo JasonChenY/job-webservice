@@ -21,6 +21,7 @@ public class JobDTO {
     private Date job_index_date;
     private String job_category_domain;
     private Boolean job_expired;
+    private long favorite_id;
     private int favorities_num;
     private int comments_num;
 
@@ -40,6 +41,7 @@ public class JobDTO {
         this.job_index_date = doc.getJob_index_date();
         this.job_category_domain = doc.getJob_category_domain();
         this.job_expired = doc.getJob_expired();
+        this.favorite_id = 0;
         this.favorities_num = 0;
         this.comments_num = 0;
     }
@@ -154,6 +156,14 @@ public class JobDTO {
 
     public void setJob_expired(Boolean job_expired) {
         this.job_expired = job_expired;
+    }
+
+    public long getFavorite_id() {
+        return favorite_id;
+    }
+
+    public void setFavorite_id(long favorite_id) {
+        this.favorite_id = favorite_id;
     }
 
     public int getFavorities_num() {
