@@ -22,7 +22,7 @@ TiaonaerApp.Controllers.JobController = {
     },
     view: function(id) {
         window.log("Rendering view page for todo entry with id: ", id);
-        if (this.isAnonymousUser()) {
+        if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         }
         else {
@@ -31,16 +31,9 @@ TiaonaerApp.Controllers.JobController = {
         }
     },
 
-    isAnonymousUser: function() {
-        if (TiaonaerApp.user === 'anonymous') {
-            window.log("User is anonymous");
-            return true;
-        }
-        return false;
-    },
     update: function(id) {
         window.log("Rendering update todo view.")
-        if (this.isAnonymousUser()) {
+        if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         }
         else {
@@ -50,7 +43,7 @@ TiaonaerApp.Controllers.JobController = {
     },
     search: function(searchTerm) {
         window.log("Searching todo entries with search term:", searchTerm);
-        if (this.isAnonymousUser()) {
+        if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         }
         else {

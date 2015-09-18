@@ -77,7 +77,7 @@ public class FavoriteService {
 
     @PreAuthorize("hasPermission('Favorite', 'list')")
     @Transactional(readOnly = true)
-    public FavoritesDTO findAll(String job_id, Pageable pageable) {
+    public FavoritesDTO findFavoriteList(String job_id, Pageable pageable) {
         LOGGER.debug("Finding all Favorite for job {}, page: {}", job_id, pageable);
 
         Page<Favorite> favorites = null;
@@ -88,7 +88,7 @@ public class FavoriteService {
                 type = 1;
             } else {
                 favorites = repository.findAll(pageable);
-                type = 2;
+                type = 1;
             }
         } else {
             // normal user to get own favorite lists
@@ -113,6 +113,7 @@ public class FavoriteService {
         } else {
             dto.setJob_title(doc.getJob_title());
             dto.setJob_company(doc.getJob_company());
+            dto.setJob_expired(doc.getJob_expired());
         }
         return dto;
     }

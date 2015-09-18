@@ -67,6 +67,13 @@ TiaonaerApp.spinner = new Spinner({
 });
 
 TiaonaerApp.user = 'anonymous';
+TiaonaerApp.isAnonymousUser = function() {
+    if (TiaonaerApp.user === 'anonymous') {
+        window.log("User is anonymous");
+        return true;
+    }
+    return false;
+}
 
 TiaonaerApp.addInitializer(function(){
     TiaonaerApp.getLoggedInUser(TiaonaerApp.showLogoutLinkAndSearchForm);
@@ -179,7 +186,9 @@ $(document).ready(function(){
     'template-jobitem-view',
     'template-joblist-view',
     'template-jobdetail-view',
-    'template-jobsearch-view'],
+    'template-jobsearch-view',
+    'template-favoriteitem-view',
+    'template-favoritelist-view'],
         function () {
             console.log("before TiaonaerApp.start");
             TiaonaerApp.start();

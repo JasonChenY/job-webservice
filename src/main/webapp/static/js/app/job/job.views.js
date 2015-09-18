@@ -20,7 +20,9 @@ TiaonaerApp.Views.JobItemView = Marionette.View.extend({
     favorite: function() {
        var self = this;
        if ( self.model.get("favorite_id") !== 0 ) {
-           console.log("unfavorite this");
+           console.log("unfavorite job " + self.model.get("id"));
+           //var encoded = encodeURIComponent(self.model.get("id"));
+           //console.log(encoded);
            var favorite = new TiaonaerApp.Models.Favorite({id: self.model.get("favorite_id")});
            favorite.destroy({
                wait:true,
@@ -84,7 +86,7 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
 
         if ( this.fetchtype === 0 ) {
             self = this;
-            $(".pagination").pagination({
+            $(".pagination", this.el).pagination({
                 items: self.collection.state.totalRecords,
                 itemsOnPage: 10,
                 cssStyle: 'dark-theme',
@@ -113,11 +115,6 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
         this.collectionReset();
 
         return this;
-    },
-
-    events: {
-        'click #btn_job': function() { TiaonaerApp.vent.trigger("job:list"); },
-        'click #btn_favorite': function() { TiaonaerApp.vent.trigger("favorite:list"); },
     },
 });
 

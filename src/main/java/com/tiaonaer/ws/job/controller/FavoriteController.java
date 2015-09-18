@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import com.tiaonaer.ws.common.util.LocaleContextHolderWrapper;
 import com.tiaonaer.ws.job.dto.FavoriteDTO;
 import com.tiaonaer.ws.job.dto.FavoritesDTO;
+import com.tiaonaer.ws.job.dto.JobsFacetDTO;
 import com.tiaonaer.ws.job.model.Favorite;
 import com.tiaonaer.ws.job.service.FavoriteService;
 import com.tiaonaer.ws.job.exception.CustomRequestException;
@@ -57,16 +58,25 @@ public class FavoriteController {
         return  service.deleteById(id);
     }
 
-    //curl -v -H "Content-Type:application/json" -H "Cookie:JSESSIONID=1fag4o7y1hr4u1ytxgbcl1jfw;" -X GET http://192.168.137.128:8080/api/favorite
-    //curl -v -H "Content-Type:application/json" -H "Cookie:JSESSIONID=1fag4o7y1hr4u1ytxgbcl1jfw;" -X GET "http://192.168.137.128:8080/api/favorite?page.page=2&page.size=10&page.sort=id&page.sort.dir=desc"
-    @RequestMapping(value = "/api/favorite", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/favorite", method = RequestMethod.GET, params="!job_id")
     @ResponseBody
-    public FavoritesDTO favoriteList(
-            @RequestParam(value = "job_id", required = false) String job_id,
+    public FavoritesDTO favoritedJobList(
             @PageableDefault(page = 0, size = 10) Pageable pageable
     ) {
-        LOGGER.debug("Finding all comments with optional job_id {} page: {} ", job_id, pageable);
-        return service.findAll(job_id, pageable);
+        LOGGER.debug("Finding all favorited joblist, page: {} ", pageable);
+        return service.findFavoriteList(null, pageable);
+    }
+
+    //curl -v -H "Content-Type:application/json" -H "Cookie:JSESSIONID=1fag4o7y1hr4u1ytxgbcl1jfw;" -X GET http://192.168.137.128:8080/api/favorite
+    //curl -v -H "Content-Type:application/json" -H "Cookie:JSESSIONID=1fag4o7y1hr4u1ytxgbcl1jfw;" -X GET "http://192.168.137.128:8080/api/favorite?page.page=2&page.size=10&page.sort=id&page.sort.dir=desc"
+    @RequestMapping(value = "/api/favorite", method = RequestMethod.GET, params="job_id")
+    @ResponseBody
+    public FavoritesDTO favoriteList(
+            @RequestParam(value = "job_id", required = true) String job_id,
+            @PageableDefault(page = 0, size = 10) Pageable pageable
+    ) {
+        LOGGER.debug("Finding all favorites list with job_id {} page: {} ", job_id, pageable);
+        return service.findFavoriteList(job_id, pageable);
     }
 
     @ExceptionHandler(CustomRequestException.class)

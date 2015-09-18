@@ -1,12 +1,12 @@
 TiaonaerApp.Controllers.FavoriteController = {
     list: function() {
         console.log("list in FavoriteController");
-        if (this.isAnonymousUser()) {
+        if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         } else {
-            var jobListView = new TiaonaerApp.Views.JobListView();
-            console.log("changePage list in JobController");
-            TiaonaerApp.changePage(jobListView);
+            var favoriteListView = new TiaonaerApp.Views.FavoriteListView();
+            console.log("changePage list in FavoriteController");
+            TiaonaerApp.changePage(favoriteListView);
         }
     },
 };
