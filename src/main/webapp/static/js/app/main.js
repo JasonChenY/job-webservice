@@ -182,13 +182,14 @@ $(document).ready(function(){
     });
 
     tpl.loadTemplates([
-    'template-home-view',
-    'template-jobitem-view',
-    'template-joblist-view',
-    'template-jobdetail-view',
-    'template-jobsearch-view',
-    'template-favoriteitem-view',
-    'template-favoritelist-view'],
+            'template-home-view',
+            'template-jobitem-view',
+            'template-joblist-view',
+            'template-jobdetail-view',
+            'template-jobsearch-view',
+            'template-favoriteitem-view',
+            'template-favoritelist-view'
+        ],
         function () {
             console.log("before TiaonaerApp.start");
             TiaonaerApp.start();

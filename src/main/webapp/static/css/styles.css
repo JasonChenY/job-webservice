@@ -73,3 +73,19 @@ table.filter_input_wrapper { width:100%; }
 #job_detail_page .ui-block-a,.ui-block-b,.ui-block-c {
    text-align: center;
 }
+
+/* for iscroll-scroller */
+.iscroll-scroller {
+    width: 100%;
+}
+
+/* for navigation bar */
+.dark-theme a, .dark-theme span {
+    line-height: 44px !important;
+}
+
+/* @media all and (min-width: 45em) { */
+@media all{
+    .grid-a-nine2one.ui-grid-a .ui-block-a { width: 89.95%; }
+    .grid-a-nine2one.ui-grid-a .ui-block-b { width: 9.925%; }
+}

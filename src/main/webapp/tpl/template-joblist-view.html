@@ -17,14 +17,10 @@
                 <input type="text" name="term" style="width: 100%;" />
             </div>
         </form-->
-        <fieldset class="ui-grid-a">
-            <div class="ui-block-a" style="width:75%">
-                <input type="text" id="jobsearch_keyword" value="" placeholder="输入关键字查找">
-            </div>
-            <div class="ui-block-b" style="width:25%">
-                <button id="btn_search" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-search">搜索</button>
-            </div>
-        </fieldset>
+        <div class="ui-grid-a grid-a-nine2one">
+            <div class="ui-block-a"><input type="text" id="jobsearch_keyword" value="" placeholder="输入关键字查找"></div>
+            <div class="ui-block-b"><button id="btn_search" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-search">搜索</button></div>
+        </div>
         <div data-iscroll='{"vScrollbar": true, "wrapperAdd":-80}' data-role="content" class="joblist_iscroller_wrapper">
             <!--div class="iscroll-pulldown">
                 <span class="iscroll-pull-icon"></span><span class="iscroll-pull-label" data-iscroll-loading-text="正在读取数据..." data-iscroll-pulled-text="松开开始读取">下拉读取更多</span>
@@ -37,6 +33,9 @@
     </div>
 
     <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
-        <div class="pagination"></div>
+        <div class="ui-grid-a grid-a-nine2one">
+            <div class="ui-block-a"><div class="pagination"></div></div>
+            <div class="ui-block-b"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+        </div>
     </div>
 <!--/div-->

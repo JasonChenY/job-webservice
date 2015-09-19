@@ -42,3 +42,11 @@ TiaonaerApp.vent.on("job:updated", function(model) {
     var messageView = new TiaonaerApp.Views.FeedbackMessageView({model: feedbackMessage});
     TiaonaerApp.messageRegion.show(messageView);
 });
+
+TiaonaerApp.vent.on("jobdetail:view", function(model) {
+    window.log("event to view job detail for model: ", model.toJSON());
+
+    var jobDetailView = new TiaonaerApp.Views.JobDetailView({model:model});
+    TiaonaerApp.changePage(jobDetailView);
+});
+

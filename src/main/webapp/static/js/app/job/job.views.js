@@ -15,6 +15,11 @@ TiaonaerApp.Views.JobItemView = Marionette.View.extend({
     },
     events: {
         'click a.favorite': function(e) { this.favorite(); e.preventDefault(); } ,
+        'click a.jobdetail': "jobdetail",
+    },
+
+    jobdetail: function(e) {
+        TiaonaerApp.vent.trigger("jobdetail:view", this.model);
     },
 
     favorite: function() {
@@ -118,5 +123,20 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
     },
 });
 
+TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
+    id: "jobdetail_page",
+    model: TiaonaerApp.Models.Job,
+    initialize:function() {
+        console.log("JobListView's initialize");
+        this.template = _.template(tpl.get('template-jobdetail-view'));
+    },
+    events: {
+        'click a.goback': function(e) { window.history.back();console.log("goback"); e.preventDefault(); }
+    },
+    render:function (eventName) {
+        $(this.el).html(this.template(this.model.toJSON()));
+        return this;
+    },
+});
 
 
