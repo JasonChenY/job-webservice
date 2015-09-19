@@ -77,7 +77,7 @@ TiaonaerApp.Views.FavoriteListView = Marionette.View.extend({
             self = this;
             $(".pagination", this.el).pagination({
                 items: self.totalRecords,
-                itemsOnPage: 3,
+                itemsOnPage: 10,
                 cssStyle: 'dark-theme',
                 displayedPages: 3,
                 onPageClick: function(page, event) {

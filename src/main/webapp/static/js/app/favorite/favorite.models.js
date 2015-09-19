@@ -8,7 +8,7 @@ TiaonaerApp.Collections.FavoriteList = Backbone.PageableCollection.extend({
     state: {
         firstPage: 1,
         order: 1,
-        pageSize: 3,
+        pageSize: 10,
     },
 
     queryParams: {

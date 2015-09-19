@@ -74,12 +74,12 @@ table.filter_input_wrapper { width:100%; }
    text-align: center;
 }
 
-/* for iscroll-scroller */
+/* for favoritelist view, iscroll-scroller to always fullwidth */
 .iscroll-scroller {
     width: 100%;
 }
 
-/* for navigation bar */
+/* for navigation bar's to have same height as button */
 .dark-theme a, .dark-theme span {
     line-height: 44px !important;
 }

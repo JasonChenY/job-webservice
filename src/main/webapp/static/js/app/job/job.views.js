@@ -128,9 +128,20 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
     initialize:function() {
         console.log("JobDetailView's initialize");
         this.template = _.template(tpl.get('template-jobdetail-view'));
+        this.listenTo(this.model, "change", this.modelAttrChanged);
     },
     events: {
-        'click a.goback': function(e) {console.log("before goback"); window.history.back();console.log("after goback"); e.preventDefault(); }
+        'click a.goback': function(e) {console.log("before goback"); window.history.back();console.log("after goback"); e.preventDefault(); },
+        'click a.favorite': function(e) { this.favorite(); e.preventDefault(); }
+    },
+    switchModel: function(model) {
+        this.stopListening(this.model);
+        this.model = model;
+        this.listenTo(this.model, "change", this.modelAttrChanged);
+    },
+    modelAttrChanged: function() {
+        console.log("JobDetailView's modelAttrChanged");
+        this.render();
     },
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
@@ -139,6 +150,47 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
         $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
         return this;
     },
+    favorite: function() {
+               var self = this;
+               if ( self.model.get("favorite_id") !== 0 ) {
+                   console.log("unfavorite job " + self.model.get("id"));
+                   //var encoded = encodeURIComponent(self.model.get("id"));
+                   //console.log(encoded);
+                   var favorite = new TiaonaerApp.Models.Favorite({id: self.model.get("favorite_id")});
+                   favorite.destroy({
+                       wait:true,
+                       success: function(favorite) {
+                           self.model.set({
+                               favorite_id: 0,
+                               favorities_num: self.model.get("favorities_num")-1
+                           });
+                       },
+                       fail: function(favorite) {
+                           console.log("receive error rsp for unfavoriting");
+                       }
+                   });
+               } else {
+                   console.log("favorite job " + self.model.get("id"));
+                   var attrs = { job_id: self.model.get("id") };
+                   var favorite = new TiaonaerApp.Models.Favorite();
+                   favorite.save(attrs, {
+                       wait: true,
+                       success: function (favorite) {
+                           self.model.set({
+                               favorite_id: favorite.get("id"),
+                               favorities_num: self.model.get("favorities_num")+1
+                           });
+                           /* in theory, here we can let view listen to model change
+                            * or call view.render(); direclty to reender only one item.
+                            * but JQM not work perfectly, we let listview to listen to collection change event.
+                            */
+                       },
+                       fail: function(favorite) {
+                           console.log("receive error rsp for favoriting");
+                       }
+                   });
+               }
+        }
 });
 
 

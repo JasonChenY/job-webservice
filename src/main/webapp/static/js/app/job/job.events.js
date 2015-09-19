@@ -51,7 +51,8 @@ TiaonaerApp.vent.on("jobdetail:view", function(model) {
         TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, true);
     } else {
         console.log("show JobDetailView");
-        TiaonaerApp.ViewInstances.JobDetailView.model = model;
+        TiaonaerApp.ViewInstances.JobDetailView.switchModel(model);
+
         TiaonaerApp.ViewInstances.JobDetailView.render();
         TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, false);
     }

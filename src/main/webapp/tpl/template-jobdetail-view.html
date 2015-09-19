@@ -10,7 +10,13 @@
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <div class="ui-grid-b">
-            <div class="ui-block-a"><a href="#" class="ui-btn ui-icon-heart ui-btn-icon-left">收藏</a></div>
+            <div class="ui-block-a">
+                <% if (favorite_id === 0) { %>
+                <a href="#" data-icon="star" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-star ui-btn-b" data-role="button">收藏</a>
+                <% } else { %>
+                <a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b" data-role="button">取消收藏</a>
+                <% } %>
+            </div>
             <div class="ui-block-b"><a href="<%=job_url%>" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left">去官网申请</a></div>
             <div class="ui-block-c"><a href="#" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left">返回</a></div>
         </div><!-- /grid-b -->
