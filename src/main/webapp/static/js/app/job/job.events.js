@@ -53,11 +53,6 @@ TiaonaerApp.vent.on("jobdetail:view", function(model) {
         console.log("show JobDetailView");
         TiaonaerApp.ViewInstances.JobDetailView.model = model;
         TiaonaerApp.ViewInstances.JobDetailView.render();
-
-        // to let jqm enhance widgets
-        $(TiaonaerApp.ViewInstances.JobDetailView.el).trigger('create');
-        $('.iscroll-wrapper', TiaonaerApp.ViewInstances.JobDetailView.el).iscrollview().iscrollview("refresh");
-
         TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, false);
     }
 });

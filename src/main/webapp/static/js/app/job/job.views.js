@@ -134,6 +134,9 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
     },
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
+        // to let jqm enhance widgets
+        $(this.el).trigger('create');
+        $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
         return this;
     },
 });

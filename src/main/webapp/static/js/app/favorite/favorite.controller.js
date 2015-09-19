@@ -6,7 +6,14 @@ TiaonaerApp.Controllers.FavoriteController = {
         } else {
             var favoriteListView = new TiaonaerApp.Views.FavoriteListView();
             console.log("changePage list in FavoriteController");
-            TiaonaerApp.changePage(favoriteListView);
+            if ( TiaonaerApp.ViewInstances.FavoriteListView === undefined ) {
+                console.log("create & show FavoriteListView");
+                TiaonaerApp.ViewInstances.FavoriteListView = new TiaonaerApp.Views.FavoriteListView();
+                TiaonaerApp.showPage(TiaonaerApp.ViewInstances.FavoriteListView, true);
+            } else {
+                console.log("show FavoriteListView");
+                TiaonaerApp.showPage(TiaonaerApp.ViewInstances.FavoriteListView, false);
+            }
         }
     },
 };

@@ -127,7 +127,7 @@ TiaonaerApp.showPage = function (page, firsttime) {
         page.render();
         $('body').append($(page.el));
     } else {
-
+        // let view decide whether need render, sometimes dont need render.
     }
 /*
     var transition = $.mobile.defaultPageTransition;
