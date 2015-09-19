@@ -81,7 +81,6 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
 
     collectionReset: function() {
         console.log("enter collectionReset");
-        if ( this.collection.length === 0 ) return;
         this.$('#joblist').empty();
         _.each(this.collection.models, function (jobitem) {
                 this.$('#joblist').append(new TiaonaerApp.Views.JobItemView({model:jobitem}).render().el);
@@ -127,11 +126,11 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
     id: "jobdetail_page",
     model: TiaonaerApp.Models.Job,
     initialize:function() {
-        console.log("JobListView's initialize");
+        console.log("JobDetailView's initialize");
         this.template = _.template(tpl.get('template-jobdetail-view'));
     },
     events: {
-        'click a.goback': function(e) { window.history.back();console.log("goback"); e.preventDefault(); }
+        'click a.goback': function(e) {console.log("before goback"); window.history.back();console.log("after goback"); e.preventDefault(); }
     },
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));

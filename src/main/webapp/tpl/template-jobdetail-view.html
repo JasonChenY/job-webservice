@@ -1,18 +1,18 @@
 <!--div data-role="page" id="jobdetail" data-title="职位详情"-->
-    <div data-role="header" data-theme="b"><h1>职位详情</h1></div>
-    <div data-role="content">
+    <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
+    <div class='ui-content' data-role="content" role="main">
         <div><%=job_title%></div>
         <div><%=job_company%></div>
         <div><%=job_location%></div>
         <div><% print(new Date(job_post_date).toLocaleDateString()); %></div>
         <hr>
-        <div data-role="content" data-iscroll='{"wrapperAdd":-80}'><div><%=job_description%></div></div>
+        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <div class="ui-grid-b">
             <div class="ui-block-a"><a href="#" class="ui-btn ui-icon-heart ui-btn-icon-left">收藏</a></div>
             <div class="ui-block-b"><a href="<%=job_url%>" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left">去官网申请</a></div>
-            <div class="ui-block-c"><a href="#" data-rel="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left">返回</a></div>
+            <div class="ui-block-c"><a href="#" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left">返回</a></div>
         </div><!-- /grid-b -->
     </div>
 <!--/div-->

@@ -43,10 +43,22 @@ TiaonaerApp.vent.on("job:updated", function(model) {
     TiaonaerApp.messageRegion.show(messageView);
 });
 
+// used for navigate from joblist directly with exising model, dont need fetch
 TiaonaerApp.vent.on("jobdetail:view", function(model) {
-    window.log("event to view job detail for model: ", model.toJSON());
+    if ( TiaonaerApp.ViewInstances.JobDetailView === undefined ) {
+        console.log("create & show JobDetailView");
+        TiaonaerApp.ViewInstances.JobDetailView = new TiaonaerApp.Views.JobDetailView({model:model});
+        TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, true);
+    } else {
+        console.log("show JobDetailView");
+        TiaonaerApp.ViewInstances.JobDetailView.model = model;
+        TiaonaerApp.ViewInstances.JobDetailView.render();
 
-    var jobDetailView = new TiaonaerApp.Views.JobDetailView({model:model});
-    TiaonaerApp.changePage(jobDetailView);
+        // to let jqm enhance widgets
+        $(TiaonaerApp.ViewInstances.JobDetailView.el).trigger('create');
+        $('.iscroll-wrapper', TiaonaerApp.ViewInstances.JobDetailView.el).iscrollview().iscrollview("refresh");
+
+        TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, false);
+    }
 });
 

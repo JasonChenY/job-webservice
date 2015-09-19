@@ -13,12 +13,17 @@ TiaonaerApp.Controllers.JobController = {
 */
     list: function() {
         console.log("list in JobController");
-        // Job List View can be ordered anonymouslly
-        var jobListView = new TiaonaerApp.Views.JobListView();
-        //TiaonaerApp.mainRegion.show(jobListView);
-
-        console.log("changePage list in JobController");
-        TiaonaerApp.changePage(jobListView);
+        if ( TiaonaerApp.ViewInstances.JobListView === undefined ) {
+            console.log("create & show JobListView");
+            TiaonaerApp.ViewInstances.JobListView = new TiaonaerApp.Views.JobListView();
+            //TiaonaerApp.mainRegion.show(jobListView);
+            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, true);
+        } else {
+            console.log("show JobListView");
+            //TiaonaerApp.ViewInstances.JobListView.render();
+            //$.mobile.changePage($('#joblist_page'));
+            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, false);
+        }
     },
     view: function(id) {
         window.log("Rendering view page for todo entry with id: ", id);

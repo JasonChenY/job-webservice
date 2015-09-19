@@ -6,7 +6,7 @@ TiaonaerApp.Controllers.UserController = {
         } else {
             var userHomeView = new TiaonaerApp.Views.UserHomeView();
             //TiaonaerApp.mainRegion.show(userHomeView);
-            TiaonaerApp.changePage(userHomeView);
+            TiaonaerApp.showPage(userHomeView, true);
         }
     },
 

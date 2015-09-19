@@ -38,7 +38,7 @@ TiaonaerApp.Models = {};
 TiaonaerApp.Translations = {};
 TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
-
+TiaonaerApp.ViewInstances = {};
 
 TiaonaerApp.SearchFilter = {};
 
@@ -120,21 +120,25 @@ TiaonaerApp.showLogoutLinkAndSearchForm = function() {
 };
 
 //Helper function to switch page
-TiaonaerApp.changePage = function (page) {
+TiaonaerApp.showPage = function (page, firsttime) {
     console.log('changePage');
-    $(page.el).attr('data-role', 'page');
+    if ( firsttime ) {
+        $(page.el).attr('data-role', 'page');
+        page.render();
+        $('body').append($(page.el));
+    } else {
 
-    $('body').append($(page.el));
-
-    page.render();
-
+    }
+/*
     var transition = $.mobile.defaultPageTransition;
     // We don't want to slide the first page
     if (this.firstPage) {
         transition = 'none';
         this.firstPage = false;
     }
-    $.mobile.changePage($(page.el), {changeHash:false, transition: transition});
+    $.mobile.changePage($(page.el), {changeHash:true, transition: transition});
+*/
+    $.mobile.changePage($(page.el));
 };
 
 $(document).bind('ajaxStart', function() {
