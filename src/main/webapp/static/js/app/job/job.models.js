@@ -1,5 +1,5 @@
 TiaonaerApp.Models.Job = Backbone.Model.extend({
-    urlRoot: "/api/job"
+    urlRoot: "/api/job",
 });
 
 TiaonaerApp.Collections.JobList = Backbone.PageableCollection.extend({
