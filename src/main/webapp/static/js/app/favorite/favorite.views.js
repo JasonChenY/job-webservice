@@ -74,7 +74,7 @@ TiaonaerApp.Views.FavoriteListView = Marionette.View.extend({
         if ( this.fetch_type === 0 ) {
             this.totalRecords = this.collection.state.totalRecords;
             console.log("fetch_type === 0, length: " + this.totalRecords);
-            self = this;
+            var self = this;
             $(".pagination", this.el).pagination({
                 items: self.totalRecords,
                 itemsOnPage: 10,

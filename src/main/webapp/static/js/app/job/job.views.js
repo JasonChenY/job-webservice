@@ -89,7 +89,7 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
         this.$('.joblist_iscroller_wrapper').iscrollview().iscrollview("refresh");
 
         if ( this.fetchtype === 0 ) {
-            self = this;
+            var self = this;
             $(".pagination", this.el).pagination({
                 items: self.collection.state.totalRecords,
                 itemsOnPage: 10,
