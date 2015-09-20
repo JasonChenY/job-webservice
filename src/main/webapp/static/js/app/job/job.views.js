@@ -88,7 +88,11 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
     },
     events: {
         'click a.goback': function(e) {console.log("before goback"); window.history.back();console.log("after goback"); e.preventDefault(); },
-        'click a.favorite': function(e) { this.model.toggle_favorite(); e.preventDefault(); }
+        'click a.favorite': function(e) { this.model.toggle_favorite(); e.preventDefault(); },
+        'click button.complain': function(e) {
+             this.model.complain($('#complain_type :selected', this.el).val());
+             e.preventDefault();
+        }
     },
     switchModel: function(model) {
         this.stopListening(this.model);
@@ -104,6 +108,8 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
         // to let jqm enhance widgets
         $(this.el).trigger('create');
         $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
+        $('#complain_type', this.el).selectmenu({inline: true});
+        $('.ui-footer', this.el).toolbar('refresh');
         return this;
     },
 });

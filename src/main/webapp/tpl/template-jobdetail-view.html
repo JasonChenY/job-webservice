@@ -1,4 +1,3 @@
-<!--div data-role="page" id="jobdetail" data-title="职位详情"-->
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
         <div><%=job_title%></div>
@@ -9,16 +8,33 @@
         <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
-        <div class="ui-grid-b">
+        <div class="ui-grid-c">
             <div class="ui-block-a">
-                <% if (favorite_id === 0) { %>
-                <a href="#" data-icon="star" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-star ui-btn-b" data-role="button">收藏</a>
-                <% } else { %>
-                <a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b" data-role="button">取消收藏</a>
-                <% } %>
+            <% if (favorite_id === 0) { %>
+                <a href="#" data-role="button" data-icon="star" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-star ui-btn-b">收藏</a>
+            <% } else { %>
+                <a href="#" data-role="button" data-icon="minus" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b">取消收藏</a>
+            <% } %>
             </div>
-            <div class="ui-block-b"><a href="<%=job_url%>" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left">去官网申请</a></div>
-            <div class="ui-block-c"><a href="#" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left">返回</a></div>
-        </div><!-- /grid-b -->
+            <div class="ui-block-b">
+                <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">去官网申请</a>
+            </div>
+            <div class="ui-block-c">
+            <% if (!complain_pending) { %>
+                <div data-role="controlgroup" data-type="horizontal">
+                    <select id="complain_type">
+                        <option value="0">已过期</option>
+                        <option value="1">内容无效</option>
+                        <option value="2">其他</option>
+                    </select>
+                    <button class="complain">举报</button>
+                </div>
+            <% } else { %>
+                <a href="#" data-role="button" data-icon="comment" class="ui-disabled complain ui-btn ui-icon-comment ui-btn-icon-left ui-btn-b">已被举报</a>
+            <% } %>
+            </div>
+            <div class="ui-block-d">
+                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
+            </div>
+        </div>
     </div>
-<!--/div-->

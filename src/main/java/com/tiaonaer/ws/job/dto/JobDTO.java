@@ -24,6 +24,7 @@ public class JobDTO {
     private long favorite_id;
     private int favorities_num;
     private int comments_num;
+    private Boolean complain_pending;
 
     public JobDTO() {};
     public JobDTO(JobDocument doc) {
@@ -44,6 +45,7 @@ public class JobDTO {
         this.favorite_id = 0;
         this.favorities_num = 0;
         this.comments_num = 0;
+        this.complain_pending = false;
     }
 
     public String getId() {
@@ -180,5 +182,13 @@ public class JobDTO {
 
     public void setComments_num(int comments_num) {
         this.comments_num = comments_num;
+    }
+
+    public Boolean getComplain_pending() {
+        return complain_pending;
+    }
+
+    public void setComplain_pending(Boolean complain_pending) {
+        this.complain_pending = complain_pending;
     }
 }

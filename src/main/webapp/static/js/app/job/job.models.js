@@ -41,6 +41,31 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 }
             });
         }
+    },
+    complain: function(complain_type) {
+        console.log("complain_type: " + complain_type);
+        var self = this;
+        if ( self.get("complain_pending") ) {
+            console.log("job has pending complain " + self.get("id"));
+        } else {
+            console.log("complain job " + self.get("id"));
+            var attrs = {
+                job_id: self.get("id"),
+                type: complain_type
+            };
+            var complain = new TiaonaerApp.Models.Complain();
+            complain.save(attrs, {
+                wait: true,
+                success: function (complain) {
+                    self.set({
+                        complain_pending: true,
+                    });
+                },
+                fail: function(complain) {
+                    console.log("receive error rsp for favoriting");
+                }
+            });
+        }
     }
 });
 

@@ -23,4 +23,8 @@ public interface ComplainRepository extends JpaRepository<Complain, Long> {
     // for checking whether the user already complain about specific job, this check can be done in client side.
     @Query("select count(u) from Complain u where u.user_id = :user_id and u.job_id = :job_id")
     int count(@Param("job_id")String job_id, @Param("user_id")String user_id);
+
+    // for checking whether the job is already complained and still in pending status.
+    @Query("select count(u) from Complain u where u.job_id = ?1 and u.status = 0")
+    int pending(String job_id);
 }

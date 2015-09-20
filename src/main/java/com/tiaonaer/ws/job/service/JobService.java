@@ -5,6 +5,7 @@ import com.tiaonaer.ws.job.document.JobDocument;
 import com.tiaonaer.ws.job.dto.JobDTO;
 import com.tiaonaer.ws.job.dto.JobsFacetDTO;
 import com.tiaonaer.ws.job.repository.jpa.CommentRepository;
+import com.tiaonaer.ws.job.repository.jpa.ComplainRepository;
 import com.tiaonaer.ws.job.repository.jpa.FavoriteRepository;
 import com.tiaonaer.ws.job.repository.solr.JobDocumentRepository;
 import com.tiaonaer.ws.security.util.SecurityContextUtil;
@@ -38,6 +39,9 @@ public class JobService {
 
     @Resource
     private FavoriteRepository favoriteRepository;
+
+    @Resource
+    private ComplainRepository complainRepository;
 
     @Resource
     private SecurityContextUtil securityContextUtil;
@@ -77,6 +81,7 @@ public class JobService {
             jobdto.setFavorities_num(favoriteRepository.count(doc.getId()));
             List<Favorite> favorite = favoriteRepository.favorite(doc.getId(), securityContextUtil.getUser_id());
             if ( favorite.size() > 0 ) jobdto.setFavorite_id(favorite.get(0).getId());
+            jobdto.setComplain_pending(complainRepository.pending(doc.getId())>0);
             dto.addJobDTO(jobdto);
         }
     }
