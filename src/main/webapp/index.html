@@ -58,7 +58,11 @@
     <script type="text/javascript" src="static/js/app/favorite/favorite.routing.js"></script>
     <script type="text/javascript" src="static/js/app/favorite/favorite.views.js"></script>
 
+    <script type="text/javascript" src="static/js/app/complain/complain.events.js"></script>
+    <script type="text/javascript" src="static/js/app/complain/complain.controller.js"></script>
     <script type="text/javascript" src="static/js/app/complain/complain.models.js"></script>
+    <script type="text/javascript" src="static/js/app/complain/complain.routing.js"></script>
+    <script type="text/javascript" src="static/js/app/complain/complain.views.js"></script>
 </head>
 <body>
 <div id="activity-indicator"></div>
@@ -121,21 +125,6 @@
     <h1>label.internalservererror.page.title</h1>
     <div class="page-content">
         <p>label.internalservererror.page.message</p>
-    </div>
-</script>
-
-<script id="template-jobitem-view" type="text/x-handlebars-template">
-    <a href="#/api/job/{{id}}">{{job_title}}</a>
-</script>
-
-<script id="template-joblist-view" type="text/x-handlebars-template">
-    <h1>label.search.results.title</h1>
-    <div class="pagination">
-    </div>
-    <div class="page-content">
-        <ul id='jobitemlist'></ul>
-    </div>
-    <div class="pagination">
     </div>
 </script>
 

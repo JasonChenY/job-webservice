@@ -1,0 +1,25 @@
+<a href="#job/view/<%= job_id %>" data-transition="pop">
+    <%= job_title %>
+    <p>
+        <span><%= job_company %></span>
+        <span>举报事项:
+            <%
+            switch(type) {
+                case 0: print('已过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他'); break;
+            }
+            %>
+        </span>
+        <span>举报时间:<% print(new Date(creationTime).toLocaleDateString()); %></span>
+        <span>状态:
+            <%
+            switch(status) {
+                case 0: print('正在处理中'); break;
+                case 1: print('审核通过，谢谢!'); break;
+                case 2: print('审核未通过'); break;
+            }
+            %>
+        </span>
+    </p>
+</a>

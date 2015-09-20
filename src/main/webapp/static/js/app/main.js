@@ -192,7 +192,9 @@ $(document).ready(function(){
             'template-jobdetail-view',
             'template-jobsearch-view',
             'template-favoriteitem-view',
-            'template-favoritelist-view'
+            'template-favoritelist-view',
+            'template-complainitem-view',
+            'template-complainlist-view'
         ],
         function () {
             console.log("before TiaonaerApp.start");

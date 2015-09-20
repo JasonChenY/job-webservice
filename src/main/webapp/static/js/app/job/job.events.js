@@ -1,6 +1,6 @@
 TiaonaerApp.vent.on("routing:started", function(){
     if( ! Backbone.History.started) Backbone.history.start();
-})
+});
 /*
 TiaonaerApp.vent.on("todo:added", function(model) {
     window.log("Processing todo added event for model: ", model.toJSON());
@@ -30,7 +30,7 @@ TiaonaerApp.vent.on("job:deleted", function(model) {
 TiaonaerApp.vent.on("job:search", function(searchTerm) {
     window.log("Processing search event for search term: ", searchTerm);
     Backbone.history.navigate("#/job/search/" + searchTerm);
-})
+});
 
 TiaonaerApp.vent.on("job:updated", function(model) {
     window.log("Processing job updated event for model: ", model.toJSON());

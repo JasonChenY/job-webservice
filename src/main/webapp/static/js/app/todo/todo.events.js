@@ -1,6 +1,6 @@
 TodoApp.vent.on("routing:started", function(){
     if( ! Backbone.History.started) Backbone.history.start();
-})
+});
 
 TodoApp.vent.on("todo:added", function(model) {
     window.log("Processing todo added event for model: ", model.toJSON());
@@ -26,7 +26,7 @@ TodoApp.vent.on("todo:deleted", function(model) {
 TodoApp.vent.on("todo:search", function(searchTerm) {
     window.log("Processing search event for search term: ", searchTerm);
     Backbone.history.navigate("#/todo/search/" + searchTerm);
-})
+});
 
 TodoApp.vent.on("todo:updated", function(model) {
     window.log("Processing todo updated event for model: ", model.toJSON());
