@@ -1,44 +1,3 @@
-function toggle_favorite(model) {
-       if ( model.get("favorite_id") !== 0 ) {
-           console.log("unfavorite job " + model.get("id"));
-           //var encoded = encodeURIComponent(self.model.get("id"));
-           //console.log(encoded);
-           var favorite = new TiaonaerApp.Models.Favorite({id: model.get("favorite_id")});
-           favorite.destroy({
-               wait:true,
-               success: function(favorite) {
-                   model.set({
-                       favorite_id: 0,
-                       favorities_num: model.get("favorities_num")-1
-                   });
-               },
-               fail: function(favorite) {
-                   console.log("receive error rsp for unfavoriting");
-               }
-           });
-       } else {
-           console.log("favorite job " + model.get("id"));
-           var attrs = { job_id: model.get("id") };
-           var favorite = new TiaonaerApp.Models.Favorite();
-           favorite.save(attrs, {
-               wait: true,
-               success: function (favorite) {
-                   model.set({
-                       favorite_id: favorite.get("id"),
-                       favorities_num: model.get("favorities_num")+1
-                   });
-                   /* in theory, here we can let view listen to model change
-                    * or call view.render(); direclty to reender only one item.
-                    * but JQM not work perfectly, we let listview to listen to collection change event.
-                    */
-               },
-               fail: function(favorite) {
-                   console.log("receive error rsp for favoriting");
-               }
-           });
-       }
-    };
-
 TiaonaerApp.Views.JobItemView = Marionette.View.extend({
     tagName: "li",
     initialize:function () {
@@ -55,7 +14,7 @@ TiaonaerApp.Views.JobItemView = Marionette.View.extend({
         return this;
     },
     events: {
-        'click a.favorite': function(e) { toggle_favorite(this.model); e.preventDefault(); } ,
+        'click a.favorite': function(e) { this.model.toggle_favorite(); e.preventDefault(); } ,
         'click a.jobdetail': "jobdetail",
     },
 
@@ -129,7 +88,7 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
     },
     events: {
         'click a.goback': function(e) {console.log("before goback"); window.history.back();console.log("after goback"); e.preventDefault(); },
-        'click a.favorite': function(e) { toggle_favorite(this.model); e.preventDefault(); }
+        'click a.favorite': function(e) { this.model.toggle_favorite(); e.preventDefault(); }
     },
     switchModel: function(model) {
         this.stopListening(this.model);
