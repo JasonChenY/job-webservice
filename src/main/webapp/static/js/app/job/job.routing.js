@@ -5,8 +5,9 @@ TiaonaerApp.JobRouting = function(){
         appRoutes: {
             "job/view/:id": "view",
             "job/update/:id": "update",
+            "job/list": "list",
             "job/search": "search",
-            "job/list": "list"
+            "job/filter?:filters": "filter",
         }
     });
 

@@ -1,8 +1,7 @@
 <!--div id="joblist_page" data-role="page" data-quicklinks="true" class="ui-responsive-panel" data-title="跳哪儿"-->
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
-        <a href="#home" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="true" class="ui-nodisc-icon">Home</a>
         <h1>列表</h1>
-        <a href="#jobsearch" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="true" class="ui-nodisc-icon">高级</a>
+        <a href="#" id="jobsearch" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="true" class="ui-nodisc-icon">高级</a>
     </div>
 
     <div role="main" class="ui-content jqm-content jqm-fullwidth">
@@ -17,15 +16,15 @@
                 <input type="text" name="term" style="width: 100%;" />
             </div>
         </form-->
-        <div class="ui-grid-a grid-a-nine2one">
+        <!--div class="ui-grid-a grid-a-91">
             <div class="ui-block-a"><input type="text" id="jobsearch_keyword" value="" class="ui-btn" placeholder="输入关键字查找"></div>
             <div class="ui-block-b"><button id="btn_search" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-search">搜索</button></div>
-        </div>
+        </div-->
         <!--div data-role="controlgroup" data-type="horizontal">
             <input type="text" id="jobsearch_keyword" value="" placeholder="输入关键字查找" data-wrapper-class="controlgroup-textinput ui-btn ui-mini">
             <button id="btn_search" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-search">搜索</button>
         </div-->
-        <div data-iscroll='{"vScrollbar": true, "wrapperAdd":-80}' data-role="content" class="joblist_iscroller_wrapper">
+        <div data-iscroll='{"vScrollbar": true, "wrapperAdd":-10}' data-role="content" class="joblist_iscroller_wrapper">
             <!--div class="iscroll-pulldown">
                 <span class="iscroll-pull-icon"></span><span class="iscroll-pull-label" data-iscroll-loading-text="正在读取数据..." data-iscroll-pulled-text="松开开始读取">下拉读取更多</span>
             </div-->
@@ -37,7 +36,7 @@
     </div>
 
     <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
-        <div class="ui-grid-a grid-a-nine2one">
+        <div class="ui-grid-a grid-a-91">
             <div class="ui-block-a"><div class="pagination"></div></div>
             <div class="ui-block-b"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
         </div>

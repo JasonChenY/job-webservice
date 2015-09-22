@@ -88,7 +88,7 @@ TiaonaerApp.Collections.JobList = Backbone.PageableCollection.extend({
         pageSize: "page.size",
         sortKey: "page.sort",
         order: "page.sort.dir",
-        facet: true,
+        //facet: true,
         /* paginator has problem with multiple facet fields, this is done by service
         q: "*:*",
         "facet.field": "job_company",

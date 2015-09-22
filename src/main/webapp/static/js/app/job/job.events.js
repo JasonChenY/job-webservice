@@ -27,10 +27,7 @@ TiaonaerApp.vent.on("job:deleted", function(model) {
     TiaonaerApp.messageRegion.show(messageView);
 });
 
-TiaonaerApp.vent.on("job:search", function(searchTerm) {
-    window.log("Processing search event for search term: ", searchTerm);
-    Backbone.history.navigate("#/job/search/" + searchTerm);
-});
+
 
 TiaonaerApp.vent.on("job:updated", function(model) {
     window.log("Processing job updated event for model: ", model.toJSON());
@@ -58,3 +55,25 @@ TiaonaerApp.vent.on("jobdetail:view", function(model) {
     }
 });
 
+TiaonaerApp.vent.on("job:search", function() {
+    console.log("job search page view");
+    Backbone.history.navigate("#/job/search");
+});
+
+TiaonaerApp.vent.on("job:filter", function(filters) {
+    console.log("Processing job filter event: " + filters);
+
+    // problem to serialize filters object to string in url.
+    var qs = "";
+    var first = true;
+    _.each(_.keys(filters), function(key) {
+        if ( first ) {
+            first = false;
+        } else {
+            qs += "&";
+        }
+        qs += key + "=" + filters[key];
+    });
+
+    Backbone.history.navigate("#/job/filter?"+qs);
+});

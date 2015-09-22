@@ -37,8 +37,13 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
         this.fetchtype = 0; // initial fetch, render pagination bar
     },
 
+    events: {
+        'click #jobsearch' : function(e) { TiaonaerApp.vent.trigger("job:search"); e.preventDefault();}
+    },
+
     collectionReset: function() {
         console.log("enter collectionReset");
+
         this.$('#joblist').empty();
         _.each(this.collection.models, function (jobitem) {
                 this.$('#joblist').append(new TiaonaerApp.Views.JobItemView({model:jobitem}).render().el);
@@ -59,7 +64,23 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
                     self.collection.getPage(page, {reset:true});
                 }
             });
+        } else if ( this.fetchtype === 3 ) {
+            $(".pagination", this.el).pagination('updateItems', this.collection.state.totalRecords);
         }
+    },
+
+    updateCollection: function(filters) {
+        this.collection.state.currentPage = 1;
+        var defqs={
+            currentPage: "page.page",
+            pageSize: "page.size",
+            sortKey: "page.sort",
+            order: "page.sort.dir",
+            directions: 1,
+        };
+        this.collection.queryParams = _.extend(defqs, filters);
+        this.fetchtype = 3;
+        this.collection.fetch({reset:true});
     },
 
     //template: "#template-joblist-view",
@@ -114,4 +135,158 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
     },
 });
 
+Date.prototype.minusDays = function(days) {
+    this.setDate(this.getDate() - days);
+    return this;
+};
+
+TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
+    id: "jobsearch_page",
+    initialize:function() {
+        console.log("JobSearchView's initialize");
+        this.template = _.template(tpl.get('template-jobsearch-view'));
+        // in order to decouple between joblist and jobsearch view, use ajax directly.
+        var self = this;
+        $.ajax({
+            url: "/api/job?facet=true",
+            dataType: 'json',
+            crossDomain: false,
+            success:  function(facets) {
+                self.GotData(facets);
+            }
+        });
+    },
+
+    render:function () {
+        $(this.el).html(this.template());
+        $(this.el).trigger('create');
+    },
+
+    GotData: function(facets) {
+        var jobfilter_company_ctlgrp=$('#jobfilter_company_ctlgrp', this.el);
+        jobfilter_company_ctlgrp.controlgroup().controlgroup("option", "type", "vertical");
+        var index = 0;
+        _.each(_.keys(facets.companies), function(key) {
+            var val = facets.companies[key];
+            var $el = $("<label for='jf_company_cb-"+index+"'>"+key+"("+val+")" + "</label><input id='jf_company_cb-" + index + "' type='checkbox' value='"+key+"'></input>");
+            jobfilter_company_ctlgrp.controlgroup("container")['append']($el);
+            $($el[1]).checkboxradio();
+            $($el[1]).parents(".ui-checkbox").attr("data-filtertext", makePy(key));
+            index++;
+        });
+        $('.company_iscroller_wrapper', this.el).iscrollview().iscrollview("refresh");
+
+        //$('#page_jobfilter_location_iscroller_wrapper').css("z-index", 3);
+        var jobfilter_location_ctlgrp=$('#jobfilter_location_ctlgrp', this.el);
+        jobfilter_location_ctlgrp.controlgroup().controlgroup("option", "type", "vertical");
+        index = 0;
+        _.each(_.keys(facets.locations), function(key) {
+            var val = facets.locations[key];
+            var $el = $("<label for='jf_location_cb-"+index+"'>"+key+"("+val+")" + "</label><input id='jf_location_cb-" + index + "' type='checkbox' value='"+key+"'></input>");
+            jobfilter_location_ctlgrp.controlgroup("container")['append']($el);
+            $($el[1]).checkboxradio();
+            $($el[1]).parents(".ui-checkbox").attr("data-filtertext", makePy(key));
+            index++;
+        });
+        $('.location_iscroller_wrapper', this.el).iscrollview().iscrollview("refresh");
+
+        return this;
+    },
+
+    events: {
+        'click [data-role="navbar"] a': "refresh_iscroll",
+        'click #jobfilter_reset': "reset_filter",
+        'click #jobfilter_search': "job_filter",
+    },
+
+    refresh_iscroll: function(event) {
+        var tab = $(event.target).attr('href');
+        var wrapper = $(tab, this.el).find('.iscroll-wrapper');
+        if ( wrapper ) {
+            wrapper.resize();
+            wrapper.iscrollview("refresh");
+        }
+    },
+
+    reset_filter: function(e) {
+        $('input[type="checkbox"]', this.el).attr('checked',false).checkboxradio("refresh");
+
+        $('input[type="radio"]:first', this.el).prop("checked", true);
+        $('input[type="radio"]', this.el).checkboxradio("refresh");
+
+        $('#jobfilter_keyword', this.el).val("");
+
+        e.preventDefault();
+    },
+
+    job_filter: function(e) {
+        console.log("enter job_filter");
+        filters = {};
+
+        var company="";
+        var first = true;
+        $('#jobfilter_company_ctlgrp input[type="checkbox"]:checked', this.el).each(function () {
+            var value = $(this).val();
+            if ( first ) {
+                company += 'job_company:(';
+                first = false;
+            } else {
+                company += ' OR ';
+            }
+            //Dont need encode here, navigate will decode it again anyway.
+            //company += "\"" + encodeURIComponent(value) + "\"";
+            company += "\"" + value + "\"";
+        });
+        if ( company.length > 0) company += ')';
+
+        var location="";
+        first = true;
+        $('#jobfilter_location_ctlgrp input[type="checkbox"]:checked', this.el).each(function () {
+            var value = $(this).val();
+            if ( first ) {
+                location += 'job_location:(';
+                first = false;
+            } else {
+                location += ' OR ';
+            }
+            location += value;
+        });
+        if ( location.length > 0) location += ')';
+
+        var date = $('#jobfilter_date_ctlgrp input[type="radio"]:checked', this.el).val();
+
+        var fqstr = "";
+
+        if ( company.length > 0 ) {
+            if ( fqstr.length > 0 ) fqstr += ' AND ';
+            fqstr += company;
+        }
+
+        if ( location.length > 0 ) {
+            if ( fqstr.length > 0 ) fqstr += ' AND ';
+            fqstr += location;
+        }
+
+        if ( date > -1 ) {
+            var startDate = (new Date()).minusDays(date).toISOString();
+            if ( fqstr.length > 0 ) fqstr += ' AND ';
+            fqstr += "job_post_date:[" + startDate + " TO *]";
+        }
+
+        fqstr = "("+fqstr+")";
+
+        filters['fq'] = fqstr;
+
+        var keyword =  $('#jobfilter_keyword', this.el).val();
+        if ( !keyword || /^\s*$/.test(keyword) )  {
+        }  else {
+            filters['q'] = keyword;
+        }
+
+        console.log(filters);
+
+        TiaonaerApp.vent.trigger("job:filter", filters);
+        e.preventDefault();
+    }
+});
 

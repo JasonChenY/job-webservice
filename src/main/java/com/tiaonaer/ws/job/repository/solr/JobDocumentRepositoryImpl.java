@@ -66,21 +66,28 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
 
     private Criteria createFilterSearchConditions(List<String> filter_query) {
         if ( filter_query == null ) return null;
-        // Assume format: fq=job_company:(A+OR+B+OR+C)&fq=job_location:(D+OR+E+OR+F)
+        // Assume format: fq=job_company:(A OR B OR C)&fq=job_location:(D OR E OR F)
+        // But backbone.paginator dont support multiple query parameter with same names,
+        // Solution: fq=(job_company:(A OR B OR C) AND job_location:(D OR E OR F))
         for ( int i = 0; i < filter_query.size(); i++ ) {
-            LOGGER.debug("createFilterSearchConditions: %s", filter_query.get(i));
+            LOGGER.debug("createFilterSearchConditions: " + filter_query.get(i));
         }
         Criteria conditions = null;
-        // Use Expression to bypass the decode & encode process.
-        for ( int i = 0; i < filter_query.size(); i++ ) {
-            String fq = filter_query.get(i);
-            // Here should check later whether we received some encoded ":".
-            if ( fq.startsWith(JobDocument.JOB_COMPANY) ) {
-                Criteria tmp = new Criteria(JobDocument.JOB_COMPANY).expression(fq.substring(JobDocument.JOB_COMPANY.length() + 1));
-                conditions = ( conditions == null ? tmp: conditions.and(tmp) );
-            } else if ( fq.startsWith(JobDocument.JOB_LOCATION) ) {
-                Criteria tmp = new Criteria(JobDocument.JOB_LOCATION).expression(fq.substring(JobDocument.JOB_LOCATION.length()+1));
-                conditions = ( conditions == null ? tmp: conditions.and(tmp) );
+        if ( filter_query.size() == 1 ) {
+            conditions = new SimpleStringCriteria(filter_query.get(0));
+        } else {
+            // Use Expression to bypass the decode & encode process.
+            for (int i = 0; i < filter_query.size(); i++) {
+                String fq = filter_query.get(i);
+
+                // Here should check later whether we received some encoded ":".
+                if (fq.startsWith(JobDocument.JOB_COMPANY)) {
+                    Criteria tmp = new Criteria(JobDocument.JOB_COMPANY).expression(fq.substring(JobDocument.JOB_COMPANY.length() + 1));
+                    conditions = (conditions == null ? tmp : conditions.and(tmp));
+                } else if (fq.startsWith(JobDocument.JOB_LOCATION)) {
+                    Criteria tmp = new Criteria(JobDocument.JOB_LOCATION).expression(fq.substring(JobDocument.JOB_LOCATION.length() + 1));
+                    conditions = (conditions == null ? tmp : conditions.and(tmp));
+                }
             }
         }
         return conditions;

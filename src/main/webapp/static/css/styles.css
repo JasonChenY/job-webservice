@@ -86,6 +86,9 @@ table.filter_input_wrapper { width:100%; }
 
 /* @media all and (min-width: 45em) { */
 @media all{
-    .grid-a-nine2one.ui-grid-a .ui-block-a { width: 89.95%; }
-    .grid-a-nine2one.ui-grid-a .ui-block-b { width: 9.925%; }
+    .grid-a-91.ui-grid-a .ui-block-a { width: 89.95%; }
+    .grid-a-91.ui-grid-a .ui-block-b { width: 9.925%; }
+    .grid-b-811.ui-grid-b > .ui-block-a { width: 69.9% !important; }
+    .grid-b-811.ui-grid-b > .ui-block-b,
+    .grid-b-811.ui-grid-b > .ui-block-c { width: 14.9% !important; }
 }
