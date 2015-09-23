@@ -273,6 +273,10 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
             fqstr += "job_post_date:[" + startDate + " TO *]";
         }
 
+        // filter items with job_expired: true, might offer UI later.
+        if ( fqstr.length > 0 ) fqstr += ' AND ';
+        fqstr += "job_expired:false";
+
         fqstr = "("+fqstr+")";
 
         filters['fq'] = fqstr;
