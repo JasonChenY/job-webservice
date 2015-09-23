@@ -58,9 +58,12 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             case "Complain":
                 switch ( (String)permission ) {
                     case "update":
+                    case "adminlist":
                         minrole = SecurityRole.ROLE_ADMIN;
+                        break;
                     default:
                         minrole = SecurityRole.ROLE_USER;
+                        break;
                 }
                 break;
             default:
