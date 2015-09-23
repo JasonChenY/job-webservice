@@ -17,6 +17,15 @@ public interface ComplainRepository extends JpaRepository<Complain, Long> {
     Page<Complain> findByUser_id(String user_id, Pageable pageable);
 
     // for operator to check all complains via status
+    @Query("select u from Complain u")
+    Page<Complain> findAll(Pageable pageable);
+
+    @Query("select u from Complain u where u.type = :type")
+    Page<Complain> findByType(@Param("type")int type, Pageable pageable);
+
+    @Query("select u from Complain u where u.status = :status")
+    Page<Complain> findByStatus(@Param("status")int status, Pageable pageable);
+
     @Query("select u from Complain u where u.type = :type and u.status = :status")
     Page<Complain> findByTypeStatus(@Param("type")int type, @Param("status")int status, Pageable pageable);
 

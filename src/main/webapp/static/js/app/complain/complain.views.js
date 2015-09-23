@@ -57,8 +57,8 @@ TiaonaerApp.Views.ComplainListView = Marionette.View.extend({
         this.collectionReset();
         return this;
     },
-
 });
+
 
 
 

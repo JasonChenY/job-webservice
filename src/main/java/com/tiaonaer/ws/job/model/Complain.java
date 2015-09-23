@@ -112,7 +112,7 @@ public class Complain {
 
     @Column(name = "status", nullable = false)
     private int status;
-    // 0 - pending;  1 - accepted;  2 - rejected
+    // 0 - pending;  1 - accepted;  2 - rejected;
 
     @Column(name = "creation_time", nullable = false)
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

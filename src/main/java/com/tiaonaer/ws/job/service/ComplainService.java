@@ -62,18 +62,37 @@ public class ComplainService {
 
     @PreAuthorize("hasPermission('Complain', 'list')")
     @Transactional(readOnly = true)
+    public ComplainsDTO findAll(Pageable pageable) {
+        LOGGER.debug("Finding user's own Complains page: {}", pageable);
+
+        // normal user to get own complains lists
+        Page<Complain> complains = repository.findByUser_id(securityContextUtil.getUser_id(), pageable);
+
+        ComplainsDTO dto = new ComplainsDTO(complains);
+        for ( Complain model: complains.getContent() ) {
+            dto.addComplain(modelToDTO(model));
+        }
+        return dto;
+    }
+
+    @PreAuthorize("hasPermission('Complain', 'adminlist')")
+    @Transactional(readOnly = true)
     public ComplainsDTO findAll(String user_id, int type, int status, Pageable pageable) {
         LOGGER.debug("Finding all Complains Optional user: {}, page: {}", user_id, pageable);
 
         Page<Complain> complains = null;
-        if ( false /* user_id hasAuthority(ROLE_ADMIN) */ ) {
-            if ( user_id != null  )
-                complains = repository.findByUser_id(user_id, pageable);
-            else
+        if ( user_id != null  )
+            complains = repository.findByUser_id(user_id, pageable);
+        else {
+            // This can be optimized with JdbcTemplate later
+            if ( type != -1 && status != -1 )
                 complains = repository.findByTypeStatus(type, status, pageable);
-        } else {
-            // normal user to get own complains lists
-            complains = repository.findByUser_id(securityContextUtil.getUser_id(), pageable);
+            else if ( type != -1 )
+                complains = repository.findByType(type, pageable);
+            else if ( status != -1 )
+                complains = repository.findByStatus(status, pageable);
+            else
+                complains = repository.findAll(pageable);
         }
 
         ComplainsDTO dto = new ComplainsDTO(complains);

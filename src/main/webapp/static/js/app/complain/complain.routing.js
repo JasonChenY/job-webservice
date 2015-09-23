@@ -3,7 +3,8 @@ TiaonaerApp.ComplainRouting = function(){
 
     ComplainRouting.Router = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            "complain/list": "list"
+            "complain/list": "list",
+            "complain/adminlist": "adminlist"
         }
     });
 

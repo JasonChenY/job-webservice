@@ -56,9 +56,18 @@ public class ComplainController {
     @RequestMapping(value = "/api/complain", method = RequestMethod.GET)
     @ResponseBody
     public ComplainsDTO complainList(
+            @PageableDefault(page = 0, size = 10) Pageable pageable
+    ) {
+        LOGGER.debug("Finding all complains, page: {}", pageable);
+        return service.findAll(pageable);
+    }
+
+    @RequestMapping(value = "/api/complain/admin", method = RequestMethod.GET)
+    @ResponseBody
+    public ComplainsDTO complainList(
             @RequestParam(value = "user_id", required = false) String user_id,
-            @RequestParam(value = "type", required = false, defaultValue = "0") int type,
-            @RequestParam(value = "status", required = false, defaultValue = "0") int status,
+            @RequestParam(value = "type", required = false, defaultValue = "-1") int type,
+            @RequestParam(value = "status", required = false, defaultValue = "-1") int status,
             @PageableDefault(page = 0, size = 10) Pageable pageable
     ) {
         LOGGER.debug("Finding all complains with optional user_id: {}, page: {}", user_id, pageable);

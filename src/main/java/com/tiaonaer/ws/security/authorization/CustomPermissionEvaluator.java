@@ -25,28 +25,49 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
         boolean hasPermission = false;
 
-        if (targetDomainObject.equals("Todo")
-                || targetDomainObject.equals("Jobs")
-                || targetDomainObject.equals("Comment")
-                || targetDomainObject.equals("Favorite")
-                || targetDomainObject.equals("Complain") ) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                LOGGER.debug("User is not anonymous. Evaluation permission");
-                UserDetails userDetails = (UserDetails) principal;
-                String principalRole = getRole(userDetails.getAuthorities());
-                if (principalRole.equals(SecurityRole.ROLE_USER.name())) {
-                    LOGGER.debug("Principal: {} has permission to perform requested operation", userDetails);
-                    hasPermission = true;
+        SecurityRole role = SecurityRole.ROLE_ANONYMOUS;
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            String principalRole = getRole(userDetails.getAuthorities());
+            if (principalRole.equals(SecurityRole.ROLE_USER.name())) {
+                role = SecurityRole.ROLE_USER;
+            } else if ( principalRole.equals(SecurityRole.ROLE_ADMIN.name())) {
+                role = SecurityRole.ROLE_ADMIN;
+            }
+        }
+        SecurityRole minrole = SecurityRole.ROLE_ANONYMOUS;
+        switch ( (String)targetDomainObject ) {
+            case "Jobs":
+                switch ( (String)permission ) {
+                    case "update":
+                        minrole = SecurityRole.ROLE_ADMIN;
+                        break;
+                    default:
+                        minrole = SecurityRole.ROLE_ANONYMOUS;
+                        // Note: Some very loose limit done in client side for searching.
+                        break;
                 }
-            }
-            else {
-                LOGGER.debug("User is anonymous. Permission denied.");
-            }
+                break;
+            case "Comment":
+                minrole = SecurityRole.ROLE_USER;
+                break;
+            case "Favorite":
+                minrole = SecurityRole.ROLE_USER;
+                break;
+            case "Complain":
+                switch ( (String)permission ) {
+                    case "update":
+                        minrole = SecurityRole.ROLE_ADMIN;
+                    default:
+                        minrole = SecurityRole.ROLE_USER;
+                }
+                break;
+            default:
+                LOGGER.debug("Unknown class: {} for target domain Object: {}", targetDomainObject.getClass(), targetDomainObject);
         }
-        else {
-            LOGGER.debug("Unknown class: {} for target domain Object: {}", targetDomainObject.getClass(), targetDomainObject);
-        }
+
+        if ( minrole.ordinal() <= role.ordinal()) hasPermission = true;
 
         LOGGER.debug("Returning: {}", hasPermission);
 

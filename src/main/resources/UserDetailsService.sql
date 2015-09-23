@@ -62,6 +62,8 @@ create table todos(
 
 insert into users values('user', 'password', 1);
 insert into authorities values('user', 'ROLE_USER');
+insert into users values('jason', 'password', 1);
+insert into authorities values('jason', 'ROLE_ADMIN');
 
 insert into todos values(1,'2015-08-25 11:17:31','test1','2015-08-25 11:17:31','test1',0);
 insert into todos values(2,'2015-08-25 11:17:31','test2','2015-08-25 11:17:31','test2',0);

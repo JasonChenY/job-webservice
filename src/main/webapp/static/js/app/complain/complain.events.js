@@ -6,3 +6,8 @@ TiaonaerApp.vent.on("complain:list", function() {
     console.log("Processing complain:list event");
     Backbone.history.navigate("#/complain/list");
 });
+
+TiaonaerApp.vent.on("complain:adminlist", function() {
+    console.log("Processing complain:adminlist event");
+    Backbone.history.navigate("#/complain/adminlist");
+});

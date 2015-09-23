@@ -1,0 +1,33 @@
+<div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
+    <a href="#home" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="true" class="ui-nodisc-icon">Home</a>
+    <h1>举报列表</h1>
+</div>
+
+<div role="main" class="ui-content jqm-content jqm-fullwidth">
+    <div data-iscroll='{"vScrollbar": true}' data-role="content" class="complainlist_iscroller_wrapper">
+        <ul id="complainlist" data-role="listview" data-inset="true" data-filter="false"></ul>
+    </div>
+</div>
+
+<div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
+    <div class="ui-grid-b grid-b-622">
+        <div class="ui-block-a"><div class="pagination"></div></div>
+        <div class="ui-block-b">
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <select name="complaintype" id="complaintype">
+                    <option value="-1" selected="selected">所有</option>
+                    <option value="0">已过期</option>
+                    <option value="1">内容无效</option>
+                    <option value="2">其他</option>
+                </select>
+                <select name="complainstatus" id="complainstatus">
+                    <option value="-1">所有</option>
+                    <option value="0" selected="selected">待处理</option>
+                    <option value="1">已审核</option>
+                    <option value="2">已拒绝</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="ui-block-c"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+    </div>
+</div>

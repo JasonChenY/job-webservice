@@ -91,4 +91,14 @@ table.filter_input_wrapper { width:100%; }
     .grid-b-811.ui-grid-b > .ui-block-a { width: 69.9% !important; }
     .grid-b-811.ui-grid-b > .ui-block-b,
     .grid-b-811.ui-grid-b > .ui-block-c { width: 14.9% !important; }
+    .grid-b-622.ui-grid-b > .ui-block-a { width: 59.9% !important; }
+    .grid-b-622.ui-grid-b > .ui-block-b,
+    .grid-b-622.ui-grid-b > .ui-block-c { width: 19.9% !important; }
+    .grid-b-541.ui-grid-b > .ui-block-a { width: 49.9% !important; }
+    .grid-b-541.ui-grid-b > .ui-block-b { width: 39.9% !important; }
+    .grid-b-541.ui-grid-b > .ui-block-c { width: 9.9% !important; }
+    .grid-c-7111.ui-grid-c > .ui-block-a { width: 69.9% !important; }
+    .grid-c-7111.ui-grid-c > .ui-block-b { width: 9.9% !important; }
+    .grid-c-7111.ui-grid-c > .ui-block-c { width: 9.9% !important; }
+    .grid-c-7111.ui-grid-c > .ui-block-d { width: 9.9% !important; }
 }

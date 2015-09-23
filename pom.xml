@@ -1,14 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.petrikainulainen.spring.data.solr</groupId>
-    <artifactId>criteria-pagination</artifactId>
+    <groupId>com.tiaonaer.ws</groupId>
+    <artifactId>jobws</artifactId>
     <packaging>war</packaging>
     <version>0.1</version>
-    <name>Spring Data Solr - jobws</name>
+    <name>jobws</name>
     <description>
-        This example application demonstrates how we can paginate the query results of queries
-	created by using the criteria API of Spring Data Solr.
+        Job Restful Web Service
     </description>
     <licenses>
         <license>
@@ -170,8 +169,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>

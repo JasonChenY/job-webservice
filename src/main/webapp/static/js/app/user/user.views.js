@@ -39,5 +39,6 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         'click #btn_job': function() { TiaonaerApp.vent.trigger("job:list"); },
         'click #btn_favorite': function() { TiaonaerApp.vent.trigger("favorite:list"); },
         'click #btn_complain': function() { TiaonaerApp.vent.trigger("complain:list"); },
+        'click #btn_complain_admin': function() { TiaonaerApp.vent.trigger("complain:adminlist"); },
     },
 });

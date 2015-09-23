@@ -1,0 +1,33 @@
+<a href="#job/view/<%= job_id %>" data-transition="pop">
+    <%= job_title %> --- <%= job_company %>
+    <p>
+        <span>举报事项:
+            <%
+            switch(type) {
+                case 0: print('已经过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他事项'); break;
+            }
+            %>
+        </span>
+        <span>举报时间:<% print(new Date(creationTime).toLocaleDateString()); %></span>
+        <span>举报人:<%= user_id %></span>
+
+        <% if ( status == 1 || status == 2 ) { %>
+        <span>审核结果:</span>
+            <% if ( status == 1 ) { %>
+               <span>通过</span>
+            <% } else { %>
+               <span>未通过</span>
+            <% } %>
+        <span><%=approve_user_id%></span><span><%print(new Date(approveTime).toLocaleDateString());%></span>
+        <% } else { %>
+    </p>
+    <p>
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <input type="button" class="accept" value="接受"/>
+            <input type="button" class="reject" value="拒绝"/>
+        </fieldset>
+        <% } %>
+    </p>
+</a>
