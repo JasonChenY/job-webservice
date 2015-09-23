@@ -11,6 +11,7 @@ TiaonaerApp.Views.ComplainAdminItemView = Marionette.View.extend({
     events: {
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
+        'click a.detail': function(e) { TiaonaerApp.vent.trigger("complain:detail", this.model); }
     },
 });
 
@@ -89,4 +90,33 @@ TiaonaerApp.Views.ComplainAdminListView = Marionette.View.extend({
         console.log(type + ": " + status);
         this.FetchByCondition(type, status);
     }
+});
+
+TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
+    id: "complain_detail_page",
+    model: TiaonaerApp.Models.Complain,
+    initialize:function() {
+        this.template = _.template(tpl.get('template-complain-detail-view'));
+        this.listenTo(this.model, "change", this.modelAttrChanged);
+    },
+    events: {
+        'click a.goback': function(e) { window.history.back();console.log("after goback"); e.preventDefault(); },
+        'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
+        'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
+    },
+    switchModel: function(model) {
+        this.stopListening(this.model);
+        this.model = model;
+        this.listenTo(this.model, "change", this.modelAttrChanged);
+    },
+    modelAttrChanged: function() {
+        this.render();
+    },
+    render:function (eventName) {
+        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).trigger('create');
+        $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
+        $('.ui-footer', this.el).toolbar('refresh');
+        return this;
+    },
 });

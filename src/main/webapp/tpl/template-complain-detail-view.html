@@ -1,0 +1,79 @@
+<div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
+<div class='ui-content' data-role="content" role="main">
+    <table width="100%">
+        <tr>
+            <td colspan="2">名称:<%=job_title%></td>
+        </tr>
+        <tr>
+            <td colspan="2">地点:<%=job_location%></td>
+        </tr>
+        <tr>
+            <td>公司:<%=job_company%></td>
+            <td>子公司:<%job_sub_company!=null?print(job_sub_company):print("N/A");%></td>
+        </tr>
+        <tr>
+            <td>职位类型:
+                <% switch (job_type) {
+                case 0: print("社会招聘"); break;
+                case 1: print("校园招聘"); break;
+                case 2: print("实习生招聘"); break;
+                }%>
+            </td>
+            <td>URL类型:
+                <% switch (job_url_type) {
+                case 0: print("静态URL"); break;
+                case 1: print("多职位共享同一URL"); break;
+                case 2: print("POST URL"); break;
+                case 3: print("OTHER"); break;
+                }%>
+            </td>
+        </tr>
+        <tr>
+            <td>发布日期:<%print(new Date(job_post_date).toLocaleDateString());%></td>
+            <td>过期日期:<%job_expire_date!=null?print(new Date(job_expire_date).toLocaleDateString()):print("N/A");%></td>
+        </tr>
+        <tr>
+            <td>抓取日期:<%print(new Date(job_index_date).toLocaleDateString());%></td>
+            <td>已过期:<%print(job_expired?"是":"否");%></td>
+        </tr>
+        <tr>
+            <td colspan="2">领域:<%print(job_category_domain!=null?job_category_domain:"N/A");%></td>
+        </tr>
+    </table>
+    <hr>
+    <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+</div>
+<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+    <div class="ui-grid-c">
+        <div class="ui-block-a">
+            <a href="<%=job_title%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
+        </div>
+        <div class="ui-block-b">
+            <a href="#" class="ui-disabled ui-btn">
+            举报事项:
+            <%
+            switch(type) {
+                case 0: print('已过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他'); break;
+            }
+            %>
+            </a>
+        </div>
+        <div class="ui-block-c">
+            <% if ( status === 1 ) { %>
+                <a href="#" class="ui-disabled ui-btn">已审核</a>
+            <% } else if ( status === 2 ) { %>
+                <a href="#" class="ui-disabled ui-btn">已拒绝</a>
+            <% } else { %>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="button" class="accept" value="接受"/>
+                <input type="button" class="reject" value="拒绝"/>
+            </fieldset>
+            <% } %>
+        </div>
+        <div class="ui-block-d">
+            <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
+        </div>
+    </div>
+</div>
