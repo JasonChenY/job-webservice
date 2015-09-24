@@ -74,6 +74,11 @@ public class JobService {
         return dto;
     }
 
+    public JobDTO findByJobID(String job_id) {
+        LOGGER.debug("enter findByJobID");
+        return new JobDTO(solrRepository.findByJobID(job_id));
+    }
+
     private void JobPage2JobsDTO(Page<JobDocument> jobs, JobsFacetDTO dto) {
         for ( JobDocument doc : jobs.getContent() ) {
             JobDTO jobdto = new JobDTO(doc);

@@ -19,7 +19,17 @@ TiaonaerApp.vent.on("complain:detail", function(model) {
         TiaonaerApp.showPage(TiaonaerApp.ViewInstances.ComplainDetailView, true);
     } else {
         TiaonaerApp.ViewInstances.ComplainDetailView.switchModel(model);
-        TiaonaerApp.ViewInstances.ComplainDetailView.render();
         TiaonaerApp.showPage(TiaonaerApp.ViewInstances.ComplainDetailView, false);
+    }
+});
+
+TiaonaerApp.vent.on("complain:admindetail", function(model) {
+    console.log("Processing complain:admindetail event");
+    if ( TiaonaerApp.ViewInstances.ComplainAdminDetailView === undefined ) {
+        TiaonaerApp.ViewInstances.ComplainAdminDetailView = new TiaonaerApp.Views.ComplainAdminDetailView({model:model});
+        TiaonaerApp.showPage(TiaonaerApp.ViewInstances.ComplainAdminDetailView, true);
+    } else {
+        TiaonaerApp.ViewInstances.ComplainAdminDetailView.switchModel(model);
+        TiaonaerApp.showPage(TiaonaerApp.ViewInstances.ComplainAdminDetailView, false);
     }
 });

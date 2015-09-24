@@ -47,7 +47,7 @@ public class ComplainService {
         LOGGER.debug("add Complain");
 
         if ( repository.count(dto.getJob_id(), securityContextUtil.getUser_id()) > 0 ) {
-            throw new CustomRequestException("You have complained about this job");
+            throw new CustomRequestException("You have complained about this job before");
         } else if ( dto.getUser_id() != null && !dto.getUser_id().equals(securityContextUtil.getUser_id()) ) {
             throw new CustomRequestException("Can only complain with user id of yourself");
         } else {
@@ -144,20 +144,8 @@ public class ComplainService {
             LOGGER.warn("404 Complained Job not exist in repository, data mismatch, id: {}", model.getJob_id());
             dto.setJob_title("Job Removed From Database already!");
         } else {
-            // Fill all job detail info, Dont need refetch again when approve Complain.
             dto.setJob_title(doc.getJob_title());
             dto.setJob_company(doc.getJob_company());
-            dto.setJob_sub_company(doc.getJob_sub_company());
-            dto.setJob_category_domain(doc.getJob_category_domain());
-            dto.setJob_description(doc.getJob_description());
-            dto.setJob_expire_date(doc.getJob_expire_date());
-            dto.setJob_expired(doc.getJob_expired());
-            dto.setJob_index_date(doc.getJob_index_date());
-            dto.setJob_location(doc.getJob_location());
-            dto.setJob_post_date(doc.getJob_post_date());
-            dto.setJob_type(doc.getJob_type());
-            dto.setJob_url(doc.getJob_url());
-            dto.setJob_url_type(doc.getJob_url_type());
         }
         return dto;
     }

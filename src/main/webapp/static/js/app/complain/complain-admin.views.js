@@ -11,7 +11,7 @@ TiaonaerApp.Views.ComplainAdminItemView = Marionette.View.extend({
     events: {
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
-        'click a.detail': function(e) { TiaonaerApp.vent.trigger("complain:detail", this.model); }
+        'click a.detail': function(e) { TiaonaerApp.vent.trigger("complain:admindetail", this.model); }
     },
 });
 
@@ -92,15 +92,19 @@ TiaonaerApp.Views.ComplainAdminListView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
-    id: "complain_detail_page",
+TiaonaerApp.Views.ComplainAdminDetailView = Marionette.View.extend({
+    id: "complain_admin_detail_page",
     model: TiaonaerApp.Models.Complain,
     initialize:function() {
-        this.template = _.template(tpl.get('template-complain-detail-view'));
+        this.template = _.template(tpl.get('template-complain-admin-detail-view'));
         this.listenTo(this.model, "change", this.modelAttrChanged);
+        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        this.job_model_ready = false;
+        var self = this;
+        this.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     events: {
-        'click a.goback': function(e) { window.history.back();console.log("after goback"); e.preventDefault(); },
+        'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
     },
@@ -108,12 +112,19 @@ TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
         this.stopListening(this.model);
         this.model = model;
         this.listenTo(this.model, "change", this.modelAttrChanged);
+
+        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        var self = this;
+        this.job_model.fetch({success:function() {self.render();}});
     },
     modelAttrChanged: function() {
         this.render();
     },
     render:function (eventName) {
-        $(this.el).html(this.template(this.model.toJSON()));
+        if ( !this.job_model_ready) return;
+        var merge = _.extend(this.model.toJSON(), this.job_model.toJSON());
+
+        $(this.el).html(this.template(merge));
         $(this.el).trigger('create');
         $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
         $('.ui-footer', this.el).toolbar('refresh');

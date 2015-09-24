@@ -197,7 +197,8 @@ $(document).ready(function(){
             'template-complainlist-view',
             'template-complainitem-admin-view',
             'template-complainlist-admin-view',
-            'template-complain-detail-view'
+            'template-complain-detail-view',
+            'template-complain-admin-detail-view'
         ],
         function () {
             console.log("before TiaonaerApp.start");

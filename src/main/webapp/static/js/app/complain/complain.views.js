@@ -7,6 +7,9 @@ TiaonaerApp.Views.ComplainItemView = Marionette.View.extend({
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
     },
+    events: {
+        'click a.detail': function(e) { TiaonaerApp.vent.trigger("complain:detail", this.model); }
+    }
 });
 
 TiaonaerApp.Views.ComplainListView = Marionette.View.extend({
@@ -59,6 +62,42 @@ TiaonaerApp.Views.ComplainListView = Marionette.View.extend({
     },
 });
 
+TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
+    id: "complain_detail_page",
+    model: TiaonaerApp.Models.Complain,
+    initialize:function() {
+        this.template = _.template(tpl.get('template-complain-detail-view'));
+        this.listenTo(this.model, "change", this.modelAttrChanged);
+        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        this.job_model_ready = false;
+        var self = this;
+        this.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
+    },
+    events: {
+        'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
+    },
+    switchModel: function(model) {
+        this.stopListening(this.model);
+        this.model = model;
+        this.listenTo(this.model, "change", this.modelAttrChanged);
 
+        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        var self = this;
+        this.job_model.fetch({success:function() {self.render();}});
+    },
+    modelAttrChanged: function() {
+        this.render();
+    },
+    render:function (eventName) {
+        if ( !this.job_model_ready) return;
+        var merge = _.extend(this.model.toJSON(), this.job_model.toJSON());
+
+        $(this.el).html(this.template(merge));
+        $(this.el).trigger('create');
+        $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
+        $('.ui-footer', this.el).toolbar('refresh');
+        return this;
+    },
+});
 
 

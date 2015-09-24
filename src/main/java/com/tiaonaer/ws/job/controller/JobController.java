@@ -2,9 +2,11 @@ package com.tiaonaer.ws.job.controller;
 
 import com.tiaonaer.ws.common.util.LocaleContextHolderWrapper;
 import com.tiaonaer.ws.job.document.JobDocument;
+import com.tiaonaer.ws.job.dto.CommentDTO;
 import com.tiaonaer.ws.job.dto.FormValidationErrorDTO;
 import com.tiaonaer.ws.job.dto.JobDTO;
 import com.tiaonaer.ws.job.dto.JobsFacetDTO;
+import com.tiaonaer.ws.job.exception.CommentNotFoundException;
 import com.tiaonaer.ws.job.exception.CustomRequestException;
 import com.tiaonaer.ws.job.exception.FormValidationError;
 import com.tiaonaer.ws.job.service.JobService;
@@ -83,6 +85,20 @@ public class JobController {
             throw new CustomRequestException("Job ID mismatch with id in request url");
         else
             return service.update(dto);
+    }
+
+    // use Regular Expression to match job_id due to the invalid chars.
+    @RequestMapping(value = "/api/job/{id:.+}", method = RequestMethod.GET)
+    @ResponseBody
+    public JobDTO findById(@PathVariable("id") String job_id) throws CustomRequestException {
+        LOGGER.debug("Finding job with id: " + job_id);
+        try {
+            job_id = java.net.URLDecoder.decode(job_id, "utf-8");
+        } catch ( java.io.UnsupportedEncodingException e ) {
+            throw new CustomRequestException("Invalid Job ID");
+        };
+        LOGGER.debug("job_id after url decode: " + job_id);
+        return service.findByJobID(job_id);
     }
 
 /*

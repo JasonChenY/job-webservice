@@ -1,7 +1,6 @@
-<a href="#job/view/<%= job_id %>" data-transition="pop">
-    <%= job_title %>
+<a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+    <%= job_title %> --- <%= job_company %>
     <p>
-        <span><%= job_company %></span>
         <span>举报事项:
             <%
             switch(type) {
