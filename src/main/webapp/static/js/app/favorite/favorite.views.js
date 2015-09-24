@@ -9,6 +9,7 @@ TiaonaerApp.Views.FavoriteItemView = Marionette.View.extend({
     },
     events: {
         'click a.favorite': function(e) { this.favorite(); e.preventDefault();} ,
+        'click a.detail': function(e) {TiaonaerApp.vent.trigger("favorite:detail", this.model);}
     },
     favorite: function(e) {
         this.model.destroy({
