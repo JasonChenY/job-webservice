@@ -1,12 +1,21 @@
 <!--div data-role="page" id="home" data-title="我的跳哪儿"-->
-    <div data-role="header" data-theme="b"><h1>我的跳哪儿</h1></div>
+    <div data-role="header" data-theme="b">
+        <h1>我的跳哪儿</h1>
+        <% if ( username === 'anonymous' ) { %>
+        <button id="btn_login" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user">未登录</button>
+        <%} else {%>
+        <button id="btn_logout" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user"><%= username %><%if(role==='ROLE_ADMIN'){print("(管理员)");};%>-退出</button>
+        <%}%>
+    </div>
     <div data-role="content">
         <div class="ui-grid-a ui-responsive">
             <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_job" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-search">搜索</button></div></div>
             <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_favorite" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-heart">我的收藏</button></div></div>
-            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">我的举报</button></div></div>
-            <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_comment" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-heart">我的评论</button></div></div>
-            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain_admin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">待处理举报</button></div></div>
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-mail">我的举报</button></div></div>
+            <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_comment" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">我的评论</button></div></div>
+            <% if ( role === 'ROLE_ADMIN' ) { %>
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain_admin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-eye">待处理举报</button></div></div>
+            <% } %>
         </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">

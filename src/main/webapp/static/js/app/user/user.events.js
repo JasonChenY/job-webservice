@@ -1,6 +1,5 @@
 TiaonaerApp.vent.on("routing:started", function(){
     if( ! Backbone.History.started) {
-        console.log("Backbone.history.start()");
         Backbone.history.start();
     }
 })
@@ -19,15 +18,36 @@ TiaonaerApp.vent.on("user:loginFailed", function() {
 
 TiaonaerApp.vent.on("user:loginSuccess", function() {
     console.log("handle user:loginSuccess");
-    var showTodoList = function() {
-        Backbone.history.navigate("#/");
-        TiaonaerApp.showLogoutLinkAndSearchForm();
-    }
+    $.ajax({
+        async: false,
+        type: "GET",
+        url: "/api/user",
+        success: function(user) {
+            if (user.username) {
+                console.log("Found logged in user: ", user);
+                TiaonaerApp.ViewInstances.UserHomeView.userLoggedIn(user);
 
-    TiaonaerApp.getLoggedInUser(showTodoList);
+                // restore back to the view triggered the login process.
+                window.history.back();
+            } else {
+                console.log("Logged in user was not found.")
+            }
+        }
+    });
+
+    /*
+    var restore_page = function() {
+        window.history.back();
+    }
+    TiaonaerApp.getLoggedInUser(restore_page);
+    */
+});
+
+TiaonaerApp.vent.on("user:logout", function() {
+    Backbone.history.navigate("#/user/logout");
 });
 
 TiaonaerApp.vent.on("user:logoutSuccess", function() {
-    TiaonaerApp.setUserAsAnonymous();
+    TiaonaerApp.ViewInstances.UserHomeView.userLoggedOut();
     Backbone.history.navigate("#/");
 });

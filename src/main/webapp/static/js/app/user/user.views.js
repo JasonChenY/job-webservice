@@ -1,8 +1,19 @@
-TiaonaerApp.Views.LoginView = Marionette.ItemView.extend({
-    template: "#template-login-view",
-    events: {
-        "click #login-button": "login"
+TiaonaerApp.Views.LoginView = Backbone.View.extend({
+    id: 'login_page',
+    initialize:function () {
+        this.template = _.template(tpl.get('template-login-view'));
     },
+
+    render:function (eventName) {
+        $(this.el).html(this.template());
+        return this;
+    },
+
+    events: {
+        "click #btn-user-login": "login",
+        "click #btn-login-cancel": "login_cancel"
+    },
+
     login: function() {
         console.log("Log in");
         var user = {};
@@ -12,20 +23,28 @@ TiaonaerApp.Views.LoginView = Marionette.ItemView.extend({
             console.log("Trigger user:loginSuccess");
             TiaonaerApp.vent.trigger("user:loginSuccess");
         })
+    },
+
+    login_cancel : function() {
+        // Not use window.history.back() or window.history.go(-2)
+        // Because we might be here from homeview->...   or homeview->favorite/list->...
+        // Might consider introduce source view later.
+        Backbone.history.navigate("#/");
     }
 });
 
 TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
     id: 'home_page',
-    //template: false,
-    //template: "#template-home-view",
-
+    model: TiaonaerApp.Models.User,
     initialize:function () {
         this.template = _.template(tpl.get('template-home-view'));
+        // Cant listen to model here, we are using a fake model, without url.
+        //this.listenTo(this.model, "change", this.render());
     },
 
-    render:function (eventName) {
-        $(this.el).html(this.template());
+    render:function () {
+        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).trigger('create');
         return this;
     },
 
@@ -40,5 +59,30 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         'click #btn_favorite': function() { TiaonaerApp.vent.trigger("favorite:list"); },
         'click #btn_complain': function() { TiaonaerApp.vent.trigger("complain:list"); },
         'click #btn_complain_admin': function() { TiaonaerApp.vent.trigger("complain:adminlist"); },
+        'click #btn_login': function() { TiaonaerApp.vent.trigger("user:login"); },
+        'click #btn_logout': function() { TiaonaerApp.vent.trigger("user:logout"); }
     },
+
+    isUserLoggedIn: function () {
+        return !this.model.isAnonymousUser();
+    },
+
+    userLoggedIn: function(user) {
+        this.model.set({
+            username: user.username,
+            role: user.role,
+            when: _.now()
+        });
+        console.log(this.model.toJSON());
+        this.render();
+    },
+
+    userLoggedOut: function() {
+        this.model.set({
+            username: "anonymous",
+            role: "ROLE_ANONYMOUS",
+            when: _.now()
+        });
+        this.render();
+    }
 });

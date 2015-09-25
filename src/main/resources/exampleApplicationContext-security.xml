@@ -7,6 +7,7 @@
 
     <!-- Disable security on static resources -->
     <security:http pattern="/static/**" security="none"/>
+    <security:http pattern="/index.html" security="none"/>
 
     <!-- Enable Spring Security -->
     <security:http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true">

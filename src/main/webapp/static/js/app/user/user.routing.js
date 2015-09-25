@@ -13,7 +13,6 @@ TiaonaerApp.UserRouting = function() {
         UserRouting.router = new UserRouting.Router({
             controller: TiaonaerApp.Controllers.UserController
         });
-        console.log("Trigger routing:started")
         TiaonaerApp.vent.trigger("routing:started");
     });
 

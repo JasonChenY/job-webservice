@@ -14,23 +14,7 @@ window.log = function(){
     }
 };
 
-Backbone.Marionette.TemplateCache.prototype.compileTemplate = function(rawTemplate){
-    return rawTemplate;
-};
-
-//Configures Backbone.Marionette to render the Handlebar template with the given data
-Backbone.Marionette.Renderer.render = function(template, data){
-    var handleBarsTemplate = Handlebars.compile($(template).html());
-    return handleBarsTemplate(data);
-};
-
 var TiaonaerApp = new Backbone.Marionette.Application();
-
-TiaonaerApp.addRegions({
-    mainRegion: "#view-content",
-    messageRegion: "#message-holder",
-    modalRegion: "#dialog-holder"
-});
 
 TiaonaerApp.Collections = {};
 TiaonaerApp.Controllers = {};
@@ -39,14 +23,6 @@ TiaonaerApp.Translations = {};
 TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
 TiaonaerApp.ViewInstances = {};
-
-TiaonaerApp.SearchFilter = {};
-
-TiaonaerApp.Pagination = {
-    order: 1, //1 means descending and -1 ascending order
-    pageSize: 10,
-    sortProperty: "id"
-}
 
 TiaonaerApp.spinner = new Spinner({
     lines: 13, // The number of lines to draw
@@ -66,57 +42,14 @@ TiaonaerApp.spinner = new Spinner({
     left: 'auto' // Left position relative to parent in px
 });
 
-TiaonaerApp.user = 'anonymous';
 TiaonaerApp.isAnonymousUser = function() {
-    if (TiaonaerApp.user === 'anonymous') {
-        window.log("User is anonymous");
+    if ( (TiaonaerApp.ViewInstances.UserHomeView === undefined)
+    || (TiaonaerApp.ViewInstances.UserHomeView.isUserLoggedIn() == false) ) {
+        console.log('isAnonymousUser');
         return true;
+    } else {
+        return false;
     }
-    return false;
-}
-
-TiaonaerApp.addInitializer(function(){
-    TiaonaerApp.getLoggedInUser(TiaonaerApp.showLogoutLinkAndSearchForm);
-    this.firstPage = true;
-});
-/*
-TiaonaerApp.addInitializer(function(){
-    $(".navbar").on("keypress", ".search-query", function(e) {
-        if (e.keyCode == 13) {
-            TiaonaerApp.vent.trigger("todo:search", $(this).val());
-        }
-    });
-});
-*/
-TiaonaerApp.getLoggedInUser = function(callback) {
-    $.ajax({
-        async: false,
-        type: "GET",
-        url: "/api/user",
-        success: function(data) {
-            if (data.username) {
-                console.log("Found logged in user: ", data);
-                TiaonaerApp.user = new TiaonaerApp.Models.User(data);
-                if (callback) {
-                    callback();
-                }
-            }
-            else {
-                console.log("Logged in user was not found.")
-            }
-        }
-    });
-}
-
-TiaonaerApp.setUserAsAnonymous = function() {
-    $("#logout-link-holder").addClass("hidden");
-    $("#search-form-holder").addClass("hidden");
-    TiaonaerApp.user = 'anonymous';
-}
-
-TiaonaerApp.showLogoutLinkAndSearchForm = function() {
-    $("#logout-link-holder").removeClass("hidden");
-    $("#search-form-holder").removeClass("hidden");
 };
 
 //Helper function to switch page
@@ -198,12 +131,11 @@ $(document).ready(function(){
             'template-complainitem-admin-view',
             'template-complainlist-admin-view',
             'template-complain-detail-view',
-            'template-complain-admin-detail-view'
+            'template-complain-admin-detail-view',
+            'template-login-view'
         ],
         function () {
-            console.log("before TiaonaerApp.start");
             TiaonaerApp.start();
-            console.log("After TiaonaerApp.start");
         });
 });
 
