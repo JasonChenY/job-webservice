@@ -6,6 +6,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
 
     render:function (eventName) {
         $(this.el).html(this.template());
+        $('#for-display-error', this.el).hide();
         return this;
     },
 
@@ -16,6 +17,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
 
     login: function() {
         console.log("Log in");
+        $('#for-display-error', this.el).hide();
         var user = {};
         user.username = $("#user-username").val();
         user.password = $("#user-password").val();
@@ -30,6 +32,10 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         // Because we might be here from homeview->...   or homeview->favorite/list->...
         // Might consider introduce source view later.
         Backbone.history.navigate("#/");
+    },
+
+    login_failed: function(error) {
+        $('#for-display-error', this.el).show();
     }
 });
 

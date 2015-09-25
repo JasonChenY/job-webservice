@@ -79,30 +79,27 @@ $(document).bind('ajaxStart', function() {
     TiaonaerApp.spinner.spin(document.getElementById('activity-indicator'));
 }).bind('ajaxError', function(event, request ,settings) {
     console.log('ajaxError with status code: ', request.status);
-
+    console.log(request);
+    console.log(request.status);
+    console.log(request.statusText);
     TiaonaerApp.spinner.stop();
 
-    if (request.status != 400) {
-        if (request.status == 404) {
+    if (request.status !== 400) {
+        if (request.status === 404) {
             TiaonaerApp.vent.trigger("error:404");
-        }
-        else if (request.status == 401) {
-            if (TiaonaerApp.user !== 'anonymous') {
-                console.log("Found user: ", TiaonaerApp.user)
+        } else if (request.status === 401) {
+            if ( !TiaonaerApp.isAnonymousUser() ) {
                 TiaonaerApp.vent.trigger("error:notAuthorized");
-            }
-            else {
+            } else {
                 if (request.statusText === "Bad credentials") {
                     console.log("Login failed.")
                     TiaonaerApp.vent.trigger("user:loginFailed");
-                }
-                else {
+                } else {
                     console.log("User is anonymous")
                     TiaonaerApp.vent.trigger("user:login");
                 }
             }
-        }
-        else {
+        } else {
             TiaonaerApp.vent.trigger("error:error");
         }
     }

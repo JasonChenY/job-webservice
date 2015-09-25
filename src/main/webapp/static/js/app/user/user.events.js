@@ -10,10 +10,8 @@ TiaonaerApp.vent.on("user:login", function(){
 });
 
 TiaonaerApp.vent.on("user:loginFailed", function() {
-    var translatedErrorMessage = i18n.t("loginFailed");
-    var errorMessage = new TiaonaerApp.Models.FeedbackMessage({message: translatedErrorMessage});
-    var errorMessageView = new TiaonaerApp.Views.ErrorMessageView({model: errorMessage});
-    TiaonaerApp.messageRegion.show(errorMessageView);
+    // extend to include detail error info.
+    TiaonaerApp.ViewInstances.LoginView.login_failed(null);
 });
 
 TiaonaerApp.vent.on("user:loginSuccess", function() {
