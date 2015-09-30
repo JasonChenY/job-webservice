@@ -23,7 +23,7 @@ TiaonaerApp.Controllers.UserController = {
     logout: function() {
         console.log("Logging user out");
         if ( !TiaonaerApp.isAnonymousUser() ) {
-            $.get("/api/logout", function(data) {
+            $.get(TiaonaerApp.ServiceUrl+"/api/logout", function(data) {
                 window.log("Logout successful. Received data: ", data);
                 TiaonaerApp.vent.trigger("user:logoutSuccess");
             });

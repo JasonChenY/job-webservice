@@ -19,7 +19,7 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
     $.ajax({
         async: false,
         type: "GET",
-        url: "/api/user",
+        url: TiaonaerApp.ServiceUrl+"/api/user",
         success: function(user) {
             if (user.username) {
                 console.log("Found logged in user: ", user);

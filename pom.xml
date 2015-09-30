@@ -157,6 +157,19 @@
                 </executions>
             </plugin-->
             <plugin>
+                <!--groupId>org.codehaus.mojo</groupId-->
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <server>jobws</server>
+                    <url>http://127.0.0.1/manager/text</url>
+                    <path>/jobws</path>
+                    <username>deployer</username>
+                    <password>tomcat</password>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>

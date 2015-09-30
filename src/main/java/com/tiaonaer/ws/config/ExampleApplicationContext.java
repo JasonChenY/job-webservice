@@ -25,11 +25,7 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
-        "com.tiaonaer.ws.common",
-        "com.tiaonaer.ws.job.controller",
-        "com.tiaonaer.ws.job.service",
-        "com.tiaonaer.ws.security",
-        "com.tiaonaer.ws.user.controller"
+        "com.tiaonaer.ws"
 })
 @Import({EmbeddedSolrContext.class, HttpSolrContext.class, PersistenceContext.class})
 @ImportResource("classpath:exampleApplicationContext-security.xml")

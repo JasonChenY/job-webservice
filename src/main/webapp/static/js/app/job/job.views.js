@@ -148,7 +148,7 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
         // in order to decouple between joblist and jobsearch view, use ajax directly.
         var self = this;
         $.ajax({
-            url: "/api/job?facet=true",
+            url: TiaonaerApp.ServiceUrl + "/api/job?facet=true",
             dataType: 'json',
             crossDomain: false,
             success:  function(facets) {

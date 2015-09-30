@@ -24,6 +24,8 @@ TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
 TiaonaerApp.ViewInstances = {};
 
+TiaonaerApp.ServiceUrl = "http://192.168.137.128/jobws";
+
 TiaonaerApp.spinner = new Spinner({
     lines: 13, // The number of lines to draw
     length: 30, // The length of each line
@@ -79,9 +81,6 @@ $(document).bind('ajaxStart', function() {
     TiaonaerApp.spinner.spin(document.getElementById('activity-indicator'));
 }).bind('ajaxError', function(event, request ,settings) {
     console.log('ajaxError with status code: ', request.status);
-    console.log(request);
-    console.log(request.status);
-    console.log(request.statusText);
     TiaonaerApp.spinner.stop();
 
     if (request.status !== 400) {
