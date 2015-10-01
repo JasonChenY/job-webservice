@@ -1,5 +1,5 @@
 TiaonaerApp.Models.Complain = Backbone.Model.extend({
-    urlRoot: "/api/complain",
+    urlRoot: "api/complain",
 
     updateAttr: function(attrs) {
         this.save(attrs,

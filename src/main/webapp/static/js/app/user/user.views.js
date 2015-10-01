@@ -25,10 +25,23 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         //var pathname = $(location).attr('pathname');
         //var path = pathname.substring(0, pathname.lastIndexOf('/'));
 
-        $.post(TiaonaerApp.ServiceUrl + "/api/login", user, function(){
+        /*$.post(TiaonaerApp.ServiceUrl + "/api/login", user, function(){
             console.log("Trigger user:loginSuccess");
             TiaonaerApp.vent.trigger("user:loginSuccess");
-        })
+        });*/
+        $.ajax({
+            type: "POST",
+            url: TiaonaerApp.ServiceUrl + "/api/login",
+            data: user,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: function(data, status, xhr){
+                console.log("Trigger user:loginSuccess");
+                TiaonaerApp.vent.trigger("user:loginSuccess");
+            }
+        });
     },
 
     login_cancel : function() {

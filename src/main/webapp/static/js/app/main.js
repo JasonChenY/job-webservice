@@ -14,6 +14,20 @@ window.log = function(){
     }
 };
 
+(function() {
+  var proxiedSync = Backbone.sync;
+  Backbone.sync = function(method, model, options) {
+    options || (options = {});
+    if (!options.crossDomain) {
+      options.crossDomain = true;
+    }
+    if (!options.xhrFields) {
+      options.xhrFields = {withCredentials:true};
+    }
+    return proxiedSync(method, model, options);
+  };
+})();
+
 var TiaonaerApp = new Backbone.Marionette.Application();
 
 TiaonaerApp.Collections = {};
@@ -24,7 +38,7 @@ TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
 TiaonaerApp.ViewInstances = {};
 
-TiaonaerApp.ServiceUrl = "http://192.168.137.128/jobws";
+TiaonaerApp.ServiceUrl = "https://192.168.137.128/jobws";
 
 TiaonaerApp.spinner = new Spinner({
     lines: 13, // The number of lines to draw

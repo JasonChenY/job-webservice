@@ -17,9 +17,15 @@ TiaonaerApp.vent.on("user:loginFailed", function() {
 TiaonaerApp.vent.on("user:loginSuccess", function() {
     console.log("handle user:loginSuccess");
     $.ajax({
-        async: false,
+        //async: false,
         type: "GET",
-        url: TiaonaerApp.ServiceUrl+"/api/user",
+        url: TiaonaerApp.ServiceUrl + "/api/user",
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        beforeSend:function(){
+        },
         success: function(user) {
             if (user.username) {
                 console.log("Found logged in user: ", user);

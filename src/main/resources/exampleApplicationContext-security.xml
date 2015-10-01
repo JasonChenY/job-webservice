@@ -12,6 +12,7 @@
     <!-- Enable Spring Security -->
     <security:http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true">
         <security:csrf disabled="true"/>
+        <security:custom-filter ref="corsFilter" before="HEADERS_FILTER"/>
         <!-- Adds the custom login filter to the Spring Security filter chain -->
         <security:custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER"/>
         <!-- Add the logout filter to the Spring Security filter chain -->
@@ -23,6 +24,8 @@
         <!-- Adds a reference to the used expression handler bean -->
         <security:expression-handler ref="expressionHandler"/>
     </security:global-method-security>
+
+    <bean id="corsFilter" class="com.tiaonaer.ws.security.util.CorsFilter"/>
 
     <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
         <property name="permissionEvaluator" ref="CustomPermissionEvaluator" />

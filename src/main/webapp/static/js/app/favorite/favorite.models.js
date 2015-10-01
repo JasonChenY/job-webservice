@@ -1,5 +1,5 @@
 TiaonaerApp.Models.Favorite = Backbone.Model.extend({
-    urlRoot: "/api/favorite"
+    urlRoot: "api/favorite"
 });
 
 TiaonaerApp.Collections.FavoriteList = Backbone.PageableCollection.extend({
