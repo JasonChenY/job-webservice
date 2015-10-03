@@ -80,7 +80,7 @@ TiaonaerApp.Collections.JobList = Backbone.PageableCollection.extend({
         firstPage: 1,
         order: 1,
         pageSize: 10,
-        sortKey: "job_post_date",
+        sortKey: "job_post_date"
     },
 
     queryParams: {
@@ -108,5 +108,5 @@ TiaonaerApp.Collections.JobList = Backbone.PageableCollection.extend({
     parseRecords: function (resp, options) {
         console.log("parseRecords called");
         return resp.jobs;
-    },
+    }
 });

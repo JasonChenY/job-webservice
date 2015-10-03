@@ -14,5 +14,5 @@ TiaonaerApp.Controllers.FavoriteController = {
                 TiaonaerApp.showPage(TiaonaerApp.ViewInstances.FavoriteListView, false);
             }
         }
-    },
+    }
 };

@@ -96,8 +96,7 @@ TiaonaerApp.Views.FavoriteListView = Marionette.View.extend({
         $(this.el).html(this.template());
         this.collectionReset();
         return this;
-    },
-
+    }
 });
 
 

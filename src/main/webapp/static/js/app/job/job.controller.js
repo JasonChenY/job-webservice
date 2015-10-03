@@ -112,5 +112,5 @@ TiaonaerApp.Controllers.JobController = {
             TiaonaerApp.ViewInstances.JobListView.updateCollection(parseQueryString(filters));
             TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, false);
         }
-    },
+    }
 };

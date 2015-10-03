@@ -42,5 +42,5 @@ TiaonaerApp.Controllers.UserController = {
         } else {
             console.log("Not logged in yet");
         }
-    },
+    }
 };

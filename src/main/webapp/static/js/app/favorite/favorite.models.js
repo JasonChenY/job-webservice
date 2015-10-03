@@ -8,14 +8,14 @@ TiaonaerApp.Collections.FavoriteList = Backbone.PageableCollection.extend({
     state: {
         firstPage: 1,
         order: 1,
-        pageSize: 10,
+        pageSize: 10
     },
 
     queryParams: {
         currentPage: "page.page",
         pageSize: "page.size",
         sortKey: "page.sort",
-        order: "page.sort.dir",
+        order: "page.sort.dir"
     },
 
     parseState: function (resp, queryParams, state, options) {
@@ -26,5 +26,5 @@ TiaonaerApp.Collections.FavoriteList = Backbone.PageableCollection.extend({
     parseRecords: function (resp, options) {
         console.log("parseRecords called");
         return resp.favorites;
-    },
+    }
 });

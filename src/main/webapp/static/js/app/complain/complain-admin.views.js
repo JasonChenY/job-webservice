@@ -12,7 +12,7 @@ TiaonaerApp.Views.ComplainAdminItemView = Marionette.View.extend({
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
         'click a.detail': function(e) { TiaonaerApp.vent.trigger("complain:admindetail", this.model); }
-    },
+    }
 });
 
 TiaonaerApp.Views.ComplainAdminListView = Marionette.View.extend({
@@ -129,5 +129,5 @@ TiaonaerApp.Views.ComplainAdminDetailView = Marionette.View.extend({
         $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
         $('.ui-footer', this.el).toolbar('refresh');
         return this;
-    },
+    }
 });

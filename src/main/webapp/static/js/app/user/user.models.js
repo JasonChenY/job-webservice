@@ -11,5 +11,5 @@ TiaonaerApp.Models.User = Backbone.Model.extend({
             return true;
         }
         return false;
-    },
+    }
 });

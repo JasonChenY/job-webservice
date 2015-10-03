@@ -59,7 +59,7 @@ TiaonaerApp.Views.ComplainListView = Marionette.View.extend({
         $(this.el).html(this.template());
         this.collectionReset();
         return this;
-    },
+    }
 });
 
 TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
@@ -97,7 +97,7 @@ TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
         $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
         $('.ui-footer', this.el).toolbar('refresh');
         return this;
-    },
+    }
 });
 
 

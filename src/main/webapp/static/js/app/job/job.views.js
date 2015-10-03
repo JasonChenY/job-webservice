@@ -20,7 +20,7 @@ TiaonaerApp.Views.JobItemView = Marionette.View.extend({
 
     jobdetail: function(e) {
         TiaonaerApp.vent.trigger("jobdetail:view", this.model);
-    },
+    }
 });
 
 TiaonaerApp.Views.JobListView = Marionette.View.extend({
@@ -96,7 +96,7 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
         $(this.el).html(this.template());
         this.collectionReset();
         return this;
-    },
+    }
 });
 
 TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
@@ -132,7 +132,7 @@ TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
         $('#complain_type', this.el).selectmenu({inline: true});
         $('.ui-footer', this.el).toolbar('refresh');
         return this;
-    },
+    }
 });
 
 Date.prototype.minusDays = function(days) {
@@ -199,7 +199,7 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
     events: {
         'click [data-role="navbar"] a': "refresh_iscroll",
         'click #jobfilter_reset': "reset_filter",
-        'click #jobfilter_search': "job_filter",
+        'click #jobfilter_search': "job_filter"
     },
 
     refresh_iscroll: function(event) {

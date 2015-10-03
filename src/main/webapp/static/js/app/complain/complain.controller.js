@@ -30,5 +30,5 @@ TiaonaerApp.Controllers.ComplainController = {
                 TiaonaerApp.showPage(TiaonaerApp.ViewInstances.ComplainAdminListView, false);
             }
         }
-    },
+    }
 };
