@@ -150,7 +150,10 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
         $.ajax({
             url: TiaonaerApp.ServiceUrl + "/api/job?facet=true",
             dataType: 'json',
-            crossDomain: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
             success:  function(facets) {
                 self.GotData(facets);
             }
