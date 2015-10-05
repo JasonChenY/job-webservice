@@ -14,6 +14,10 @@ window.log = function(){
     }
 };
 
+/* for IE9 cors issue ( not support XmlHttpRequest ) */
+$.support.cors = true;
+
+/* for ajax request from backbone */
 (function() {
   var proxiedSync = Backbone.sync;
   Backbone.sync = function(method, model, options) {
