@@ -1,7 +1,8 @@
-TiaonaerApp.Views.FavoriteItemView = Marionette.View.extend({
+TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
     tagName: "li",
+    template: '#template-favoriteitem-view',
     initialize:function () {
-        this.template = _.template(tpl.get('template-favoriteitem-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
     },
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
@@ -24,13 +25,14 @@ TiaonaerApp.Views.FavoriteItemView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.FavoriteListView = Marionette.View.extend({
+TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
     id: "favoritelist_page",
+    template: '#template-favoritelist-view',
     model: TiaonaerApp.Models.Favorite,
 
     initialize:function () {
         console.log("FavoriteListView's initialize");
-        this.template = _.template(tpl.get('template-favoritelist-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection = new TiaonaerApp.Collections.FavoriteList();
         this.listenTo(this.collection, "reset", this.collectionReset);
         this.listenTo(this.collection, "remove", this.itemRemove);

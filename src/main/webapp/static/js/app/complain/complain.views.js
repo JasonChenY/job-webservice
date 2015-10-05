@@ -1,7 +1,8 @@
-TiaonaerApp.Views.ComplainItemView = Marionette.View.extend({
+TiaonaerApp.Views.ComplainItemView = Backbone.View.extend({
     tagName: "li",
+    template: '#template-complainitem-view',
     initialize:function () {
-        this.template = _.template(tpl.get('template-complainitem-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
     },
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
@@ -12,13 +13,14 @@ TiaonaerApp.Views.ComplainItemView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainListView = Marionette.View.extend({
+TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
     id: "complainlist_page",
+    template: '#template-complainlist-view',
     model: TiaonaerApp.Models.Complain,
 
     initialize:function () {
         console.log("ComplainListView's initialize");
-        this.template = _.template(tpl.get('template-complainlist-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection = new TiaonaerApp.Collections.ComplainList();
         this.listenTo(this.collection, "reset", this.collectionReset);
         this.fetch_type = 0; // initial fetch, render pagination bar
@@ -62,11 +64,12 @@ TiaonaerApp.Views.ComplainListView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainDetailView = Marionette.View.extend({
+TiaonaerApp.Views.ComplainDetailView = Backbone.View.extend({
     id: "complain_detail_page",
+    template: '#template-complain-detail-view',
     model: TiaonaerApp.Models.Complain,
     initialize:function() {
-        this.template = _.template(tpl.get('template-complain-detail-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.modelAttrChanged);
         this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
         this.job_model_ready = false;

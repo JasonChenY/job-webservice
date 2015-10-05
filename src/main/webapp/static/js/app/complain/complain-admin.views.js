@@ -1,7 +1,8 @@
-TiaonaerApp.Views.ComplainAdminItemView = Marionette.View.extend({
+TiaonaerApp.Views.ComplainAdminItemView = Backbone.View.extend({
     tagName: "li",
+    template: '#template-complainitem-admin-view',
     initialize:function () {
-        this.template = _.template(tpl.get('template-complainitem-admin-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.render);
     },
     render:function (eventName) {
@@ -15,13 +16,14 @@ TiaonaerApp.Views.ComplainAdminItemView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainAdminListView = Marionette.View.extend({
+TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
     id: "complainlist_admin_page",
+    template: '#template-complainlist-admin-view',
     model: TiaonaerApp.Models.Complain,
 
     initialize:function () {
         console.log("ComplainAdminListView's initialize");
-        this.template = _.template(tpl.get('template-complainlist-admin-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection = new TiaonaerApp.Collections.ComplainAdminList();
         this.listenTo(this.collection, "reset", this.collectionReset);
         this.fetch_type = 0; // initial fetch, render pagination bar
@@ -92,11 +94,12 @@ TiaonaerApp.Views.ComplainAdminListView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainAdminDetailView = Marionette.View.extend({
+TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
     id: "complain_admin_detail_page",
+    template: '#template-complain-admin-detail-view',
     model: TiaonaerApp.Models.Complain,
     initialize:function() {
-        this.template = _.template(tpl.get('template-complain-admin-detail-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.modelAttrChanged);
         this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
         this.job_model_ready = false;

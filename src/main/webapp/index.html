@@ -61,5 +61,529 @@
     <script type="text/javascript" src="static/js/app/complain/complain.views.js"></script>
     <script type="text/javascript" src="static/js/app/complain/complain-admin.views.js"></script>
 </head>
-<body></body>
+<body>
+
+<script id="template-home-view" type="text/x-handlebars-template">
+    <!--div data-role="page" id="home" data-title="我的跳哪儿"-->
+    <div data-role="header" data-theme="b">
+        <h1>我的跳哪儿</h1>
+        <% if ( username === 'anonymous' ) { %>
+        <button id="btn_login" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user">未登录</button>
+        <%} else {%>
+        <button id="btn_logout" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user"><%= username %><%if(role==='ROLE_ADMIN'){print("(管理员)");};%>-退出</button>
+        <%}%>
+    </div>
+    <div data-role="content">
+        <div class="ui-grid-a ui-responsive">
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_job" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-search">职位列表</button></div></div>
+            <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_favorite" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-heart">我的收藏</button></div></div>
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-mail">我的举报</button></div></div>
+            <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_comment" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">我的评论</button></div></div>
+            <% if ( role === 'ROLE_ADMIN' ) { %>
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain_admin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-eye">待处理举报</button></div></div>
+            <% } %>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <h1>版权: 2015-2025</h1>
+    </div>
+    <!--/div-->
+</script>
+
+<script id="template-login-view" type="text/x-handlebars-template">
+    <div data-role="header" data-theme="b"><h1>用户登录</h1></div>
+    <div data-role="content">
+        <!--form method="post" id="user-loginform"-->
+        <div class="ui-field-contain">
+            <label for="user-username">帐号:</label>
+            <input type="text" id="user-username" placeholder="" value="" data-mini="true">
+        </div>
+        <div class="ui-field-contain">
+            <label for="user-password">密码:</label>
+            <input type="password" id="user-password" placeholder="" value="" data-mini="true">
+        </div>
+        <div class="ui-field-contain">
+            <fieldset data-role="controlgroup">
+                <legend></legend>
+                <label for="user-rememberme">保持登录状态</label>
+                <input type="checkbox" id="user-rememberme" class="custom" />
+            </fieldset>
+        </div>
+        <div class="ui-field-contain">
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend></legend>
+                <button id="btn-user-register" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-icon-right">注册</button>
+                <button id="btn-user-login" class="ui-shadow ui-btn ui-corner-all ui-icon-user ui-btn-icon-right">登录</button>
+                <button id="btn-login-cancel" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right">取消</button>
+            </fieldset>
+        </div>
+        <div class="ui-field-contain" id="for-display-error">
+            <fieldset data-role="controlgroup">
+                <legend></legend>
+                <div style="color:red">登陆失败,检查用户名密码重试!</div>
+            </fieldset>
+        </div>
+        <!--/form-->
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <h1>版权: 2015-2025</h1>
+    </div>
+</script>
+
+<script id="template-jobitem-view" type="text/x-handlebars-template">
+    <a href="#job/view/<%=id%>" data-transition="pop" class="jobdetail">
+        <%= job_title %>
+        <p>
+            <span><%= job_company %></span>
+            <span><%= job_location %></span>
+            <span><% print(new Date(job_post_date).toLocaleDateString()); %></span>
+            <span><%=favorities_num%>次收藏</span>
+            <span><%=comments_num%>条评论</span>
+        </p>
+    <pre>
+        <% print(strip_tags(job_description)); %>
+    </pre>
+    </a>
+    <% if (favorite_id === 0) { %>
+    <a href="#" data-icon="star" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-star ui-btn-b" data-role="button">收藏</a>
+    <% } else { %>
+    <a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-minus ui-btn-b" data-role="button">取消</a>
+    <% } %>
+</script>
+
+<script id="template-joblist-view" type="text/x-handlebars-template">
+    <!--div id="joblist_page" data-role="page" data-quicklinks="true" class="ui-responsive-panel" data-title="跳哪儿"-->
+    <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
+        <h1>职位列表</h1>
+        <a href="#" id="jobsearch" data-icon="search" data-iconpos="left" data-shadow="false" data-iconshadow="true" class="ui-mini ui-nodisc-icon">搜索</a>
+    </div>
+
+    <div role="main" class="ui-content jqm-content jqm-fullwidth">
+
+        <!--div class="ui-mini" style="overflow: hidden; padding-right: .10em;">
+            <input type="search" id="jobsearch_keyword" class="ui-mini" value="" placeholder="输入关键字查找" style="width: 100%;">
+        </div>
+        <button id="btn_search" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-search" style="float: right; !important">搜索</button-->
+        <!--form action="search.php" method="get">
+            <input type="submit" id="btn_search" value="搜索" style="float: right" />
+            <div style="overflow: hidden; padding-right: .5em;">
+                <input type="text" name="term" style="width: 100%;" />
+            </div>
+        </form-->
+        <!--div class="ui-grid-a grid-a-91">
+            <div class="ui-block-a"><input type="text" id="jobsearch_keyword" value="" class="ui-btn" placeholder="输入关键字查找"></div>
+            <div class="ui-block-b"><button id="btn_search" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-search">搜索</button></div>
+        </div-->
+        <!--div data-role="controlgroup" data-type="horizontal">
+            <input type="text" id="jobsearch_keyword" value="" placeholder="输入关键字查找" data-wrapper-class="controlgroup-textinput ui-btn ui-mini">
+            <button id="btn_search" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-search">搜索</button>
+        </div-->
+        <div data-iscroll='{"vScrollbar": true, "wrapperAdd":-10}' data-role="content" class="joblist_iscroller_wrapper">
+            <!--div class="iscroll-pulldown">
+                <span class="iscroll-pull-icon"></span><span class="iscroll-pull-label" data-iscroll-loading-text="正在读取数据..." data-iscroll-pulled-text="松开开始读取">下拉读取更多</span>
+            </div-->
+            <ul id="joblist" data-role="listview" data-filter="false" data-inset="true" data-split-icon="star" data-split-theme="b"></ul>
+            <!--div class="iscroll-pullup">
+                <span class="iscroll-pull-icon"></span><span class="iscroll-pull-label" data-iscroll-loading-text="正在读取数据..." data-iscroll-pulled-text="松开开始读取">上滑读取更多</span>
+            </div-->
+        </div>
+    </div>
+
+    <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
+        <div class="ui-grid-a grid-a-91">
+            <div class="ui-block-a"><div class="pagination"></div></div>
+            <div class="ui-block-b"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+        </div>
+    </div>
+    <!--/div-->
+</script>
+
+<script id="template-jobsearch-view" type="text/x-handlebars-template">
+    <div data-role="tabs">
+        <div data-role="navbar" class="iscroll-fixed" data-position="fixed">
+            <ul>
+                <li><a href="#jobfilter_company_tab" data-theme="b" data-ajax="false" class="ui-btn-active ui-state-persist">选择公司</a></li>
+                <li><a href="#jobfilter_location_tab" data-theme="b" data-ajax="false">选择地点</a></li>
+                <li><a href="#jobfilter_date_tab" data-theme="b" data-ajax="false">发布日期</a></li>
+            </ul>
+        </div>
+        <div class="ui-body ui-body-d ui-corner-all ui-mini" id="jobfilter_company_tab">
+            <input id="jobfilter_company_input" data-type="search" class="iscroll-fixed" placeholder="输入中文公司名首字母或者英文名查找">
+            <div data-iscroll='{"wrapperAdd":-40}'  data-role="content" class="company_iscroller_wrapper">
+                <div data-role="controlgroup" id="jobfilter_company_ctlgrp" data-filter="true" data-input="#jobfilter_company_input"></div>
+            </div>
+        </div>
+        <div class="ui-body ui-body-d ui-corner-all ui-mini" id="jobfilter_location_tab">
+            <input id="jobfilter_location_input" data-type="search" class="iscroll-fixed" placeholder="输入中文城市名首字母查找">
+            <div data-iscroll='{"wrapperAdd":-40}' data-role="content" class="location_iscroller_wrapper">
+                <div data-role="controlgroup" id="jobfilter_location_ctlgrp" data-filter="true" data-input="#jobfilter_location_input"></div>
+            </div>
+        </div>
+        <div class="ui-body ui-body-d ui-corner-all ui-mini" id="jobfilter_date_tab">
+            <fieldset data-role="controlgroup" data-iconpos="left" data-mini="true" id="jobfilter_date_ctlgrp">
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_all" value="-1" checked="checked">
+                <label for="jobfilter_date_all">所有时间</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_0" value="0">
+                <label for="jobfilter_date_0">最近一天</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_3" value="3">
+                <label for="jobfilter_date_3">最近三天</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_7" value="7">
+                <label for="jobfilter_date_7">最近一周</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_14" value="14">
+                <label for="jobfilter_date_14">最近二周</label>
+                <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_30" value="30">
+                <label for="jobfilter_date_30">最近一月</label>
+            </fieldset>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b">
+        <div class="ui-grid-b grid-b-811">
+            <div class="ui-block-a"><input type="text" data-clear-btn="true" name="jobfilter_keyword_txt" id="jobfilter_keyword" value="" placeholder="关键字查找职位"></div>
+            <!--div class="ui-block-b" data-role="controlgroup" data-type="horizontal"-->
+            <div class="ui-block-b">
+                <a href="#" id="jobfilter_reset" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline">重置</a>
+            </div>
+            <div class="ui-block-c">
+                <a href="#" id="jobfilter_search" data-rel="close" class="ui-btn ui-icon-search ui-btn-icon-left ui-btn-inline">搜索</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="template-jobdetail-view" type="text/x-handlebars-template">
+    <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
+    <div class='ui-content' data-role="content" role="main">
+        <div><%=job_title%></div>
+        <div><%=job_company%></div>
+        <div><%=job_location%></div>
+        <div><% print(new Date(job_post_date).toLocaleDateString()); %></div>
+        <hr>
+        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <% if (favorite_id === 0) { %>
+                <a href="#" data-role="button" data-icon="star" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-star ui-btn-b">收藏</a>
+                <% } else { %>
+                <a href="#" data-role="button" data-icon="minus" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b">取消收藏</a>
+                <% } %>
+            </div>
+            <div class="ui-block-b">
+                <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">去官网申请</a>
+            </div>
+            <div class="ui-block-c">
+                <% if (!complain_pending) { %>
+                <div data-role="controlgroup" data-type="horizontal">
+                    <select id="complain_type">
+                        <option value="0">已过期</option>
+                        <option value="1">内容无效</option>
+                        <option value="2">其他</option>
+                    </select>
+                    <button class="complain">举报</button>
+                </div>
+                <% } else { %>
+                <a href="#" data-role="button" data-icon="comment" class="ui-disabled complain ui-btn ui-icon-comment ui-btn-icon-left ui-btn-b">已有用户举报</a>
+                <% } %>
+            </div>
+            <div class="ui-block-d">
+                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="template-favoriteitem-view" type="text/x-handlebars-template">
+    <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+        <%= job_title %>
+        <p>
+            <span><%= job_company %></span>
+            <span><% if (job_expired) { print("已过期");} %></span>
+        </p>
+    </a>
+    <a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-minus ui-btn-a" data-role="button">取消</a>
+</script>
+
+<script id="template-favoritelist-view" type="text/x-handlebars-template">
+    <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
+        <h1>我的收藏</h1>
+    </div>
+
+    <div role="main" class="ui-content jqm-content jqm-fullwidth">
+        <div data-iscroll='{"vScrollbar": true}' data-role="content" class="favoritelist_iscroller_wrapper">
+            <ul id="favoritelist" data-role="listview" data-inset="true" data-filter="false" data-split-icon="star" data-split-theme="b"></ul>
+        </div>
+    </div>
+
+    <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
+        <div class="ui-grid-a grid-a-91">
+            <div class="ui-block-a"><div class="pagination"></div></div>
+            <div class="ui-block-b"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+        </div>
+    </div>
+</script>
+
+<script id="template-complainitem-view" type="text/x-handlebars-template">
+    <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+        <%= job_title %> --- <%= job_company %>
+        <p>
+        <span>举报事项:
+            <%
+            switch(type) {
+                case 0: print('已过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他'); break;
+            }
+            %>
+        </span>
+            <span>举报时间:<% print(new Date(creationTime).toLocaleDateString()); %></span>
+        <span>状态:
+            <%
+            switch(status) {
+                case 0: print('正在处理中'); break;
+                case 1: print('审核通过，谢谢!'); break;
+                case 2: print('审核未通过'); break;
+            }
+            %>
+        </span>
+        </p>
+    </a>
+</script>
+
+<script id="template-complainlist-view" type="text/x-handlebars-template">
+    <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
+        <h1>我的举报列表</h1>
+    </div>
+
+    <div role="main" class="ui-content jqm-content jqm-fullwidth">
+        <div data-iscroll='{"vScrollbar": true}' data-role="content" class="complainlist_iscroller_wrapper">
+            <ul id="complainlist" data-role="listview" data-inset="true" data-filter="false"></ul>
+        </div>
+    </div>
+
+    <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
+        <div class="ui-grid-a grid-a-91">
+            <div class="ui-block-a"><div class="pagination"></div></div>
+            <div class="ui-block-b"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+        </div>
+    </div>
+</script>
+
+<script id="template-complain-detail-view" type="text/x-handlebars-template">
+    <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
+    <div class='ui-content' data-role="content" role="main">
+        <table width="100%">
+            <tr>
+                <td colspan="2">名称:<%=job_title%></td>
+            </tr>
+            <tr>
+                <td colspan="2">地点:<%=job_location%></td>
+            </tr>
+            <tr>
+                <td>公司:<%=job_company%></td>
+                <td>子公司:<%job_sub_company!=null?print(job_sub_company):print("N/A");%></td>
+            </tr>
+            <tr>
+                <td>发布日期:<%print(new Date(job_post_date).toLocaleDateString());%></td>
+                <td>过期日期:<%job_expire_date!=null?print(new Date(job_expire_date).toLocaleDateString()):print("N/A");%></td>
+            </tr>
+            <% if ( job_category_domain!=null ) {%>
+            <tr>
+                <td colspan="2">领域:<%=job_category_domain%></td>
+            </tr>
+            <% } %>
+        </table>
+        <hr>
+        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <a href="<%=job_title%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="#" class="ui-disabled ui-btn">
+                    举报事项:
+                    <%
+                    switch(type) {
+                    case 0: print('已过期'); break;
+                    case 1: print('内容无效'); break;
+                    case 2: print('其他'); break;
+                    }
+                    %>
+                </a>
+            </div>
+            <div class="ui-block-c">
+                <a href="#" class="ui-disabled ui-btn">
+                    审核状态:
+                    <%
+                    switch(status) {
+                    case 0: print('正在处理中'); break;
+                    case 1: print('已审核通过'); break;
+                    case 2: print('审核未通过'); break;
+                    }
+                    %>
+                </a>
+            </div>
+            <div class="ui-block-d">
+                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="template-complainitem-admin-view" type="text/x-handlebars-template">
+    <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+        <%= job_title %> --- <%= job_company %>
+        <p>
+        <span>举报事项:
+            <%
+            switch(type) {
+                case 0: print('已经过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他事项'); break;
+            }
+            %>
+        </span>
+            <span>举报时间:<% print(new Date(creationTime).toLocaleDateString()); %></span>
+            <span>举报人:<%= user_id %></span>
+
+            <% if ( status == 1 || status == 2 ) { %>
+            <span>审核结果:</span>
+            <% if ( status == 1 ) { %>
+            <span>通过</span>
+            <% } else { %>
+            <span>未通过</span>
+            <% } %>
+            <span><%=approve_user_id%></span><span><%print(new Date(approveTime).toLocaleDateString());%></span>
+            <% } else { %>
+        </p>
+        <p>
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <input type="button" class="accept" value="接受"/>
+            <input type="button" class="reject" value="拒绝"/>
+        </fieldset>
+        <% } %>
+        </p>
+    </a>
+</script>
+
+<script id="template-complainlist-admin-view" type="text/x-handlebars-template">
+    <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
+        <h1>举报列表</h1>
+    </div>
+
+    <div role="main" class="ui-content jqm-content jqm-fullwidth">
+        <div data-iscroll='{"vScrollbar": true}' data-role="content" class="complainlist_iscroller_wrapper">
+            <ul id="complainlist" data-role="listview" data-inset="true" data-filter="false"></ul>
+        </div>
+    </div>
+
+    <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
+        <div class="ui-grid-b grid-b-622">
+            <div class="ui-block-a"><div class="pagination"></div></div>
+            <div class="ui-block-b">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <select name="complaintype" id="complaintype">
+                        <option value="-1" selected="selected">所有</option>
+                            <option value="0">已过期</option>
+                            <option value="1">内容无效</option>
+                        <option value="2">其他</option>
+                    </select>
+                    <select name="complainstatus" id="complainstatus">
+                            <option value="-1">所有</option>
+                            <option value="0" selected="selected">待处理</option>
+                            <option value="1">已审核</option>
+                            <option value="2">已拒绝</option>
+                    </select>
+                </fieldset>
+            </div>
+            <div class="ui-block-c"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+        </div>
+    </div>
+</script>
+
+<script id="template-complain-admin-detail-view" type="text/x-handlebars-template">
+    <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
+    <div class='ui-content' data-role="content" role="main">
+        <table width="100%">
+            <tr>
+                <td colspan="2">名称:<%=job_title%></td>
+            </tr>
+            <tr>
+                <td colspan="2">地点:<%=job_location%></td>
+            </tr>
+            <tr>
+                <td>公司:<%=job_company%></td>
+                <td>子公司:<%job_sub_company!=null?print(job_sub_company):print("N/A");%></td>
+            </tr>
+            <tr>
+                <td>职位类型:
+                    <% switch (job_type) {
+                    case 0: print("社会招聘"); break;
+                    case 1: print("校园招聘"); break;
+                    case 2: print("实习生招聘"); break;
+                    }%>
+                </td>
+                <td>URL类型:
+                    <% switch (job_url_type) {
+                    case 0: print("静态URL"); break;
+                    case 1: print("多职位共享同一URL"); break;
+                    case 2: print("POST URL"); break;
+                    case 3: print("OTHER"); break;
+                    }%>
+                </td>
+            </tr>
+            <tr>
+                <td>发布日期:<%print(new Date(job_post_date).toLocaleDateString());%></td>
+                <td>过期日期:<%job_expire_date!=null?print(new Date(job_expire_date).toLocaleDateString()):print("N/A");%></td>
+            </tr>
+            <tr>
+                <td>抓取日期:<%print(new Date(job_index_date).toLocaleDateString());%></td>
+                <td>已过期:<%print(job_expired?"是":"否");%></td>
+            </tr>
+            <tr>
+                <td colspan="2">领域:<%print(job_category_domain!=null?job_category_domain:"N/A");%></td>
+            </tr>
+        </table>
+        <hr>
+        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <a href="<%=job_title%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="#" class="ui-disabled ui-btn">
+                    举报事项:
+                    <%
+                    switch(type) {
+                    case 0: print('已过期'); break;
+                    case 1: print('内容无效'); break;
+                    case 2: print('其他'); break;
+                    }
+                    %>
+                </a>
+            </div>
+            <div class="ui-block-c">
+                <% if ( status === 1 ) { %>
+                <a href="#" class="ui-disabled ui-btn">已审核</a>
+                <% } else if ( status === 2 ) { %>
+                <a href="#" class="ui-disabled ui-btn">已拒绝</a>
+                <% } else { %>
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <input type="button" class="accept" value="接受"/>
+                    <input type="button" class="reject" value="拒绝"/>
+                </fieldset>
+                <% } %>
+            </div>
+            <div class="ui-block-d">
+                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+</body>
 </html>

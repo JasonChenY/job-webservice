@@ -1,7 +1,8 @@
 TiaonaerApp.Views.LoginView = Backbone.View.extend({
-    id: 'login_page',
+    id: 'login-page',
+    template: '#template-login-view',
     initialize:function () {
-        this.template = _.template(tpl.get('template-login-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
     },
 
     render:function (eventName) {
@@ -33,7 +34,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             type: "POST",
             url: TiaonaerApp.ServiceUrl + "/api/login",
             data: user,
-            xhrFields: {
+        xhrFields: {
                 withCredentials: true
             },
             crossDomain: true,
@@ -57,10 +58,12 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
-    id: 'home_page',
+    id: 'home-page',
+    template: "#template-home-view",
     model: TiaonaerApp.Models.User,
     initialize:function () {
-        this.template = _.template(tpl.get('template-home-view'));
+        //this.template = _.template(tpl.get('template-home-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         // Cant listen to model here, we are using a fake model, without url.
         //this.listenTo(this.model, "change", this.render());
     },

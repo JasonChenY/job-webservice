@@ -132,7 +132,7 @@ $(document).ready(function(){
         resStore: TiaonaerApp.Translations.resources
     });
 
-    tpl.loadTemplates([
+    /*tpl.loadTemplates([
             'template-home-view',
             'template-jobitem-view',
             'template-joblist-view',
@@ -151,5 +151,7 @@ $(document).ready(function(){
         function () {
             TiaonaerApp.start();
         });
+    */
+    TiaonaerApp.start();
 });
 

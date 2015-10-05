@@ -1,7 +1,8 @@
-TiaonaerApp.Views.JobItemView = Marionette.View.extend({
+TiaonaerApp.Views.JobItemView = Backbone.View.extend({
     tagName: "li",
+    template: '#template-jobitem-view',
     initialize:function () {
-        this.template = _.template(tpl.get('template-jobitem-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         //this.modelBinder = new Backbone.ModelBinder();
     },
     render:function (eventName) {
@@ -23,13 +24,14 @@ TiaonaerApp.Views.JobItemView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.JobListView = Marionette.View.extend({
+TiaonaerApp.Views.JobListView = Backbone.View.extend({
     id: "joblist_page",
+    template: '#template-joblist-view',
     model: TiaonaerApp.Models.Job,
 
     initialize:function () {
         console.log("JobListView's initialize");
-        this.template = _.template(tpl.get('template-joblist-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection =  new TiaonaerApp.Collections.JobList();
         this.listenTo(this.collection, "reset", this.collectionReset);
         this.listenTo(this.collection, "change", this.collectionReset);
@@ -99,12 +101,13 @@ TiaonaerApp.Views.JobListView = Marionette.View.extend({
     }
 });
 
-TiaonaerApp.Views.JobDetailView = Marionette.View.extend({
+TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     id: "jobdetail_page",
+    template: '#template-jobdetail-view',
     model: TiaonaerApp.Models.Job,
     initialize:function() {
         console.log("JobDetailView's initialize");
-        this.template = _.template(tpl.get('template-jobdetail-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.modelAttrChanged);
     },
     events: {
@@ -142,9 +145,10 @@ Date.prototype.minusDays = function(days) {
 
 TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
     id: "jobsearch_page",
+    template: '#template-jobsearch-view',
     initialize:function() {
         console.log("JobSearchView's initialize");
-        this.template = _.template(tpl.get('template-jobsearch-view'));
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         // in order to decouple between joblist and jobsearch view, use ajax directly.
         var self = this;
         $.ajax({
