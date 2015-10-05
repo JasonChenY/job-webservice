@@ -127,11 +127,12 @@ $(document).bind('ajaxStart', function() {
 
 $(document).ready(function(){
     console.log("document.ready");
+    /*
     i18n.init({
         debug: true,
         resStore: TiaonaerApp.Translations.resources
     });
-
+    */
     /*tpl.loadTemplates([
             'template-home-view',
             'template-jobitem-view',
