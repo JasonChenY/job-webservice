@@ -34,7 +34,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             type: "POST",
             url: TiaonaerApp.ServiceUrl + "/api/login",
             data: user,
-        xhrFields: {
+            xhrFields: {
                 withCredentials: true
             },
             crossDomain: true,

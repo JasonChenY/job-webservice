@@ -30,7 +30,7 @@
     <script type="text/javascript" src="static/js/vendor/backbone.wreqr.js"></script>
     <script type="text/javascript" src="static/js/vendor/Backbone.ModelBinder.js"></script-->
     <script type="text/javascript" src="static/js/vendor/backbone.paginator.js"></script>
-    <script type="text/javascript" src="static/js/vendor/handlebars-1.0.rc.1.js"></script>
+    <!--script type="text/javascript" src="static/js/vendor/handlebars-1.0.rc.1.js"></script-->
     <script type="text/javascript" src="static/js/vendor/backbone.marionette.js"></script>
     <script type="text/javascript" src="static/js/vendor/jquery.simplePagination.js"></script>
     <script type="text/javascript" src="static/js/app/utils.js"></script>
@@ -63,7 +63,7 @@
 </head>
 <body>
 
-<script id="template-home-view" type="text/x-handlebars-template">
+<script id="template-home-view">
     <!--div data-role="page" id="home" data-title="我的跳哪儿"-->
     <div data-role="header" data-theme="b">
         <h1>我的跳哪儿</h1>
@@ -90,7 +90,7 @@
     <!--/div-->
 </script>
 
-<script id="template-login-view" type="text/x-handlebars-template">
+<script id="template-login-view">
     <div data-role="header" data-theme="b"><h1>用户登录</h1></div>
     <div data-role="content">
         <!--form method="post" id="user-loginform"-->
@@ -130,7 +130,7 @@
     </div>
 </script>
 
-<script id="template-jobitem-view" type="text/x-handlebars-template">
+<script id="template-jobitem-view">
     <a href="#job/view/<%=id%>" data-transition="pop" class="jobdetail">
         <%= job_title %>
         <p>
@@ -151,7 +151,7 @@
     <% } %>
 </script>
 
-<script id="template-joblist-view" type="text/x-handlebars-template">
+<script id="template-joblist-view">
     <!--div id="joblist_page" data-role="page" data-quicklinks="true" class="ui-responsive-panel" data-title="跳哪儿"-->
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>职位列表</h1>
@@ -198,7 +198,7 @@
     <!--/div-->
 </script>
 
-<script id="template-jobsearch-view" type="text/x-handlebars-template">
+<script id="template-jobsearch-view">
     <div data-role="tabs">
         <div data-role="navbar" class="iscroll-fixed" data-position="fixed">
             <ul>
@@ -250,7 +250,7 @@
     </div>
 </script>
 
-<script id="template-jobdetail-view" type="text/x-handlebars-template">
+<script id="template-jobdetail-view">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
         <div><%=job_title%></div>
@@ -293,7 +293,7 @@
     </div>
 </script>
 
-<script id="template-favoriteitem-view" type="text/x-handlebars-template">
+<script id="template-favoriteitem-view">
     <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
         <%= job_title %>
         <p>
@@ -304,7 +304,7 @@
     <a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-minus ui-btn-a" data-role="button">取消</a>
 </script>
 
-<script id="template-favoritelist-view" type="text/x-handlebars-template">
+<script id="template-favoritelist-view">
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>我的收藏</h1>
     </div>
@@ -323,7 +323,7 @@
     </div>
 </script>
 
-<script id="template-complainitem-view" type="text/x-handlebars-template">
+<script id="template-complainitem-view">
     <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
         <%= job_title %> --- <%= job_company %>
         <p>
@@ -350,7 +350,7 @@
     </a>
 </script>
 
-<script id="template-complainlist-view" type="text/x-handlebars-template">
+<script id="template-complainlist-view">
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>我的举报列表</h1>
     </div>
@@ -369,7 +369,7 @@
     </div>
 </script>
 
-<script id="template-complain-detail-view" type="text/x-handlebars-template">
+<script id="template-complain-detail-view">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
         <table width="100%">
@@ -432,7 +432,7 @@
     </div>
 </script>
 
-<script id="template-complainitem-admin-view" type="text/x-handlebars-template">
+<script id="template-complainitem-admin-view">
     <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
         <%= job_title %> --- <%= job_company %>
         <p>
@@ -468,7 +468,7 @@
     </a>
 </script>
 
-<script id="template-complainlist-admin-view" type="text/x-handlebars-template">
+<script id="template-complainlist-admin-view">
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>举报列表</h1>
     </div>
@@ -503,7 +503,7 @@
     </div>
 </script>
 
-<script id="template-complain-admin-detail-view" type="text/x-handlebars-template">
+<script id="template-complain-admin-detail-view">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
         <table width="100%">
