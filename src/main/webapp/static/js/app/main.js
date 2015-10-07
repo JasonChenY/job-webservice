@@ -40,7 +40,6 @@ TiaonaerApp.Models = {};
 TiaonaerApp.Translations = {};
 TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
-TiaonaerApp.ViewInstances = {};
 TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
 
 TiaonaerApp.ServiceUrl = "https://192.168.137.128/jobws";
@@ -118,8 +117,8 @@ TiaonaerApp.showView = function(viewName, model) {
                 case "JobDetailView":
                 case "ComplainDetailView":
                 case "ComplainAdminDetailView":
+                    // switchModel will call render itself.
                     view.switchModel(model);
-                    view.render();
                     break;
             }
 

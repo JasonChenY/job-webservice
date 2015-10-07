@@ -25,12 +25,11 @@ TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
         console.log("ComplainAdminListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection = new TiaonaerApp.Collections.ComplainAdminList();
-        this.listenTo(this.collection, "reset", this.collectionReset);
-        this.fetch_type = 0; // initial fetch, render pagination bar
-        this.totalRecords = 1;
-        this.FetchByCondition(-1, 0);
+        this.listenTo(this.collection, "reset", this.collectionSwitched);
+        this.switchCollection();
     },
-    FetchByCondition: function(type, status) {
+
+    switchCollection: function(type, status) {
         var defqs = {
             currentPage: "page.page",
             pageSize: "page.size",
@@ -39,16 +38,21 @@ TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
             directions: 1,
         };
         var filters = {};
-        if ( type !== -1 && type !== "-1" ) filters['type'] = type;
-        if ( status !== -1 && status !== "-1" ) filters['status'] = status;
-        this.collection.state.currentPage = 1;
+        if ( type !== undefined && type !== -1 && type !== "-1" ) filters['type'] = type;
+        if ( status === undefined ) {
+            filters['status'] = 0;
+        } else if ( status !== -1 && status !== "-1" ) {
+            filters['status'] = status;
+        }
+
         this.collection.queryParams = _.extend(defqs, filters);
         this.fetch_type = 0;
         this.collection.state.currentPage = 1;
         this.collection.fetch({reset:true});
     },
-    collectionReset: function() {
-        console.log("enter collectionReset");
+
+    collectionSwitched: function() {
+        console.log("enter collectionSwitched");
         this.$('#complainlist').empty();
         _.each(this.collection.models, function (item) {
                 this.$('#complainlist').append(new TiaonaerApp.Views.ComplainAdminItemView({model:item}).render().el);
@@ -77,7 +81,6 @@ TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
     render:function (eventName) {
         console.log("render complainadminlist view");
         $(this.el).html(this.template());
-        this.collectionReset();
         return this;
     },
 
@@ -90,7 +93,7 @@ TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
         var type = $('#complaintype', this.el).val();
         var status = $('#complainstatus', this.el).val();
         console.log(type + ": " + status);
-        this.FetchByCondition(type, status);
+        this.switchCollection(type, status);
     }
 });
 

@@ -34,19 +34,21 @@ TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
         console.log("FavoriteListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection = new TiaonaerApp.Collections.FavoriteList();
-        this.listenTo(this.collection, "reset", this.collectionReset);
-        this.listenTo(this.collection, "remove", this.itemRemove);
+        this.listenTo(this.collection, "reset", this.collectionSwitched);
+        this.listenTo(this.collection, "remove", this.itemRemoved);
+        this.switchCollection();
+    },
 
+    switchCollection: function() {
         this.fetch_type = 0; // initial fetch, render pagination bar
         this.totalRecords = 1;
         this.collection.fetch({reset:true});
     },
 
-    itemRemove: function() {
+    itemRemoved: function() {
         console.log("itemRemove " + this.collection.length);
         this.totalRecords--;
         console.log("totalRecords: " + this.totalRecords);
-        this.fetch_type = 2;
         $(".pagination", this.el).pagination('updateItems', this.totalRecords);
         if ( this.collection.length === 0 ) {
             this.fetch_type = 0;
@@ -61,12 +63,12 @@ TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
                 this.collection.getPage(1, {reset:true});
             }
         } else {
-            this.collectionReset();
+            this.collectionSwitched();
         }
     },
 
-    collectionReset: function() {
-        console.log("enter collectionReset");
+    collectionSwitched: function() {
+        console.log("enter collectionSwitched");
         this.$('#favoritelist').empty();
         _.each(this.collection.models, function (favoriteitem) {
                 this.$('#favoritelist').append(new TiaonaerApp.Views.FavoriteItemView({model:favoriteitem}).render().el);
@@ -96,7 +98,6 @@ TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
     render:function (eventName) {
         console.log("render favoritelist view");
         $(this.el).html(this.template());
-        this.collectionReset();
         return this;
     }
 });

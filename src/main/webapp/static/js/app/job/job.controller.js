@@ -88,7 +88,7 @@ TiaonaerApp.Controllers.JobController = {
             TiaonaerApp.vent.trigger("user:login");
         } else {
             var jobListView = TiaonaerApp.ViewContainer.findByCustom("JobListView");
-            jobListView.updateCollection(parseQueryString(filters));
+            jobListView.switchCollection(parseQueryString(filters));
             TiaonaerApp.showView("JobListView");
         }
     }

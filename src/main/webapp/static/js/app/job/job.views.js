@@ -33,18 +33,17 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
         console.log("JobListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection =  new TiaonaerApp.Collections.JobList();
-        this.listenTo(this.collection, "reset", this.collectionReset);
-        this.listenTo(this.collection, "change", this.collectionReset);
-        this.collection.fetch({reset:true});
-        this.fetchtype = 0; // initial fetch, render pagination bar
+        this.listenTo(this.collection, "reset", this.collectionSwitched);
+        this.listenTo(this.collection, "change", this.collectionSwitched);
+        this.switchCollection();
     },
 
     events: {
         'click #jobsearch' : function(e) { TiaonaerApp.vent.trigger("job:search"); e.preventDefault();}
     },
 
-    collectionReset: function() {
-        console.log("enter collectionReset");
+    collectionSwitched: function() {
+        console.log("enter collectionSwitched");
 
         this.$('#joblist').empty();
         _.each(this.collection.models, function (jobitem) {
@@ -53,7 +52,7 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
         this.$('#joblist').listview().listview('refresh');
         this.$('.joblist_iscroller_wrapper').iscrollview().iscrollview("refresh");
 
-        if ( this.fetchtype === 0 ) {
+        if ( this.fetch_type === 0 ) {
             var self = this;
             $(".pagination", this.el).pagination({
                 items: self.collection.state.totalRecords,
@@ -62,16 +61,14 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
                 displayedPages: 3,
                 onPageClick: function(page, event) {
                     event.preventDefault();
-                    self.fetchtype = 1;
+                    self.fetch_type = 1;
                     self.collection.getPage(page, {reset:true});
                 }
             });
-        } else if ( this.fetchtype === 3 ) {
-            $(".pagination", this.el).pagination('updateItems', this.collection.state.totalRecords);
         }
     },
 
-    updateCollection: function(filters) {
+    switchCollection: function(filters) {
         this.collection.state.currentPage = 1;
         var defqs={
             currentPage: "page.page",
@@ -80,23 +77,15 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
             order: "page.sort.dir",
             directions: 1,
         };
+        filters = filters || {};
         this.collection.queryParams = _.extend(defqs, filters);
-        this.fetchtype = 3;
+        this.fetch_type = 0;
         this.collection.fetch({reset:true});
     },
-
-    //template: "#template-joblist-view",
-    /*
-    * CollectionView require ItemView, but
-    * if itemView is setup, will automatically populate subitems in the top el
-    * itemView: TiaonaerApp.Views.JobItemView,
-    */
-    //itemViewContainer: ".page-content",
 
     render:function (eventName) {
         console.log("render joblist view");
         $(this.el).html(this.template());
-        this.collectionReset();
         return this;
     }
 });
@@ -122,6 +111,7 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
         this.stopListening(this.model);
         this.model = model;
         this.listenTo(this.model, "change", this.modelAttrChanged);
+        this.render();
     },
     modelAttrChanged: function() {
         console.log("JobDetailView's modelAttrChanged");
@@ -238,7 +228,7 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
 
     job_filter: function(e) {
         console.log("enter job_filter");
-        filters = {};
+        var filters = {};
 
         var company="";
         var first = true;

@@ -22,14 +22,17 @@ TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
         console.log("ComplainListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.collection = new TiaonaerApp.Collections.ComplainList();
-        this.listenTo(this.collection, "reset", this.collectionReset);
-        this.fetch_type = 0; // initial fetch, render pagination bar
-        this.totalRecords = 1;
+        this.listenTo(this.collection, "reset", this.collectionSwitched);
+        this.switchCollection();
+    },
+
+    switchCollection: function() {
+        this.fetch_type = 0;
         this.collection.fetch({reset:true});
     },
 
-    collectionReset: function() {
-        console.log("enter collectionReset");
+    collectionSwitched: function() {
+        console.log("enter collectionSwitched");
         this.$('#complainlist').empty();
         _.each(this.collection.models, function (item) {
                 this.$('#complainlist').append(new TiaonaerApp.Views.ComplainItemView({model:item}).render().el);
@@ -38,11 +41,10 @@ TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
         this.$('.complainlist_iscroller_wrapper').iscrollview().iscrollview("refresh");
 
         if ( this.fetch_type === 0 ) {
-            this.totalRecords = this.collection.state.totalRecords;
             console.log("fetch_type === 0, length: " + this.totalRecords);
             var self = this;
             $(".pagination", this.el).pagination({
-                items: self.totalRecords,
+                items: self.collection.state.totalRecords,
                 itemsOnPage: 10,
                 cssStyle: 'dark-theme',
                 displayedPages: 3,
@@ -59,7 +61,6 @@ TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
     render:function (eventName) {
         console.log("render complainlist view");
         $(this.el).html(this.template());
-        this.collectionReset();
         return this;
     }
 });
