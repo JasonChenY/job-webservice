@@ -41,6 +41,7 @@ TiaonaerApp.Translations = {};
 TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
 TiaonaerApp.ViewInstances = {};
+TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
 
 TiaonaerApp.ServiceUrl = "https://192.168.137.128/jobws";
 
@@ -63,8 +64,8 @@ TiaonaerApp.spinner = new Spinner({
 });
 
 TiaonaerApp.isAnonymousUser = function() {
-    if ( (TiaonaerApp.ViewInstances.UserHomeView === undefined)
-    || (TiaonaerApp.ViewInstances.UserHomeView.isUserLoggedIn() == false) ) {
+    var UserHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+    if ( !UserHomeView || !UserHomeView.isUserLoggedIn() ) {
         console.log('isAnonymousUser');
         return true;
     } else {
@@ -72,26 +73,59 @@ TiaonaerApp.isAnonymousUser = function() {
     }
 };
 
-//Helper function to switch page
-TiaonaerApp.showPage = function (page, firsttime) {
-    console.log('changePage');
-    if ( firsttime ) {
-        $(page.el).attr('data-role', 'page');
-        page.render();
-        $('body').append($(page.el));
+TiaonaerApp.showView = function(viewName, model) {
+    var view = TiaonaerApp.ViewContainer.findByCustom(viewName);
+    if ( !view ) {
+        switch ( viewName ) {
+            case "UserHomeView":
+                view = new TiaonaerApp.Views.UserHomeView();
+                break;
+            case "LoginView":
+                view = new TiaonaerApp.Views.LoginView();
+                break;
+            case "JobListView":
+                view = new TiaonaerApp.Views.JobListView();
+                break;
+            case "JobSearchView":
+                view = new TiaonaerApp.Views.JobSearchView();
+                break;
+            case "JobDetailView":
+                view = new TiaonaerApp.Views.JobDetailView({model:model});
+                break;
+            case "FavoriteListView":
+                view = new TiaonaerApp.Views.FavoriteListView();
+                break;
+            case "ComplainListView":
+                view = new TiaonaerApp.Views.ComplainListView();
+                break;
+            case "ComplainDetailView":
+                view = new TiaonaerApp.Views.ComplainDetailView({model:model});
+                break;
+            case "ComplainAdminListView":
+                view = new TiaonaerApp.Views.ComplainAdminListView();
+                break;
+            case "ComplainAdminDetailView":
+                view = new TiaonaerApp.Views.ComplainAdminDetailView({model:model});
+                break;
+        }
+        $(view.el).attr('data-role', 'page');
+        view.render();
+        $('body').append($(view.el));
+        TiaonaerApp.ViewContainer.add(view, viewName);
     } else {
-        // let view decide whether need render, sometimes dont need render.
+        if ( model ) {
+            switch ( viewName ) {
+                case "JobDetailView":
+                case "ComplainDetailView":
+                case "ComplainAdminDetailView":
+                    view.switchModel(model);
+                    view.render();
+                    break;
+            }
+
+        }
     }
-/*
-    var transition = $.mobile.defaultPageTransition;
-    // We don't want to slide the first page
-    if (this.firstPage) {
-        transition = 'none';
-        this.firstPage = false;
-    }
-    $.mobile.changePage($(page.el), {changeHash:true, transition: transition});
-*/
-    $.mobile.changePage($(page.el));
+    $.mobile.changePage($(view.el));
 };
 
 $(document).bind('ajaxStart', function() {

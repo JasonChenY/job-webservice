@@ -25,7 +25,7 @@ TiaonaerApp.Views.JobItemView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.JobListView = Backbone.View.extend({
-    id: "joblist_page",
+    id: "joblist-page",
     template: '#template-joblist-view',
     model: TiaonaerApp.Models.Job,
 
@@ -102,7 +102,7 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
-    id: "jobdetail_page",
+    id: "jobdetail-page",
     template: '#template-jobdetail-view',
     model: TiaonaerApp.Models.Job,
     initialize:function() {
@@ -129,8 +129,8 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     },
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
-        // to let jqm enhance widgets
         $(this.el).trigger('create');
+        // to let jqm enhance widgets
         $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
         $('#complain_type', this.el).selectmenu({inline: true});
         $('.ui-footer', this.el).toolbar('refresh');
@@ -144,7 +144,7 @@ Date.prototype.minusDays = function(days) {
 };
 
 TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
-    id: "jobsearch_page",
+    id: "jobsearch-page",
     template: '#template-jobsearch-view',
     initialize:function() {
         console.log("JobSearchView's initialize");
@@ -166,6 +166,16 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
 
     render:function () {
         $(this.el).html(this.template());
+        /*!!!Strange problem!!!:
+         * It is possible to pre-add the PAGE DIV element in index.html,
+         * and then use existing "el: '#div_id'" in Backbone.view to render the page.
+         * BUT there is some problem with the "footer" element:
+         *   - it is fine if PAGE DIV is first one in index.html
+         *   - for other PAGE DIV, JQM trigger('create') will place the footer as global footer
+         * Now the solution is fallback to let Backbone create the PAGE DIV with "id: 'div_id'",
+         * then in showView to setup the "data-role: page" attribute,
+         * in this way, it is fine to trigger('create') for either first or other PAGE DIV.
+         */
         $(this.el).trigger('create');
     },
 

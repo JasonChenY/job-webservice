@@ -1,23 +1,12 @@
 TiaonaerApp.Controllers.UserController = {
     home: function() {
         window.log("Rendering initial home view.");
-        if ( TiaonaerApp.ViewInstances.UserHomeView === undefined ) {
-            var user = new TiaonaerApp.Models.User();
-            TiaonaerApp.ViewInstances.UserHomeView = new TiaonaerApp.Views.UserHomeView({model:user});
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.UserHomeView, true);
-        } else {
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.UserHomeView, false);
-        }
+        TiaonaerApp.showView("UserHomeView");
     },
 
     login: function() {
         console.log("Rendering login page");
-        if ( TiaonaerApp.ViewInstances.LoginView === undefined ) {
-            TiaonaerApp.ViewInstances.LoginView = new TiaonaerApp.Views.LoginView();
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.LoginView, true);
-        } else {
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.LoginView, false);
-        }
+        TiaonaerApp.showView("LoginView");
     },
 
     logout: function() {

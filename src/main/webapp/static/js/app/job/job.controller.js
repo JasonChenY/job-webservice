@@ -47,17 +47,7 @@ TiaonaerApp.Controllers.JobController = {
 */
     list: function() {
         console.log("list in JobController");
-        if ( TiaonaerApp.ViewInstances.JobListView === undefined ) {
-            console.log("create & show JobListView");
-            TiaonaerApp.ViewInstances.JobListView = new TiaonaerApp.Views.JobListView();
-            //TiaonaerApp.mainRegion.show(jobListView);
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, true);
-        } else {
-            console.log("show JobListView");
-            //TiaonaerApp.ViewInstances.JobListView.render();
-            //$.mobile.changePage($('#joblist_page'));
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, false);
-        }
+        TiaonaerApp.showView("JobListView");
     },
     view: function(id) {
         window.log("Rendering view page for todo entry with id: ", id);
@@ -86,14 +76,7 @@ TiaonaerApp.Controllers.JobController = {
         if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         } else {
-            if ( TiaonaerApp.ViewInstances.JobSearchView === undefined ) {
-                console.log("create & show JobSearchView");
-                TiaonaerApp.ViewInstances.JobSearchView = new TiaonaerApp.Views.JobSearchView();
-                TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobSearchView, true);
-            } else {
-                console.log("show JobSearchView");
-                TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobSearchView, false);
-            }
+            TiaonaerApp.showView("JobSearchView");
         }
     },
 
@@ -104,13 +87,9 @@ TiaonaerApp.Controllers.JobController = {
         if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         } else {
-            if ( TiaonaerApp.ViewInstances.JobListView === undefined ) {
-                console.log("create & show JobListView");
-                TiaonaerApp.ViewInstances.JobListView = new TiaonaerApp.Views.JobListView();
-                TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, true);
-            }
-            TiaonaerApp.ViewInstances.JobListView.updateCollection(parseQueryString(filters));
-            TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobListView, false);
+            var jobListView = TiaonaerApp.ViewContainer.findByCustom("JobListView");
+            jobListView.updateCollection(parseQueryString(filters));
+            TiaonaerApp.showView("JobListView");
         }
     }
 };

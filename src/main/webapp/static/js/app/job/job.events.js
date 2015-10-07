@@ -42,17 +42,7 @@ TiaonaerApp.vent.on("job:updated", function(model) {
 
 // used for navigate from joblist directly with exising model, dont need fetch
 TiaonaerApp.vent.on("jobdetail:view", function(model) {
-    if ( TiaonaerApp.ViewInstances.JobDetailView === undefined ) {
-        console.log("create & show JobDetailView");
-        TiaonaerApp.ViewInstances.JobDetailView = new TiaonaerApp.Views.JobDetailView({model:model});
-        TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, true);
-    } else {
-        console.log("show JobDetailView");
-        TiaonaerApp.ViewInstances.JobDetailView.switchModel(model);
-
-        TiaonaerApp.ViewInstances.JobDetailView.render();
-        TiaonaerApp.showPage(TiaonaerApp.ViewInstances.JobDetailView, false);
-    }
+    TiaonaerApp.showView("JobDetailView", model);
 });
 
 TiaonaerApp.vent.on("job:search", function() {

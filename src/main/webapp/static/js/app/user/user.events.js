@@ -11,7 +11,7 @@ TiaonaerApp.vent.on("user:login", function(){
 
 TiaonaerApp.vent.on("user:loginFailed", function() {
     // extend to include detail error info.
-    TiaonaerApp.ViewInstances.LoginView.login_failed(null);
+    TiaonaerApp.ViewContainer.findByCustom("LoginView").login_failed(null);
 });
 
 TiaonaerApp.vent.on("user:loginSuccess", function() {
@@ -29,7 +29,7 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
         success: function(user) {
             if (user.username) {
                 console.log("Found logged in user: ", user);
-                TiaonaerApp.ViewInstances.UserHomeView.userLoggedIn(user);
+                TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedIn(user);
 
                 // restore back to the view triggered the login process.
                 window.history.back();
@@ -52,6 +52,6 @@ TiaonaerApp.vent.on("user:logout", function() {
 });
 
 TiaonaerApp.vent.on("user:logoutSuccess", function() {
-    TiaonaerApp.ViewInstances.UserHomeView.userLoggedOut();
+    TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedOut();
     Backbone.history.navigate("#/");
 });

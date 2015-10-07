@@ -26,7 +26,7 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
-    id: "favoritelist_page",
+    id: "favoritelist-page",
     template: '#template-favoritelist-view',
     model: TiaonaerApp.Models.Favorite,
 

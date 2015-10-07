@@ -63,8 +63,8 @@
 </head>
 <body>
 
+<!--div data-role="page" id="home-page" data-title="我的跳哪儿"></div-->
 <script id="template-home-view" type="text/html">
-    <!--div data-role="page" id="home" data-title="我的跳哪儿"-->
     <div data-role="header" data-theme="b">
         <h1>我的跳哪儿</h1>
         <% if ( username === 'anonymous' ) { %>
@@ -87,9 +87,9 @@
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <h1>版权: 2015-2025</h1>
     </div>
-    <!--/div-->
 </script>
 
+<!--div data-role="page" id="login-page"></div-->
 <script id="template-login-view" type="text/html">
     <div data-role="header" data-theme="b"><h1>用户登录</h1></div>
     <div data-role="content">
@@ -151,8 +151,8 @@
     <% } %>
 </script>
 
+<!--div data-role="page" id="joblist-page"></div-->
 <script id="template-joblist-view" type="text/html">
-    <!--div id="joblist_page" data-role="page" data-quicklinks="true" class="ui-responsive-panel" data-title="跳哪儿"-->
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>职位列表</h1>
         <a href="#" id="jobsearch" data-icon="search" data-iconpos="left" data-shadow="false" data-iconshadow="true" class="ui-mini ui-nodisc-icon">搜索</a>
@@ -195,9 +195,9 @@
             <div class="ui-block-b"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
         </div>
     </div>
-    <!--/div-->
 </script>
 
+<!--div data-role="page" id="jobsearch-page"></div-->
 <script id="template-jobsearch-view" type="text/html">
     <div data-role="tabs">
         <div data-role="navbar" class="iscroll-fixed" data-position="fixed">
@@ -236,10 +236,10 @@
             </fieldset>
         </div>
     </div>
+
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b">
         <div class="ui-grid-b grid-b-811">
             <div class="ui-block-a"><input type="text" data-clear-btn="true" name="jobfilter_keyword_txt" id="jobfilter_keyword" value="" placeholder="关键字查找职位"></div>
-            <!--div class="ui-block-b" data-role="controlgroup" data-type="horizontal"-->
             <div class="ui-block-b">
                 <a href="#" id="jobfilter_reset" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline">重置</a>
             </div>
@@ -250,6 +250,7 @@
     </div>
 </script>
 
+<!--div data-role="page" id="jobdetail-page"></div-->
 <script id="template-jobdetail-view" type="text/html">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
@@ -304,6 +305,7 @@
     <a href="#" data-icon="minus" data-iconpos="notext" class="favorite ui-mini ui-btn ui-btn-icon-notext ui-icon-minus ui-btn-a" data-role="button">取消</a>
 </script>
 
+<!--div data-role="page" id="favoritelist-page"></div-->
 <script id="template-favoritelist-view" type="text/html">
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>我的收藏</h1>
@@ -350,6 +352,7 @@
     </a>
 </script>
 
+<!--div data-role="page" id="complainlist-page"></div-->
 <script id="template-complainlist-view" type="text/html">
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>我的举报列表</h1>
@@ -369,6 +372,7 @@
     </div>
 </script>
 
+<!--div data-role="page" id="complain-detail-page"></div-->
 <script id="template-complain-detail-view" type="text/html">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
@@ -468,6 +472,7 @@
     </a>
 </script>
 
+<!--div data-role="page" id="complainlist-admin-page"></div-->
 <script id="template-complainlist-admin-view" type="text/html">
     <div data-role="header" class="jqm-header" data-theme="b" data-position="fixed">
         <h1>举报列表</h1>
@@ -503,6 +508,7 @@
     </div>
 </script>
 
+<!--div data-role="page" id="complain-admin-detail-page"></div-->
 <script id="template-complain-admin-detail-view" type="text/html">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">

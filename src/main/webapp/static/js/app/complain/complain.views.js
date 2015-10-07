@@ -14,7 +14,7 @@ TiaonaerApp.Views.ComplainItemView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
-    id: "complainlist_page",
+    id: "complainlist-page",
     template: '#template-complainlist-view',
     model: TiaonaerApp.Models.Complain,
 
@@ -65,15 +65,16 @@ TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.ComplainDetailView = Backbone.View.extend({
-    id: "complain_detail_page",
+    id: "complain-detail-page",
     template: '#template-complain-detail-view',
     model: TiaonaerApp.Models.Complain,
     initialize:function() {
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.modelAttrChanged);
-        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
-        this.job_model_ready = false;
+
         var self = this;
+        self.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        self.job_model_ready = false;
         this.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     events: {
@@ -84,15 +85,16 @@ TiaonaerApp.Views.ComplainDetailView = Backbone.View.extend({
         this.model = model;
         this.listenTo(this.model, "change", this.modelAttrChanged);
 
-        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
         var self = this;
-        this.job_model.fetch({success:function() {self.render();}});
+        self.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        self.job_model_ready = false;
+        this.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     modelAttrChanged: function() {
         this.render();
     },
     render:function (eventName) {
-        if ( !this.job_model_ready) return;
+        if ( !this.job_model_ready ) return;
         var merge = _.extend(this.model.toJSON(), this.job_model.toJSON());
 
         $(this.el).html(this.template(merge));

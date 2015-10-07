@@ -17,7 +17,7 @@ TiaonaerApp.Views.ComplainAdminItemView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
-    id: "complainlist_admin_page",
+    id: "complainlist-admin-page",
     template: '#template-complainlist-admin-view',
     model: TiaonaerApp.Models.Complain,
 
@@ -95,16 +95,16 @@ TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
-    id: "complain_admin_detail_page",
+    id: "complain-admin-detail-page",
     template: '#template-complain-admin-detail-view',
     model: TiaonaerApp.Models.Complain,
     initialize:function() {
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.modelAttrChanged);
-        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
-        this.job_model_ready = false;
         var self = this;
-        this.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
+        self.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        self.job_model_ready = false;
+        self.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     events: {
         'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
@@ -116,9 +116,10 @@ TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
         this.model = model;
         this.listenTo(this.model, "change", this.modelAttrChanged);
 
-        this.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
         var self = this;
-        this.job_model.fetch({success:function() {self.render();}});
+        self.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        self.job_model_ready = false;
+        self.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     modelAttrChanged: function() {
         this.render();

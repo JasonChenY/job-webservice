@@ -58,11 +58,17 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
 });
 
 TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
+    /* Change to use el direclty, put a div with specified id directly in index.html
+     * this way save some logic in showPage, dont need to set the "Page" class in el, and add el to body
+     * el: '#home-page',
+     * Revert Back again to use id, refer to comments in JobSearchView: render.
+     */
     id: 'home-page',
     template: "#template-home-view",
     model: TiaonaerApp.Models.User,
     initialize:function () {
         //this.template = _.template(tpl.get('template-home-view'));
+        this.model = new TiaonaerApp.Models.User();
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         // Cant listen to model here, we are using a fake model, without url.
         //this.listenTo(this.model, "change", this.render());
