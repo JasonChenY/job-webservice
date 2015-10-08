@@ -16,7 +16,7 @@ TiaonaerApp.Views.ComplainAdminItemView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
+TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
     id: "complainlist-admin-page",
     template: '#template-complainlist-admin-view',
     model: TiaonaerApp.Models.Complain,
@@ -28,6 +28,8 @@ TiaonaerApp.Views.ComplainAdminListView = Backbone.View.extend({
         this.listenTo(this.collection, "reset", this.collectionSwitched);
         this.switchCollection();
     },
+
+    resetForNewUser: function() { this.switchCollection();},
 
     switchCollection: function(type, status) {
         var defqs = {

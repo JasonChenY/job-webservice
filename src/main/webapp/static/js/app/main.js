@@ -34,6 +34,22 @@ $.support.cors = true;
 
 var TiaonaerApp = new Backbone.Marionette.Application();
 
+/* Base View for views sensitive to different users */
+TiaonaerApp.View = Backbone.View.extend({
+    constructor: function() {
+        this.validForCurrentUser = true;
+        Backbone.View.prototype.constructor.apply(this, arguments);
+    },
+    getValidForCurrentUser: function() { return this.validForCurrentUser; },
+    setValidForCurrentUser: function(valid) { this.validForCurrentUser = valid;}
+});
+/*
+_.extend(TiaonaerApp.View.prototype, {
+    getValidForCurrentUser: function() { return this.validForCurrentUser; },
+    setValidForCurrentUser: function(valid) { this.validForCurrentUser = valid;}
+});
+*/
+
 TiaonaerApp.Collections = {};
 TiaonaerApp.Controllers = {};
 TiaonaerApp.Models = {};
@@ -117,11 +133,14 @@ TiaonaerApp.showView = function(viewName, model) {
                 case "JobDetailView":
                 case "ComplainDetailView":
                 case "ComplainAdminDetailView":
-                    // switchModel will call render itself.
                     view.switchModel(model);
                     break;
             }
-
+        } else {
+            if ( view.getValidForCurrentUser && !view.getValidForCurrentUser() ) {
+                view.setValidForCurrentUser(true);
+                view.resetForNewUser();
+            }
         }
     }
     $.mobile.changePage($(view.el));

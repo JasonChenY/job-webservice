@@ -116,5 +116,7 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
             when: _.now()
         });
         this.render();
+
+        TiaonaerApp.ViewContainer.apply("setValidForCurrentUser", [false]);
     }
 });

@@ -25,7 +25,7 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
+TiaonaerApp.Views.FavoriteListView = TiaonaerApp.View.extend({
     id: "favoritelist-page",
     template: '#template-favoritelist-view',
     model: TiaonaerApp.Models.Favorite,
@@ -39,9 +39,12 @@ TiaonaerApp.Views.FavoriteListView = Backbone.View.extend({
         this.switchCollection();
     },
 
+    resetForNewUser: function() { this.switchCollection();},
+
     switchCollection: function() {
         this.fetch_type = 0; // initial fetch, render pagination bar
         this.totalRecords = 1;
+        this.collection.state.currentPage = 1;
         this.collection.fetch({reset:true});
     },
 

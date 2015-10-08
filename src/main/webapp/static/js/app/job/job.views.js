@@ -24,7 +24,7 @@ TiaonaerApp.Views.JobItemView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.JobListView = Backbone.View.extend({
+TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
     id: "joblist-page",
     template: '#template-joblist-view',
     model: TiaonaerApp.Models.Job,
@@ -68,8 +68,9 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
         }
     },
 
+    resetForNewUser: function() { this.switchCollection();},
+
     switchCollection: function(filters) {
-        this.collection.state.currentPage = 1;
         var defqs={
             currentPage: "page.page",
             pageSize: "page.size",
@@ -80,6 +81,7 @@ TiaonaerApp.Views.JobListView = Backbone.View.extend({
         filters = filters || {};
         this.collection.queryParams = _.extend(defqs, filters);
         this.fetch_type = 0;
+        this.collection.state.currentPage = 1;
         this.collection.fetch({reset:true});
     },
 
@@ -133,7 +135,7 @@ Date.prototype.minusDays = function(days) {
     return this;
 };
 
-TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
+TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
     id: "jobsearch-page",
     template: '#template-jobsearch-view',
     initialize:function() {
@@ -215,6 +217,8 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
         }
     },
 
+    resetForNewUser: function() { this.reset_filter();},
+
     reset_filter: function(e) {
         $('input[type="checkbox"]', this.el).attr('checked',false).checkboxradio("refresh");
 
@@ -223,7 +227,7 @@ TiaonaerApp.Views.JobSearchView = Backbone.View.extend({
 
         $('#jobfilter_keyword', this.el).val("");
 
-        e.preventDefault();
+        if ( e ) e.preventDefault();
     },
 
     job_filter: function(e) {

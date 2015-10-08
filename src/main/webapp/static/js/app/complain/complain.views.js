@@ -13,7 +13,7 @@ TiaonaerApp.Views.ComplainItemView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
+TiaonaerApp.Views.ComplainListView = TiaonaerApp.View.extend({
     id: "complainlist-page",
     template: '#template-complainlist-view',
     model: TiaonaerApp.Models.Complain,
@@ -26,8 +26,15 @@ TiaonaerApp.Views.ComplainListView = Backbone.View.extend({
         this.switchCollection();
     },
 
+    resetForNewUser: function() {
+        //$(".pagination", this.el).pagination('destroy');
+        this.switchCollection();
+        //$(".pagination", this.el).pagination('redraw',1);
+    },
+
     switchCollection: function() {
         this.fetch_type = 0;
+        this.collection.state.currentPage = 1;
         this.collection.fetch({reset:true});
     },
 
