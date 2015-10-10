@@ -49,6 +49,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         // Not use window.history.back() or window.history.go(-2)
         // Because we might be here from homeview->...   or homeview->favorite/list->...
         // Might consider introduce source view later.
+        $('#for-display-error', this.el).hide();
         Backbone.history.navigate("#/");
     },
 

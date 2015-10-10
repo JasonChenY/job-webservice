@@ -160,7 +160,8 @@ $(document).bind('ajaxStart', function() {
             if ( !TiaonaerApp.isAnonymousUser() ) {
                 TiaonaerApp.vent.trigger("error:notAuthorized");
             } else {
-                if (request.statusText === "Bad credentials") {
+                var reason = request.getResponseHeader("Reason");
+                if (reason === "Bad credentials") {
                     console.log("Login failed.")
                     TiaonaerApp.vent.trigger("user:loginFailed");
                 } else {

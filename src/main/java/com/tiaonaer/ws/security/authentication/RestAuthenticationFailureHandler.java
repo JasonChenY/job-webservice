@@ -12,11 +12,12 @@ import java.io.IOException;
  * @author jason.y.chen
  */
 public class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
-
     protected static final String STATUS_MESSAGE_AUTHENTICATION_FAILED = "Bad credentials";
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, STATUS_MESSAGE_AUTHENTICATION_FAILED);
+        //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, STATUS_MESSAGE_AUTHENTICATION_FAILED);
+        response.addHeader("Reason", STATUS_MESSAGE_AUTHENTICATION_FAILED);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
