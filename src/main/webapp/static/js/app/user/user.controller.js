@@ -9,6 +9,11 @@ TiaonaerApp.Controllers.UserController = {
         TiaonaerApp.showView("LoginView");
     },
 
+    register: function() {
+        console.log("Rendering register page");
+        TiaonaerApp.showView("UserRegisterView");
+    },
+
     logout: function() {
         console.log("Logging user out");
         if ( !TiaonaerApp.isAnonymousUser() ) {

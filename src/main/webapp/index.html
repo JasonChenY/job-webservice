@@ -112,8 +112,8 @@
         <div class="ui-field-contain">
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <legend></legend>
-                <button id="btn-user-register" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-icon-right">注册</button>
                 <button id="btn-user-login" class="ui-shadow ui-btn ui-corner-all ui-icon-user ui-btn-icon-right">登录</button>
+                <button id="btn-user-register" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-icon-right">注册</button>
                 <button id="btn-login-cancel" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right">取消</button>
             </fieldset>
         </div>
@@ -124,6 +124,36 @@
             </fieldset>
         </div>
         <!--/form-->
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <h1>版权: 2015-2025</h1>
+    </div>
+</script>
+
+<script id="template-user-register-view" type="text/html">
+    <div data-role="header" data-theme="b"><h1>用户注册</h1></div>
+    <div data-role="content">
+        <div class="ui-field-contain">
+            <label for="user-username">帐号:</label>
+            <input type="text" id="user-username" placeholder="" value="" data-mini="true">
+        </div>
+        <div class="ui-field-contain">
+            <label for="user-password">密码:</label>
+            <input type="password" id="user-password" placeholder="" value="" data-mini="true">
+        </div>
+        <div class="ui-field-contain">
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend></legend>
+                <button id="btn-user-register" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-icon-right">注册</button>
+                <button id="btn-register-cancel" class="ui-shadow ui-btn ui-corner-all ui-icon-back ui-btn-icon-right">取消</button>
+            </fieldset>
+        </div>
+        <div class="ui-field-contain" id="for-display-error">
+            <fieldset data-role="controlgroup">
+                <legend></legend>
+                <div style="color:red" id="display-error">注册失败,换个用户名密码重试!</div>
+            </fieldset>
+        </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <h1>版权: 2015-2025</h1>

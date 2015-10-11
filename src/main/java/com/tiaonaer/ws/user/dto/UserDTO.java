@@ -11,6 +11,10 @@ public class UserDTO {
 
     private SecurityRole role;
 
+    private String password;
+
+    public UserDTO() {}
+
     public UserDTO(String username, SecurityRole role) {
         this.username = username;
         this.role = role;
@@ -19,9 +23,20 @@ public class UserDTO {
     public String getUsername() {
         return username;
     }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public SecurityRole getRole() {
         return role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

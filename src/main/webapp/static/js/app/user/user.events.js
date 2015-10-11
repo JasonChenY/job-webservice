@@ -4,6 +4,17 @@ TiaonaerApp.vent.on("routing:started", function(){
     }
 })
 
+TiaonaerApp.vent.on("user:register", function(){
+    console.log("handle user:register")
+    Backbone.history.navigate("#/user/register");
+});
+
+TiaonaerApp.vent.on("user:registerSuccess", function(user) {
+    console.log("handle user:registerSuccess");
+    Backbone.history.navigate("#/");
+    TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedIn(user);
+});
+
 TiaonaerApp.vent.on("user:login", function(){
     console.log("handle user:login")
     Backbone.history.navigate("#/user/login");

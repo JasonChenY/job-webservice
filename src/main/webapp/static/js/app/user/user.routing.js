@@ -5,7 +5,8 @@ TiaonaerApp.UserRouting = function() {
         appRoutes: {
             "": "home",
             "user/login": "login",
-            "user/logout": "logout"
+            "user/logout": "logout",
+            "user/register": "register"
         }
     });
 

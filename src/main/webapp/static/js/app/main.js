@@ -98,6 +98,9 @@ TiaonaerApp.showView = function(viewName, model) {
             case "LoginView":
                 view = new TiaonaerApp.Views.LoginView();
                 break;
+            case "UserRegisterView":
+                view = new TiaonaerApp.Views.UserRegisterView();
+                break;
             case "JobListView":
                 view = new TiaonaerApp.Views.JobListView();
                 break;
@@ -157,6 +160,12 @@ $(document).bind('ajaxStart', function() {
         if (request.status === 404) {
             TiaonaerApp.vent.trigger("error:404");
         } else if (request.status === 401) {
+            if ( TiaonaerApp.isAnonymousUser() ) {
+                TiaonaerApp.vent.trigger("user:login");
+            } else {
+                TiaonaerApp.vent.trigger("error:notAuthorized");
+            }
+            /*
             if ( !TiaonaerApp.isAnonymousUser() ) {
                 TiaonaerApp.vent.trigger("error:notAuthorized");
             } else {
@@ -168,7 +177,7 @@ $(document).bind('ajaxStart', function() {
                     console.log("User is anonymous")
                     TiaonaerApp.vent.trigger("user:login");
                 }
-            }
+            }*/
         } else {
             TiaonaerApp.vent.trigger("error:error");
         }
