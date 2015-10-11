@@ -1,5 +1,5 @@
 TiaonaerApp.Models.Complain = Backbone.Model.extend({
-    urlRoot: "api/complain",
+    urlRoot: TiaonaerApp.ServiceUrl + "/" + "api/complain",
 
     updateAttr: function(attrs) {
         this.save(attrs,
@@ -17,7 +17,7 @@ TiaonaerApp.Models.Complain = Backbone.Model.extend({
 
 TiaonaerApp.Collections.ComplainList = Backbone.PageableCollection.extend({
     model: TiaonaerApp.Models.Complain,
-    url: "api/complain",
+    url: TiaonaerApp.ServiceUrl + "/" + "api/complain",
     state: {
         firstPage: 1,
         order: 1,
@@ -44,7 +44,7 @@ TiaonaerApp.Collections.ComplainList = Backbone.PageableCollection.extend({
 
 TiaonaerApp.Collections.ComplainAdminList = Backbone.PageableCollection.extend({
     model: TiaonaerApp.Models.Complain,
-    url: "api/complain/admin",
+    url: TiaonaerApp.ServiceUrl + "/" + "api/complain/admin",
     state: {
         firstPage: 1,
         order: 1,

@@ -1,10 +1,10 @@
 TiaonaerApp.Models.Favorite = Backbone.Model.extend({
-    urlRoot: "api/favorite"
+    urlRoot: TiaonaerApp.ServiceUrl + "/" + "api/favorite"
 });
 
 TiaonaerApp.Collections.FavoriteList = Backbone.PageableCollection.extend({
     model: TiaonaerApp.Models.Favorite,
-    url: "api/favorite",
+    url: TiaonaerApp.ServiceUrl + "/" + "api/favorite",
     state: {
         firstPage: 1,
         order: 1,

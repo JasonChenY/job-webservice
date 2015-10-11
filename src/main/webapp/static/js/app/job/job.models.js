@@ -1,5 +1,5 @@
 TiaonaerApp.Models.Job = Backbone.Model.extend({
-    urlRoot: "api/job",
+    urlRoot: TiaonaerApp.ServiceUrl + "/" + "api/job",
 
     toggle_favorite: function() {
         var self = this;
@@ -72,7 +72,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
 TiaonaerApp.Collections.JobList = Backbone.PageableCollection.extend({
     model: TiaonaerApp.Models.Job,
 
-    url: "api/job",
+    url: TiaonaerApp.ServiceUrl + "/" + "api/job",
     /*url: function() {
         return "api/job?q=*:*&job_type:0&job_expired:false&facet=true&facet.field=job_company&facet.field=job_location&facet.mincount=1&sort=job_post_date+desc&wt=json&indent=true";
     },*/
