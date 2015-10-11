@@ -37,16 +37,16 @@ var TiaonaerApp = new Backbone.Marionette.Application();
 /* Base View for views sensitive to different users */
 TiaonaerApp.View = Backbone.View.extend({
     constructor: function() {
-        this.validForCurrentUser = true;
+        this.valid = true;
         Backbone.View.prototype.constructor.apply(this, arguments);
     },
-    getValidForCurrentUser: function() { return this.validForCurrentUser; },
-    setValidForCurrentUser: function(valid) { this.validForCurrentUser = valid;}
+    getValid: function() { return this.valid; },
+    setValid: function(valid) { this.valid = valid;}
 });
 /*
 _.extend(TiaonaerApp.View.prototype, {
-    getValidForCurrentUser: function() { return this.validForCurrentUser; },
-    setValidForCurrentUser: function(valid) { this.validForCurrentUser = valid;}
+    getValid: function() { return this.valid; },
+    setValid: function(valid) { this.valid = valid;}
 });
 */
 
@@ -140,8 +140,8 @@ TiaonaerApp.showView = function(viewName, model) {
                     break;
             }
         } else {
-            if ( view.getValidForCurrentUser && !view.getValidForCurrentUser() ) {
-                view.setValidForCurrentUser(true);
+            if ( view.getValid && !view.getValid() ) {
+                view.setValid(true);
                 view.resetForNewUser();
             }
         }

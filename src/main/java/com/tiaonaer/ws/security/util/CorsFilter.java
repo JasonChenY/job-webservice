@@ -154,7 +154,7 @@ public class CorsFilter implements Filter
 
     // Stuff when init this filter as a bean
     private String allowedOriginsConfig = "*";
-    private String allowedMethodsConfig = "GET,POST";
+    private String allowedMethodsConfig = "GET,POST,DELETE,PUT";
     private String allowedHeadersConfig = "X-Requested-With,Content-Type,Accept,Origin";
     private String preflightMaxAgeConfig = "1800";
     private String allowedCredentialsConfig = "false";

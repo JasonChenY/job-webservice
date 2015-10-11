@@ -15,8 +15,15 @@ TiaonaerApp.Views.JobItemView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click a.favorite': function(e) { this.model.toggle_favorite(); e.preventDefault(); } ,
-        'click a.jobdetail': "jobdetail",
+        'click a.favorite': "favorite",
+        'click a.jobdetail': "jobdetail"
+    },
+
+    favorite: function(e) {
+        this.model.toggle_favorite();
+        var listview = TiaonaerApp.ViewContainer.findByCustom("FavoriteListView");
+        if (listview) listview.setValid(false);
+        e.preventDefault();
     },
 
     jobdetail: function(e) {
@@ -47,7 +54,7 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
 
         this.$('#joblist').empty();
         _.each(this.collection.models, function (jobitem) {
-                this.$('#joblist').append(new TiaonaerApp.Views.JobItemView({model:jobitem}).render().el);
+            this.$('#joblist').append(new TiaonaerApp.Views.JobItemView({model:jobitem}).render().el);
         }, this);
         this.$('#joblist').listview().listview('refresh');
         this.$('.joblist_iscroller_wrapper').iscrollview().iscrollview("refresh");
@@ -102,12 +109,21 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
         this.listenTo(this.model, "change", this.modelAttrChanged);
     },
     events: {
-        'click a.goback': function(e) {console.log("before goback"); window.history.back();console.log("after goback"); e.preventDefault(); },
-        'click a.favorite': function(e) { this.model.toggle_favorite(); e.preventDefault(); },
-        'click button.complain': function(e) {
-             this.model.complain($('#complain_type :selected', this.el).val());
-             e.preventDefault();
-        }
+        'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
+        'click a.favorite': "favorite",
+        'click button.complain': "complain"
+    },
+    favorite: function(e) {
+        this.model.toggle_favorite();
+        var listview = TiaonaerApp.ViewContainer.findByCustom("FavoriteListView");
+        if (listview) listview.setValid(false);
+        e.preventDefault();
+    },
+    complain: function(e) {
+        this.model.complain($('#complain_type :selected', this.el).val());
+        var listview = TiaonaerApp.ViewContainer.findByCustom("ComplainListView");
+        if (listview) listview.setValid(false);
+        e.preventDefault();
     },
     switchModel: function(model) {
         this.stopListening(this.model);
