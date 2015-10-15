@@ -18,7 +18,7 @@
         <property name="password" value="${db.password}"/>
     </bean-->
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="com.tiaonaer.ws.config.ExtendedBasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${db.driver}"/>
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.username}"/>

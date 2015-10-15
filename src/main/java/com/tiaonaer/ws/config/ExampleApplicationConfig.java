@@ -32,6 +32,10 @@ public class ExampleApplicationConfig implements WebApplicationInitializer {
         EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
         security.addMappingForUrlPatterns(securityDispatcherTypes, true, "/*");
 
+        DelegatingFilterProxy filter = new DelegatingFilterProxy("oauth2ClientContextFilter");
+        filter.setContextAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.dispatcher");
+        servletContext.addFilter("oauth2ClientContextFilter", filter).addMappingForUrlPatterns(null, false, "/*");
+
         servletContext.addListener(new ContextLoaderListener(rootContext));
     }
 }

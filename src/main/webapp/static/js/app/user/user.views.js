@@ -14,9 +14,37 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
     events: {
         "click #btn-user-register": function() { TiaonaerApp.vent.trigger("user:register"); },
         "click #btn-user-login": "login",
-        "click #btn-login-cancel": "login_cancel"
+        "click #btn-login-cancel": "login_cancel",
+        "click #btn-testServer-login": "testServer_login"
     },
+    testServer_login: function() {
+        window.open(TiaonaerApp.ServiceUrl + "/testServer/login");
+    /*
+        !!!!!
+        Cant use AJAX for third party login, 301/302 will be intercepted by browser,
+        and AJAX will get final third party site login page in text/html format.
+        even we can render the login page with that html content, we lose the url of third party login page,
+        no way to authenticate toward it.
 
+        var self = this;
+        $.ajax({
+            type: "GET",
+            url: TiaonaerApp.ServiceUrl + "/testServer/login",
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: function(data, status, xhr){
+                console.log("success for /testServer/login");
+                var contentType = xhr.getResponseHeader("Content-Type");
+                if (xhr.status === 200 && contentType.toLowerCase().indexOf("text/html") >= 0) {
+                    self.setValid(false);
+                    $(self.el).html(data);
+                }
+            }
+        });
+    */
+    },
     login: function() {
         console.log("Log in");
         $('#for-display-error', this.el).hide();

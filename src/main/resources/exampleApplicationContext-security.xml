@@ -8,6 +8,9 @@
     <!-- Disable security on static resources -->
     <security:http pattern="/static/**" security="none"/>
     <security:http pattern="/index.html" security="none"/>
+    <!-- Disable security for using thirdparty authentication-->
+    <security:http pattern="/testServer*" security="none"/>
+    <security:http pattern="/facebook*" security="none"/>
 
     <!-- Enable Spring Security -->
     <security:http entry-point-ref="restAuthenticationEntryPoint" use-expressions="true">
@@ -98,4 +101,10 @@
         <property name= "dataSource" ref="dataSource" />
         <property name="authenticationManager" ref="authenticationManager" />
     </bean >
+
+<!-- not working ?
+    <security:session-management invalid-session-url="/api/login">
+        <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+    </security:session-management>
+-->
 </beans>
