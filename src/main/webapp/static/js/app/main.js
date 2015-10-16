@@ -14,9 +14,12 @@ window.log = function(){
     }
 };
 
-function ThirdPartyLoginInCallback() {
-    console.log("Third Party Login successfully!");
-    TiaonaerApp.vent.trigger("user:loginSuccess");
+function ThirdPartyLoginInCallback(result) {
+    console.log("Third Party Login result!");
+    if ( result )
+        TiaonaerApp.vent.trigger("user:loginSuccess");
+    else
+        TiaonaerApp.vent.trigger("user:loginFailed");
 };
 
 /* for IE9 cors issue ( not support XmlHttpRequest ) */

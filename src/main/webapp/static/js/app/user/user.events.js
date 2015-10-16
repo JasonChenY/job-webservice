@@ -22,7 +22,7 @@ TiaonaerApp.vent.on("user:login", function(){
 
 TiaonaerApp.vent.on("user:loginFailed", function() {
     // extend to include detail error info.
-    TiaonaerApp.ViewContainer.findByCustom("LoginView").login_failed(null);
+    TiaonaerApp.ViewContainer.findByCustom("LoginView").login_failed();
 });
 
 TiaonaerApp.vent.on("user:loginSuccess", function() {

@@ -2,22 +2,19 @@
 <%@ page session="false" %>
 <html>
 <head>
-<title>Login Successfully</title>
+<title>Login Failed</title>
 <script type="text/javascript">
     function load()
     {
         if ( window.opener ) {
-            window.opener.ThirdPartyLoginInCallback(true);
+            window.opener.ThirdPartyLoginInCallback(false);
         }
     }
 </script>
 </head>
 <body onload="load()">
 <div>
-    <span>Login successfully with following info:</span>
-	<h3>username: "${username}"</h3>
-	<h3>email: "${email}"</h3>
-	<h3>phone: "${phone}"</h3>
+    <span>Login failed!</span>
 </div>
 </body>
 </html>
