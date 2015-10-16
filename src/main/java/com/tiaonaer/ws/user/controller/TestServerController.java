@@ -62,13 +62,15 @@ public class TestServerController {
     // render with jsp page
     @RequestMapping("/testServer/login")
     public String login(Model model) throws Exception {
-        UserDTO dto = null;
+        UserDTO dto = testServerRestTemplate.getForObject("http://localhost/oauth2-server/resource/getUserInfo", UserDTO.class);
+        /*
         try {
             dto = testServerRestTemplate.getForObject("http://localhost/oauth2-server/resource/getUserInfo", UserDTO.class);
         } catch (Exception e) {
-            LOGGER.debug("failed to get user info from server");
+            LOGGER.debug("failed to get user info from server ", e);
             return "loginFailure";
         }
+        */
 
         /* Register New User and secure http session */
         try {
