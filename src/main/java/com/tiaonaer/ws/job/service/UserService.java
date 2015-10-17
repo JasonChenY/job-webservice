@@ -36,6 +36,10 @@ public class UserService {
         userDetailsManager.createUser(user);
         return user;
     }
+
+    public boolean userExists(String username) {
+        return userDetailsManager.userExists(username);
+    }
 }
 
 

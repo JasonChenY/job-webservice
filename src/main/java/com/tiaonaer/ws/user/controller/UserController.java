@@ -88,6 +88,13 @@ public class UserController {
         return createDTO(principal);
     }
 
+    @RequestMapping(value = "/api/user/{user_id}", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean userExists(@PathVariable("user_id") String user_id) {
+        LOGGER.debug("check whether this user_id is occupied");
+        return userService.userExists(user_id);
+    }
+
     private UserDTO createDTO(UserDetails principal) {
         UserDTO dto = null;
         if (principal != null) {

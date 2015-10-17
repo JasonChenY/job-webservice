@@ -177,8 +177,32 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
     },
 
     events: {
+        "blur #user-username": "check_user_validity",
         "click #btn-user-register": "register",
         "click #btn-register-cancel": "register_cancel"
+    },
+
+    check_user_validity: function() {
+        var username = $("#user-username", this.el).val();
+        if ( !username || !(/^[a-zA-Z0-9_\-]{4,14}$/.test(username)) ) {
+            $('#display-error', this.el).text("请输入4到14位字母数字下划线破折号的用户名！");
+            $('#for-display-error', this.el).show();
+            $('#user-username', this.el).focus();
+        } else {
+            var self = this;
+            $.ajax({
+                url: TiaonaerApp.ServiceUrl + "/api/user/" + username,
+                success: function(data, status, xhr){
+                    if ( data ) {
+                        $('#display-error', self.el).text(username + " 已被占用，换个名字试试！");
+                        $('#for-display-error', self.el).show();
+                        $('#user-username', self.el).focus();
+                    } else {
+                        $('#for-display-error', self.el).hide();
+                    }
+                }
+            });
+        }
     },
 
     register: function() {
