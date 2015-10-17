@@ -34,6 +34,19 @@ tpl = {
 
 };
 
+function formatDateString(input) {
+    if ( input ) {
+       var val=0;
+       if((input instanceof Object))
+           val = input.millis;
+       else
+           val = input;
+       return new Date(val).toLocaleDateString();
+    } else {
+       return 'N/A';
+    }
+}
+
 function strip_tags(input, allowed) {
   //  discuss at: http://phpjs.org/functions/strip_tags/
   // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)

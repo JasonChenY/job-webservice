@@ -172,7 +172,7 @@
         <p>
             <span><%= job_company %></span>
             <span><%= job_location %></span>
-            <span><% print(new Date(job_post_date).toLocaleDateString()); %></span>
+            <span><% print(formatDateString(job_post_date)); %></span>
             <span><%=favorities_num%>次收藏</span>
             <span><%=comments_num%>条评论</span>
         </p>
@@ -293,7 +293,7 @@
         <div><%=job_title%></div>
         <div><%=job_company%></div>
         <div><%=job_location%></div>
-        <div><% print(new Date(job_post_date).toLocaleDateString()); %></div>
+        <div><% print(formatDateString(job_post_date)); %></div>
         <hr>
         <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
     </div>
@@ -374,7 +374,7 @@
             }
             %>
         </span>
-            <span>举报时间:<% print(new Date(creationTime).toLocaleDateString()); %></span>
+            <span>举报时间:<% print(formatDateString(creationTime)); %></span>
         <span>状态:
             <%
             switch(status) {
@@ -424,8 +424,8 @@
                 <td>子公司:<%job_sub_company!=null?print(job_sub_company):print("N/A");%></td>
             </tr>
             <tr>
-                <td>发布日期:<%print(new Date(job_post_date).toLocaleDateString());%></td>
-                <td>过期日期:<%job_expire_date!=null?print(new Date(job_expire_date).toLocaleDateString()):print("N/A");%></td>
+                <td>发布日期:<%print(formatDateString(job_post_date));%></td>
+                <td>过期日期:<%print(formatDateString(job_expire_date));%></td>
             </tr>
             <% if ( job_category_domain!=null ) {%>
             <tr>
@@ -485,7 +485,7 @@
             }
             %>
         </span>
-            <span>举报时间:<% print(new Date(creationTime).toLocaleDateString()); %></span>
+            <span>举报时间:<% print(formatDateString(creationTime)); %></span>
             <span>举报人:<%= user_id %></span>
 
             <% if ( status == 1 || status == 2 ) { %>
@@ -495,7 +495,7 @@
             <% } else { %>
             <span>未通过</span>
             <% } %>
-            <span><%=approve_user_id%></span><span><%print(new Date(approveTime).toLocaleDateString());%></span>
+            <span><%=approve_user_id%></span><span><% print(formatDateString(approveTime));%></span>
             <% } else { %>
         </p>
         <p>
@@ -577,11 +577,11 @@
                 </td>
             </tr>
             <tr>
-                <td>发布日期:<%print(new Date(job_post_date).toLocaleDateString());%></td>
-                <td>过期日期:<%job_expire_date!=null?print(new Date(job_expire_date).toLocaleDateString()):print("N/A");%></td>
+                <td>发布日期:<%print(formatDateString(job_post_date));%></td>
+                <td>过期日期:<%print(formatDateString(job_expire_date));%></td>
             </tr>
             <tr>
-                <td>抓取日期:<%print(new Date(job_index_date).toLocaleDateString());%></td>
+                <td>抓取日期:<%print(formatDateString(job_index_date));%></td>
                 <td>已过期:<%print(job_expired?"是":"否");%></td>
             </tr>
             <tr>
