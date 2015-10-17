@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,9 +34,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.annotation.Resource;
 
+@PropertySource("classpath:oauth2.properties")
 @Controller
 public class TestServerController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestServerController.class);
+
+    @Value("${testServer.resourceUri}")
+    private String testServerResourceUri;
 
     @Autowired
     private RestOperations testServerRestTemplate;
@@ -62,7 +68,7 @@ public class TestServerController {
     // render with jsp page
     @RequestMapping("/testServer/login")
     public String login(Model model) throws Exception {
-        UserDTO dto = testServerRestTemplate.getForObject("http://localhost/oauth2-server/resource/getUserInfo", UserDTO.class);
+        UserDTO dto = testServerRestTemplate.getForObject(testServerResourceUri + "/getUserInfo", UserDTO.class);
         /*
         try {
             dto = testServerRestTemplate.getForObject("http://localhost/oauth2-server/resource/getUserInfo", UserDTO.class);
