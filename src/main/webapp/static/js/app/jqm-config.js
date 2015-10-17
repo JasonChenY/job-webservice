@@ -1,4 +1,5 @@
-$(document).bind("mobileinit", function () {
+$(document).bind({
+"mobileinit": function () {
     console.log('mobileinit');
     $.mobile.ajaxEnabled = false;
     $.mobile.linkBindingEnabled = false;
@@ -25,6 +26,20 @@ $(document).bind("mobileinit", function () {
         console.log('remove old page from DOM');
         $(event.currentTarget).remove();
     });
+
+
+    $.mobile.loader.prototype.options.text = "正在加载数据...";
+    $.mobile.loader.prototype.options.textVisible = true;
+    $.mobile.loader.prototype.options.theme = "a";
+    $.mobile.loader.prototype.options.html = "";
+    $.mobile.pageLoadErrorMessage = '读取数据失败，请检查网络或者稍后重试!';
+  },
+ajaxStart: function() {
+    setTimeout(function() {$.mobile.loading('show'); }, 0);
+  },
+ajaxStop: function() {
+    setTimeout(function() {$.mobile.loading('hide'); }, 0);
+  }
 });
 /*
 $(document).on('pagebeforechange', function(e, data){
