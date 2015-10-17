@@ -14,6 +14,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
     events: {
         "click #btn-user-register": function() { TiaonaerApp.vent.trigger("user:register"); },
         "click #btn-user-login": "login",
+        "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.login(); },
         "click #btn-login-cancel": "login_cancel",
         "click #btn-testServer-login": "testServer_login"
     },
@@ -178,6 +179,7 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
 
     events: {
         "blur #user-username": "check_user_validity",
+        "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.register(); },
         "click #btn-user-register": "register",
         "click #btn-register-cancel": "register_cancel"
     },
