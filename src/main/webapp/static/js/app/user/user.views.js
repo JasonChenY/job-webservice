@@ -120,6 +120,14 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
     render:function () {
         $(this.el).html(this.template(this.model.toJSON()));
         $(this.el).trigger('create');
+        var btn_ui_user = $('.ui-user-figure', this.el);
+        switch(this.model.get("type")) {
+            case 0: btn_ui_user.buttonMarkup({ icon: "user" }); break;
+            case 1: btn_ui_user.buttonMarkup({ icon: "testserver" }); break;
+            case 2: btn_ui_user.buttonMarkup({ icon: "qq" }); break;
+            case 3: btn_ui_user.buttonMarkup({ icon: "sina" }); break;
+            case 4: btn_ui_user.buttonMarkup({ icon: "baidu" }); break;
+        }
         return this;
     },
 
@@ -146,6 +154,7 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         this.model.set({
             username: user.username,
             role: user.role,
+            type: user.identity_type,
             when: _.now()
         });
         console.log(this.model.toJSON());
@@ -156,6 +165,7 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         this.model.set({
             username: "anonymous",
             role: "ROLE_ANONYMOUS",
+            type: 0,
             when: _.now()
         });
         this.render();

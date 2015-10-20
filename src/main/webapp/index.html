@@ -68,9 +68,9 @@
     <div data-role="header" data-theme="b">
         <h1>我的跳哪儿</h1>
         <% if ( username === 'anonymous' ) { %>
-        <button id="btn_login" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user">未登录</button>
+        <button id="btn_login" class="ui-user-figure ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-user ui-nodisc-icon">未登录</button>
         <%} else {%>
-        <button id="btn_logout" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user"><%= username %><%if(role==='ROLE_ADMIN'){print("(管理员)");};%>-退出</button>
+        <button id="btn_logout" class="ui-user-figure ui-btn ui-shadow ui-corner-all ui-btn-icon-right ui-icon-user ui-nodisc-icon"><%= username %><%if(role==='ROLE_ADMIN'){print("(管理员)");};%>-退出</button>
         <%}%>
     </div>
     <div data-role="content">
@@ -120,7 +120,10 @@
         <div class="ui-field-contain">
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <legend>第三方登录:</legend>
-                <button id="btn-testServer-login" class="ui-shadow ui-btn ui-corner-all ui-icon-user ui-btn-icon-right">测试服务器</button>
+                <button id="btn-testServer-login" class="ui-shadow ui-btn ui-corner-all ui-icon-testserver ui-btn-icon-right ui-nodisc-icon">测试</button>
+                <button id="btn-qq-login" class="ui-shadow ui-btn ui-corner-all ui-icon-qq ui-btn-icon-right ui-nodisc-icon">QQ</button>
+                <button id="btn-sina-login" class="ui-shadow ui-btn ui-corner-all ui-icon-sina ui-btn-icon-right ui-nodisc-icon">微博</button>
+                <button id="btn-baidu-login" class="ui-shadow ui-btn ui-corner-all ui-icon-baidu ui-btn-icon-right ui-nodisc-icon">百度</button>
             </fieldset>
         </div>
         <div class="ui-field-contain" id="for-display-error">

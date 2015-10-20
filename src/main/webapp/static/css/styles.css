@@ -102,3 +102,37 @@ table.filter_input_wrapper { width:100%; }
     .grid-c-7111.ui-grid-c > .ui-block-c { width: 9.9% !important; }
     .grid-c-7111.ui-grid-c > .ui-block-d { width: 9.9% !important; }
 }
+
+.ui-icon-testserver {
+  background: url(images/Connect_logo_testserver.png);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  box-shadow: none;
+}
+
+.ui-icon-qq {
+  background: url(images/Connect_logo_qq.png);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  box-shadow: none;
+}
+
+.ui-icon-sina {
+  background: url(images/Connect_logo_sina.png);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.ui-icon-baidu {
+  background: url(images/Connect_logo_baidu.png);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  box-shadow: none;
+}
+

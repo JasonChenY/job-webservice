@@ -2,7 +2,8 @@ TiaonaerApp.Models.User = Backbone.Model.extend({
     //idAttribute: "username",
     defaults: {
         "username":  "anonymous",
-        "role": "ROLE_ANONYMOUS"
+        "role": "ROLE_ANONYMOUS",
+        "type": 0
     },
 
     isAnonymousUser: function() {
