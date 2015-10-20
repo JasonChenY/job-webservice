@@ -107,7 +107,7 @@ table.filter_input_wrapper { width:100%; }
   background: url(images/Connect_logo_testserver.png);
   background-size: 24px 24px;
   background-repeat: no-repeat;
-  background-position: 100% 50%;
+  background-position: 95% 50%;
   box-shadow: none;
 }
 
@@ -115,7 +115,7 @@ table.filter_input_wrapper { width:100%; }
   background: url(images/Connect_logo_qq.png);
   background-size: 24px 24px;
   background-repeat: no-repeat;
-  background-position: 100% 50%;
+  background-position: 95% 50%;
   box-shadow: none;
 }
 
@@ -123,16 +123,15 @@ table.filter_input_wrapper { width:100%; }
   background: url(images/Connect_logo_sina.png);
   background-size: 24px 24px;
   background-repeat: no-repeat;
-  background-position: 100% 50%;
+  background-position: 95% 50%;
   box-shadow: none;
-  background-color: rgba(0, 0, 0, 0);
 }
 
 .ui-icon-baidu {
   background: url(images/Connect_logo_baidu.png);
   background-size: 24px 24px;
   background-repeat: no-repeat;
-  background-position: 100% 50%;
+  background-position: 95% 50%;
   box-shadow: none;
 }
 
