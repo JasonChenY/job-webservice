@@ -38,7 +38,7 @@ public class CommentService {
         LOGGER.debug("enter createComment");
         Comment model = Comment.getBuilder(dto.getJob_id())
                 .content(dto.getContent())
-                .user_id(securityContextUtil.getPrincipal().getUsername())
+                .user_id(securityContextUtil.getUser_id())
                 .anonymous(dto.getAnonymous() != null ? dto.getAnonymous() : false)
                 .build();
         Comment persisted = repository.save(model);

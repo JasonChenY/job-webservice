@@ -6,8 +6,14 @@ drop table if exists complaints;
 
 create table users(
 	    username varchar(50) not null,
-	    password varchar(50) not null,
-	    enabled boolean not null,
+	    password varchar(50) not null default 'N/A',
+	    enabled boolean not null default 1,
+	    register_time timestamp not null default CURRENT_TIMESTAMP,
+	    last_login_time datetime,
+	    last_login_ip varchar(50),
+	    email varchar(50),
+	    phone varchar(50),
+	    account_type int not null default (0), --comment '0: user registered, 1: system generated account'
         primary key(username)        
 );
 
@@ -17,6 +23,19 @@ create table authorities (
 	    constraint fk_authorities_users foreign key(username) references users(username)
 );
 create unique index ix_auth_username on authorities (username,authority);
+
+create table users_binding (
+        identifier varchar(100) not null, -- unique id from third party
+        identity_type int not null, -- 1: TestServer 2: QQ 3: Weibo 4: Sina
+        user_id varchar(50) not null, -- system id in users
+        binding_time timestamp not null default CURRENT_TIMESTAMP,
+        last_login_time datetime,
+        last_login_ip varchar(50),
+        access_token varchar(100),
+        refresh_token varchar(100),
+        constraint fk_binding_users foreign key(user_id) references users(username),
+        primary key(identifier, identity_type)
+);
 
 create table comments(
         id BIGINT NOT NULL AUTO_INCREMENT primary key, 

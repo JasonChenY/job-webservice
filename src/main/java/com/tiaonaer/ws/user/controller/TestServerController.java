@@ -3,40 +3,27 @@ package com.tiaonaer.ws.user.controller;
 /**
  * Created by echyong on 10/14/15.
  */
-
-import com.tiaonaer.ws.job.service.UserService;
-import com.tiaonaer.ws.security.util.SecurityContextUtil;
-import com.tiaonaer.ws.user.exception.UserRegisterException;
+import com.tiaonaer.ws.user.dto.ThirdPartyUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestOperations;
-
-import com.tiaonaer.ws.user.dto.UserDTO;
 import org.springframework.ui.Model;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.annotation.Resource;
+import com.tiaonaer.ws.user.dto.UserDTO;
 
 @PropertySource("classpath:oauth2.properties")
 @Controller
-public class TestServerController {
+public class TestServerController extends UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestServerController.class);
 
     @Value("${testServer.resourceUri}")
@@ -45,68 +32,33 @@ public class TestServerController {
     @Autowired
     private RestOperations testServerRestTemplate;
 
-    @Resource
-    private SecurityContextUtil securityContextUtil;
-
-    @Resource
-    private UserService userService;
-
-    @Autowired
-    @Qualifier("org.springframework.security.authenticationManager")
-    private AuthenticationManager authenticationManager;
-
-    /* to render JSON
-    @RequestMapping("/testServer/getUserInfo")
-    @ResponseBody
-    public UserDTO getUserInfo() throws Exception {
-
-        UserDTO result = testServerRestTemplate
-                .getForObject("http://localhost/oauth2-server/resource/getUserInfo", UserDTO.class);
-        return result;
-    }*/
-
+    private static class TestServerUser {
+        public String username;
+        public String email;
+        public String phone;
+    }
     // render with jsp page
     @RequestMapping("/testServer/login")
-    public String login(Model model) throws Exception {
-        UserDTO dto = testServerRestTemplate.getForObject(testServerResourceUri + "/getUserInfo", UserDTO.class);
-        /*
-        try {
-            dto = testServerRestTemplate.getForObject("http://localhost/oauth2-server/resource/getUserInfo", UserDTO.class);
-        } catch (Exception e) {
-            LOGGER.debug("failed to get user info from server ", e);
-            return "loginFailure";
-        }
-        */
+    public String login(Model model) throws AuthenticationException {
+        TestServerUser testuser = testServerRestTemplate.getForObject(testServerResourceUri + "/getUserInfo", TestServerUser.class);
 
-        /* Register New User and secure http session */
-        try {
-            LOGGER.debug("add user to db");
-            dto.setPassword("N/A");
-            UserDetails user = userService.registerUser(dto);
-        } catch (Exception e) {
-            LOGGER.warn("User Register Failed, but it is normal case");
-        }
+        //translate thirdparty user account to UserDTO.
+        ThirdPartyUser detail = new ThirdPartyUser();
+        detail.setIdentifier(testuser.username);
+        detail.setIdentity_type(1);
 
-        try{
-            LOGGER.debug("authenticate the user from db again");
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
-            token.setDetails(new WebAuthenticationDetails(request));
-            Authentication authenticatedUser = authenticationManager.authenticate(token);
+        /* bound the third party user to one system user if not done yet */
+        String user_id = bindUser(detail);
+        detail.setUser_id(user_id);
 
-            LOGGER.debug("save Authentication to security context");
-            SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+        /* login the new user to http session */
+        UserDetails user = new User(user_id, "N/A",
+                true, true, true, true, AuthorityUtils.createAuthorityList("ROLE_USER"));
+        loginUser(user, detail);
 
-            LOGGER.debug("save security context to http session, authenticate done.");
-            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-        } catch( AuthenticationException e ){
-            LOGGER.warn("Authentication failed: " + e.getMessage());
-            throw new UserRegisterException(e.getMessage());
-        }
-
-        model.addAttribute("username", dto.getUsername());
-        model.addAttribute("email", dto.getEmail());
-        model.addAttribute("phone", dto.getPhone());
+        model.addAttribute("username", testuser.username);
+        model.addAttribute("email", testuser.email);
+        model.addAttribute("phone", testuser.phone);
 
         return "loginSuccess";
     }

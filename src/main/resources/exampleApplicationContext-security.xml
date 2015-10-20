@@ -33,19 +33,6 @@
         <property name="allowedCredentialsConfig" value="true"/>
     </bean>
 
-    <!--filter>
-        <filter-name>corsFilter</filter-name>
-        <filter-class>com.tiaonaer.ws.security.util.CorsFilter</filter-class>
-        <init-param>
-            <param-name>allowedOrigins</param-name>
-            <param-value>http://www.tiaonaer.com,http://192.168.137.128</param-value>
-        </init-param>
-        <init-param>
-            <param-name>allowCredentials</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter-->
-
     <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
         <property name="permissionEvaluator" ref="CustomPermissionEvaluator" />
     </bean>
@@ -98,10 +85,16 @@
     </security:authentication-manager>
 
     <bean id="jdbcUserService" class="org.springframework.security.provisioning.JdbcUserDetailsManager" >
-        <property name= "dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource" />
         <property name="authenticationManager" ref="authenticationManager" />
-    </bean >
+        <property name="usersByUsernameQuery">
+            <value>select username,password,enabled from users where username = ? and account_type = 0</value>
+        </property>
+    </bean>
 
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
 <!-- not working ?
     <security:session-management invalid-session-url="/api/login">
         <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>

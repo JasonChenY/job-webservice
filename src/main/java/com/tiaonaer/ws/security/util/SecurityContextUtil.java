@@ -14,27 +14,19 @@ import org.springframework.stereotype.Component;
 public class SecurityContextUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityContextUtil.class);
 
-    public UserDetails getPrincipal() {
-        LOGGER.debug("Getting principal from the security context");
-
-        UserDetails principal = null;
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null) {
-            Object currentPrincipal = authentication.getPrincipal();
-            if (currentPrincipal instanceof UserDetails) {
-                principal = (UserDetails) currentPrincipal;
-            }
-        }
-
-        return principal;
-    }
     public String getUser_id() {
-        UserDetails principal = getPrincipal();
-        if ( principal != null )
-            return principal.getUsername();
-        else
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                return ((UserDetails) principal).getUsername();
+            } else if ( principal instanceof String) {
+                return (String)principal;
+            } else {
+                return principal.toString();
+            }
+        } else {
             return null;
+        }
     }
 }

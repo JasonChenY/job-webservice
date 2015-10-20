@@ -1,41 +1,42 @@
 package com.tiaonaer.ws.user.controller;
 
-import com.tiaonaer.ws.job.exception.CommentNotFoundException;
 import com.tiaonaer.ws.job.service.UserService;
 import com.tiaonaer.ws.security.util.SecurityContextUtil;
 import com.tiaonaer.ws.user.dto.SecurityRole;
+import com.tiaonaer.ws.user.dto.ThirdPartyUser;
 import com.tiaonaer.ws.user.dto.UserDTO;
 import com.tiaonaer.ws.user.exception.UserRegisterException;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * @author jason.y.chen
+ * Created by echyong on 10/18/15.
  */
-@Controller
 public class UserController {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Resource
@@ -48,66 +49,60 @@ public class UserController {
     @Qualifier("org.springframework.security.authenticationManager")
     private AuthenticationManager authenticationManager;
 
-    @RequestMapping(value = "/api/register", method = RequestMethod.POST)
-    @ResponseBody
-    public UserDTO register_user(@RequestBody UserDTO dto) throws UserRegisterException
-    {
-        try {
-            LOGGER.debug("add user to db");
-            UserDetails user = userService.registerUser(dto);
-        } catch (Exception e) {
-            LOGGER.warn("User Register Failed");
-            throw new UserRegisterException(e.getMessage());
-        }
-
-        try{
-            LOGGER.debug("authenticate the user from db again");
-            HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
+    public String bindUser(ThirdPartyUser user) {
+        return userService.bindUser(user);
+    }
+    public void loginUser(UserDetails user, ThirdPartyUser detail) throws AuthenticationException {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, "N/A", AuthorityUtils.createAuthorityList("ROLE_USER"));
+        if ( detail != null ) {
+            detail.setLast_login_ip(request.getRemoteAddr());
+            detail.setLast_login_time(DateTime.now());
+            token.setDetails(detail);
+        } else {
             token.setDetails(new WebAuthenticationDetails(request));
-            Authentication authenticatedUser = authenticationManager.authenticate(token);
-
-            LOGGER.debug("save Authentication to security context");
-            SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-
-            LOGGER.debug("save security context to http session, authenticate done.");
-            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-        } catch( AuthenticationException e ){
-            LOGGER.warn("Authentication failed: " + e.getMessage());
-            throw new UserRegisterException(e.getMessage());
         }
+        //Authentication authenticatedUser = authenticationManager.authenticate(token);
 
-        return getLoggedInUser();
+        LOGGER.debug("save Authentication to security context");
+        SecurityContextHolder.getContext().setAuthentication(token);
+
+        LOGGER.debug("save security context to http session, authenticate done.");
+        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
     }
 
-    @RequestMapping(value = "/api/user", method = RequestMethod.GET)
-    @ResponseBody
     public UserDTO getLoggedInUser() {
         LOGGER.debug("Getting logged in user.");
-        UserDetails principal = securityContextUtil.getPrincipal();
-        return createDTO(principal);
+        UserDTO dto = new UserDTO();
+        String username = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ( authentication != null ) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails) principal).getUsername();
+                dto.setRole(getRole(((UserDetails) principal).getAuthorities()));
+            } else {
+                username = (String)principal;
+            }
+            dto.setUsername(username);
+
+            if (authentication.getDetails() instanceof ThirdPartyUser) {
+                ThirdPartyUser detail = (ThirdPartyUser)authentication.getDetails();
+                dto.setUsername(detail.getIdentifier());
+                dto.setIdentity_type(detail.getIdentity_type());
+                //dto.setFigure_url(...);
+                userService.updateLoginTime(detail);
+            } else if (authentication.getDetails() instanceof WebAuthenticationDetails) {
+                WebAuthenticationDetails detail = (WebAuthenticationDetails)authentication.getDetails();
+                userService.updateLoginTime(username, detail.getRemoteAddress());
+            }
+        }
+        return dto;
     }
 
-    @RequestMapping(value = "/api/user/{user_id}", method = RequestMethod.GET)
-    @ResponseBody
-    public boolean userExists(@PathVariable("user_id") String user_id) {
+    public boolean userExists(String user_id) {
         LOGGER.debug("check whether this user_id is occupied");
         return userService.userExists(user_id);
-    }
-
-    private UserDTO createDTO(UserDetails principal) {
-        UserDTO dto = null;
-        if (principal != null) {
-            String username = principal.getUsername();
-            SecurityRole role = getRole(principal.getAuthorities());
-
-            dto = new UserDTO(username, role);
-            dto.setPassword("[PROTECTED]");
-        }
-
-        LOGGER.debug("Created user dto: {}", dto);
-
-        return dto;
     }
 
     private SecurityRole getRole(Collection<? extends GrantedAuthority> authorities) {
@@ -118,12 +113,6 @@ public class UserController {
 
         return SecurityRole.valueOf(a.getAuthority());
     }
-
-    @ExceptionHandler(UserRegisterException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public String handleUserRegisterException(UserRegisterException ex) {
-        LOGGER.debug("handling User Register Exception");
-        return ex.getMessage();
-    }
 }
+
+
