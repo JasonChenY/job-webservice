@@ -5,6 +5,7 @@ import com.tiaonaer.ws.user.dto.UserDTO;
 import com.tiaonaer.ws.user.exception.UserRegisterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import javax.annotation.Resource;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
 /**
  * @author jason.y.chen
@@ -29,11 +31,15 @@ public class DefaultController extends UserController {
     @Resource
     private UserService userService;
 
+    @Autowired
+    private Md5PasswordEncoder passwordEncoder;
+
     @RequestMapping(value = "/api/register", method = RequestMethod.POST)
     @ResponseBody
     public UserDTO apiRegisterUser(@RequestBody UserDTO dto) throws UserRegisterException
     {
-        UserDetails user = new User(dto.getUsername(), dto.getPassword(),
+        UserDetails user = new User(dto.getUsername(),
+                passwordEncoder.encodePassword(dto.getPassword(), dto.getUsername()),
                 true, true, true, true, AuthorityUtils.createAuthorityList("ROLE_USER"));
         try {
             LOGGER.debug("add user to db");
