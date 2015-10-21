@@ -1,8 +1,9 @@
 drop table if exists favorites;
 drop table if exists comments;
+drop table if exists complains;
 drop table if exists authorities;
+drop table if exists users_binding;
 drop table if exists users;
-drop table if exists complaints;
 
 create table users(
 	    username varchar(50) not null,
@@ -13,7 +14,7 @@ create table users(
 	    last_login_ip varchar(50),
 	    email varchar(50),
 	    phone varchar(50),
-	    account_type int not null default (0), --comment '0: user registered, 1: system generated account'
+	    account_type int not null default 0, -- comment '0: user registered, 1: system generated account'
         primary key(username)        
 );
 
@@ -69,9 +70,9 @@ create table complains(
         constraint fk_complains_users2 foreign key(approve_user_id) references users(username)
 );
 
-insert into users values('user', 'password', 1);
+insert into users (username, password, enabled, account_type) values('user', 'c889eb33aa93cfa7c97e1a01d49b21bb', 1, 0);
 insert into authorities values('user', 'ROLE_USER');
-insert into users values('jason', 'password', 1);
+insert into users (username, password, enabled, account_type) values('jason', 'c889eb33aa93cfa7c97e1a01d49b21bb', 1, 0);
 insert into authorities values('jason', 'ROLE_ADMIN');
 
 
