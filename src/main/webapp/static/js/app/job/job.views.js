@@ -66,6 +66,9 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
                 itemsOnPage: 10,
                 cssStyle: 'dark-theme',
                 displayedPages: 3,
+                edges: 2,
+                prevText: '<',
+                nextText: '>',
                 onPageClick: function(page, event) {
                     event.preventDefault();
                     self.fetch_type = 1;

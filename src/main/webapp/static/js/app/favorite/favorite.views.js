@@ -88,6 +88,8 @@ TiaonaerApp.Views.FavoriteListView = TiaonaerApp.View.extend({
                 itemsOnPage: 10,
                 cssStyle: 'dark-theme',
                 displayedPages: 3,
+                prevText: '<',
+                nextText: '>',
                 onPageClick: function(page, event) {
                     if ( event !== undefined ) event.preventDefault();
                     self.fetch_type = 1;
