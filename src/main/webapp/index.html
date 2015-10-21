@@ -294,12 +294,14 @@
 <script id="template-jobdetail-view" type="text/html">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
+      <div data-role="content" data-iscroll class="iscroll-wrapper">
         <div><%=job_title%></div>
         <div><%=job_company%></div>
         <div><%=job_location%></div>
         <div><% print(formatDateString(job_post_date)); %></div>
         <hr>
-        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+        <div><%=job_description%></div>
+      </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <div class="ui-grid-c">
@@ -416,6 +418,7 @@
 <script id="template-complain-detail-view" type="text/html">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
+      <div data-role="content" data-iscroll class="iscroll-wrapper">
         <table width="100%">
             <tr>
                 <td colspan="2">名称:<%=job_title%></td>
@@ -438,7 +441,8 @@
             <% } %>
         </table>
         <hr>
-        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+        <div><%=job_description%></div>
+      </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <div class="ui-grid-c">
@@ -552,6 +556,7 @@
 <script id="template-complain-admin-detail-view" type="text/html">
     <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
     <div class='ui-content' data-role="content" role="main">
+      <div data-role="content" data-iscroll class="iscroll-wrapper">
         <table width="100%">
             <tr>
                 <td colspan="2">名称:<%=job_title%></td>
@@ -593,7 +598,8 @@
             </tr>
         </table>
         <hr>
-        <div data-role="content" data-iscroll='{"wrapperAdd":-80}' class="iscroll-wrapper"><div><%=job_description%></div></div>
+        <div><%=job_description%></div>
+      </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
         <div class="ui-grid-c">
