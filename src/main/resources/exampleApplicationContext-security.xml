@@ -29,7 +29,7 @@
     </security:global-method-security>
 
     <bean id="corsFilter" class="com.tiaonaer.ws.security.util.CorsFilter" init-method="beaninit">
-        <property name="allowedOriginsConfig" value="http://www.tiaonaer.com,https://www.tiaonaer.com,http://192.168.137.128,https://192.168.137.128"/>
+        <property name="allowedOriginsConfig" value="http://www.tiaonaer.com,https://www.tiaonaer.com,http://192.168.137.128,https://192.168.137.128,http://198.11.181.69,https://198.11.181.69"/>
         <property name="allowedCredentialsConfig" value="true"/>
     </bean>
 
