@@ -89,6 +89,11 @@ TiaonaerApp.Views.ComplainDetailView = Backbone.View.extend({
     },
     events: {
         'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
+        'click a.job_url': "goto_job_url"
+    },
+    goto_job_url: function(e) {
+        window.open(e.target.href);
+        e.preventDefault();
     },
     switchModel: function(model) {
         this.stopListening(this.model);

@@ -15,7 +15,13 @@
 $(document).on({
     pageshow: function() {
         if ( window.opener ) {
+            $('#auto-close-hint').hide();
+            $('#btn-close').show();
             window.opener.ThirdPartyLoginInCallback(true);
+        } else {
+            localStorage.setItem("LoginResult", true);
+            $('#auto-close-hint').show();
+            $('#btn-close').hide();
         }
     }
 });
@@ -36,7 +42,7 @@ $(document).ready(function(){
         <p>电话: ${phone}</p>
         <h3>温馨提示</h3>
         <p>已经可以使用跳哪儿的所有功能了,你也可以到用户管理中心创建本地帐号，绑定多个第三方帐号.</p>
-
+        <div id="auto-close-hint" style="color:red">请稍候，当前窗口将会自动关闭！</div>
         <button id="btn-close" class="ui-shadow ui-btn ui-btn-inline ui-corner-all ui-icon-delete ui-btn-icon-right">关闭当前窗口</button>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">

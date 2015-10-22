@@ -19,7 +19,6 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         "click #btn-testServer-login": "testServer_login"
     },
     testServer_login: function() {
-        window.open(TiaonaerApp.ServiceUrl + "/testServer/login");
     /*
         !!!!!
         Cant use AJAX for third party login, 301/302 will be intercepted by browser,
@@ -45,6 +44,29 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             }
         });
     */
+        var win = window.open(TiaonaerApp.ServiceUrl + "/testServer/login", "_blank", "location=yes");
+        if ( win.executeScript ) {
+            /* loadstop only for mobile InAppBrowser */
+            win.addEventListener("loadstop", function() {
+                win.executeScript({ code: "localStorage.removeItem('LoginResult');" });
+                var loop = setInterval(function() {
+                    win.executeScript(
+                        {
+                            code: "localStorage.getItem( 'LoginResult' )"
+                        },
+                        function( values ) {
+                            var result = values[ 0 ];
+                            if ( result ) {
+                                clearInterval( loop );
+                                if ( win ) win.close();
+                                ThirdPartyLoginInCallback(true);
+                            }
+                        }
+                    );
+                },10000);
+                //should use some reasonable value, because this will kill the keyboard ui, can use too short value, too long bad experience
+            });
+        }
     },
     login: function() {
         console.log("Log in");

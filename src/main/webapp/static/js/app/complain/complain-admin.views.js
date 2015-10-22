@@ -113,8 +113,13 @@ TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
     },
     events: {
         'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
+        'click a.job_url': "goto_job_url",
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
+    },
+    goto_job_url: function(e) {
+        window.open(e.target.href);
+        e.preventDefault();
     },
     switchModel: function(model) {
         this.stopListening(this.model);

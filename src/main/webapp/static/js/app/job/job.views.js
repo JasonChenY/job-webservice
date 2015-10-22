@@ -113,8 +113,14 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     },
     events: {
         'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
+        'click a.job_url': "goto_job_url",
         'click a.favorite': "favorite",
         'click button.complain': "complain"
+    },
+    goto_job_url: function(e) {
+        //window.open(e.target.href, '_blank', 'location=yes,fullscreen=yes,scrollbars=yes');
+        window.open(e.target.href);
+        e.preventDefault();
     },
     favorite: function(e) {
         this.model.toggle_favorite();
