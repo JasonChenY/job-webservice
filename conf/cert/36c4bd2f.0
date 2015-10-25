@@ -1,0 +1,76 @@
+-----BEGIN CERTIFICATE-----
+MIIDuDCCAqCgAwIBAgIEJAPMPzANBgkqhkiG9w0BAQsFADB4MQswCQYDVQQGEwJD
+TjELMAkGA1UECBMCU0gxCzAJBgNVBAcTAlNIMSUwIwYDVQQKExxUaWFvbmFlciBU
+ZWNobm9sb2d5IENvLiBMdGQuMQ8wDQYDVQQLEwZkZXNpZ24xFzAVBgNVBAMMDiou
+dGlhb25hZXIuY29tMB4XDTE1MTAyNDE2Mjk0MloXDTE2MDEyMjE2Mjk0MloweDEL
+MAkGA1UEBhMCQ04xCzAJBgNVBAgTAlNIMQswCQYDVQQHEwJTSDElMCMGA1UEChMc
+VGlhb25hZXIgVGVjaG5vbG9neSBDby4gTHRkLjEPMA0GA1UECxMGZGVzaWduMRcw
+FQYDVQQDDA4qLnRpYW9uYWVyLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAJ7LHyikcZlnLxIpwIukyR4q1IEpc4+KpfimLUPwrfKc3kC4MHgKt9yb
+rGh8v24jyg54LShbBCbefya4MwkHfXWqCejOSNDQMATIK6UdAICFhR1liNiZAj7n
+svLQIQ8lYZei5nhgrPjroFQoUcyoxObH/pcSspD10PUYx/1z+jSOH6w4dy5yZaGD
+eN/whF0JV+WYgb4ATwKhxZdnRX4ZBHLT1bBl33fJPTuyF/Leat8QYKnIFBZsnwkS
+rL9cOXy0wbnndLx+GCgxYULpQpuU470BTYxGtUB19dcp4mWj5JAyE8CqgIi6NIsR
+MU0iOtEVhZYCHNlbZypjVmL15LUFflcCAwEAAaNKMEgwJwYDVR0RBCAwHocEwKiJ
+gIcExgu1RYIQd3d3LnRpYW9uYWVyLmNvbTAdBgNVHQ4EFgQU4/Dt0eI8Qb7AmfDZ
+b6UfoimcKSQwDQYJKoZIhvcNAQELBQADggEBAGhHa/iLwI5JGqlMpnfPqbw4we16
+RAyjlvlI8JI4932jPR3CTu+ZOzM8cPg3lIoHOSwcQxDaXPoefTWk2DQb3jfiU1Xu
+mW4APm75LFF0YNgyPuVTK+tKmzl+aiY6G9baYw8bMeg87IVCIMKJ0AdiKyBemV0E
+FHMWAqZD/NSccK6dO3NaEiWN9SvGdnVGKNs1/6SN2w4H81pcnm9yk6fuS70cAELW
+jjj7xBjpTfeCnEyIKVWQqPCYG9ZpOMNvCbWGxRiLAFusYJvH/FyC7+QjoRfAKd2C
+ugNIghHt3Bj87WSRB5WNNUDKtDM17wLYO7YtGPO5b8qdqQqYBTO573ouKPA=
+-----END CERTIFICATE-----
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 604228671 (0x2403cc3f)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=CN, ST=SH, L=SH, O=Tiaonaer Technology Co. Ltd., OU=design, CN=*.tiaonaer.com
+        Validity
+            Not Before: Oct 24 16:29:42 2015 GMT
+            Not After : Jan 22 16:29:42 2016 GMT
+        Subject: C=CN, ST=SH, L=SH, O=Tiaonaer Technology Co. Ltd., OU=design, CN=*.tiaonaer.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:9e:cb:1f:28:a4:71:99:67:2f:12:29:c0:8b:a4:
+                    c9:1e:2a:d4:81:29:73:8f:8a:a5:f8:a6:2d:43:f0:
+                    ad:f2:9c:de:40:b8:30:78:0a:b7:dc:9b:ac:68:7c:
+                    bf:6e:23:ca:0e:78:2d:28:5b:04:26:de:7f:26:b8:
+                    33:09:07:7d:75:aa:09:e8:ce:48:d0:d0:30:04:c8:
+                    2b:a5:1d:00:80:85:85:1d:65:88:d8:99:02:3e:e7:
+                    b2:f2:d0:21:0f:25:61:97:a2:e6:78:60:ac:f8:eb:
+                    a0:54:28:51:cc:a8:c4:e6:c7:fe:97:12:b2:90:f5:
+                    d0:f5:18:c7:fd:73:fa:34:8e:1f:ac:38:77:2e:72:
+                    65:a1:83:78:df:f0:84:5d:09:57:e5:98:81:be:00:
+                    4f:02:a1:c5:97:67:45:7e:19:04:72:d3:d5:b0:65:
+                    df:77:c9:3d:3b:b2:17:f2:de:6a:df:10:60:a9:c8:
+                    14:16:6c:9f:09:12:ac:bf:5c:39:7c:b4:c1:b9:e7:
+                    74:bc:7e:18:28:31:61:42:e9:42:9b:94:e3:bd:01:
+                    4d:8c:46:b5:40:75:f5:d7:29:e2:65:a3:e4:90:32:
+                    13:c0:aa:80:88:ba:34:8b:11:31:4d:22:3a:d1:15:
+                    85:96:02:1c:d9:5b:67:2a:63:56:62:f5:e4:b5:05:
+                    7e:57
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Alternative Name: 
+                IP Address:192.168.137.128, IP Address:198.11.181.69, DNS:www.tiaonaer.com
+            X509v3 Subject Key Identifier: 
+                E3:F0:ED:D1:E2:3C:41:BE:C0:99:F0:D9:6F:A5:1F:A2:29:9C:29:24
+    Signature Algorithm: sha256WithRSAEncryption
+         68:47:6b:f8:8b:c0:8e:49:1a:a9:4c:a6:77:cf:a9:bc:38:c1:
+         ed:7a:44:0c:a3:96:f9:48:f0:92:38:f7:7d:a3:3d:1d:c2:4e:
+         ef:99:3b:33:3c:70:f8:37:94:8a:07:39:2c:1c:43:10:da:5c:
+         fa:1e:7d:35:a4:d8:34:1b:de:37:e2:53:55:ee:99:6e:00:3e:
+         6e:f9:2c:51:74:60:d8:32:3e:e5:53:2b:eb:4a:9b:39:7e:6a:
+         26:3a:1b:d6:da:63:0f:1b:31:e8:3c:ec:85:42:20:c2:89:d0:
+         07:62:2b:20:5e:99:5d:04:14:73:16:02:a6:43:fc:d4:9c:70:
+         ae:9d:3b:73:5a:12:25:8d:f5:2b:c6:76:75:46:28:db:35:ff:
+         a4:8d:db:0e:07:f3:5a:5c:9e:6f:72:93:a7:ee:4b:bd:1c:00:
+         42:d6:8e:38:fb:c4:18:e9:4d:f7:82:9c:4c:88:29:55:90:a8:
+         f0:98:1b:d6:69:38:c3:6f:09:b5:86:c5:18:8b:00:5b:ac:60:
+         9b:c7:fc:5c:82:ef:e4:23:a1:17:c0:29:dd:82:ba:03:48:82:
+         11:ed:dc:18:fc:ed:64:91:07:95:8d:35:40:ca:b4:33:35:ef:
+         02:d8:3b:b6:2d:18:f3:b9:6f:ca:9d:a9:0a:98:05:33:b9:ef:
+         7a:2e:28:f0

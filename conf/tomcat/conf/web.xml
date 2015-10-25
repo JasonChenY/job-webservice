@@ -30,7 +30,39 @@
   <!--                                                                      -->
   <!-- WARNING:  Do not configure application-specific resources here!      -->
   <!-- They should go in the "/WEB-INF/web.xml" file in your application.   -->
-
+  <!-- config a filter to ignore origins, otherwise mobile device will report error -->
+    <filter>
+      <filter-name>CorsFilter</filter-name>
+      <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+      <init-param>
+        <param-name>cors.allowed.origins</param-name>
+        <param-value>*</param-value>
+      </init-param>
+      <init-param>
+        <param-name>cors.allowed.methods</param-name>
+        <param-value>GET,POST,HEAD,OPTIONS,PUT,DELETE</param-value>
+      </init-param>
+      <init-param>
+        <param-name>cors.allowed.headers</param-name>
+        <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
+      </init-param>
+      <init-param>
+        <param-name>cors.exposed.headers</param-name>
+        <param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
+      </init-param>
+      <init-param>
+        <param-name>cors.support.credentials</param-name>
+        <param-value>true</param-value>
+      </init-param>
+      <init-param>
+        <param-name>cors.preflight.maxage</param-name>
+        <param-value>10</param-value>
+      </init-param>
+    </filter>
+    <filter-mapping>
+      <filter-name>CorsFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
   <!-- ================== Built In Servlet Definitions ==================== -->
 
@@ -98,7 +130,7 @@
   <!--   showServerInfo      Should server information be presented in the  -->
   <!--                       response sent to clients when directory        -->
   <!--                       listings is enabled? [true]                    -->
-
+  <!-- set readonly to false, otherwise DELETE not work                     -->
     <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
@@ -108,6 +140,10 @@
         </init-param>
         <init-param>
             <param-name>listings</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>readonly</param-name>
             <param-value>false</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
