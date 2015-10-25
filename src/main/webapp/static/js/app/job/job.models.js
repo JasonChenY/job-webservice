@@ -15,7 +15,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 },
                 crossDomain: true,
                 beforeSend: function(xhr) {
-                    if ( isMobile() ) {
+                    if ( isCordovaApp() ) {
                         xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                     }
                 },
@@ -41,7 +41,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 },
                 crossDomain: true,
                 beforeSend: function(xhr) {
-                    if ( isMobile() ) {
+                    if ( isCordovaApp() ) {
                         //tomcat will reject with 403 for 'Origin: file://'
                         xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                     }

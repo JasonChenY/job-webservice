@@ -20,7 +20,7 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
             },
             crossDomain: true,
             beforeSend: function(xhr) {
-                if ( isMobile() ) {
+                if ( isCordovaApp() ) {
                     xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                 }
             },

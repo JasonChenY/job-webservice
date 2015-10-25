@@ -10,7 +10,7 @@ TiaonaerApp.Models.Complain = Backbone.Model.extend({
                 },
                 crossDomain: true,
                 beforeSend: function(xhr) {
-                    if ( isMobile() ) {
+                    if ( isCordovaApp() ) {
                         xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                     }
                 },

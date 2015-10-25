@@ -45,7 +45,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         });
     */
         var win = window.open(TiaonaerApp.ServiceUrl + "/testServer/login");
-        if ( isMobile() ) {
+        if ( isCordovaApp() ) {
             var loop = null;
             /* loadstop only for mobile InAppBrowser */
             win.addEventListener("loadstop", function() {
@@ -97,7 +97,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             },
             crossDomain: true,
             beforeSend: function(xhr) {
-                if ( isMobile() ) {
+                if ( isCordovaApp() ) {
                     xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                 }
             },
@@ -270,7 +270,7 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
             },
             crossDomain: true,
             beforeSend: function(xhr) {
-                if ( isMobile() ) {
+                if ( isCordovaApp() ) {
                     xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                 }
             },
