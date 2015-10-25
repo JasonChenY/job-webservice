@@ -1,10 +1,15 @@
 package com.tiaonaer.ws.job.model;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-
-import javax.persistence.*;
-
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 /**
  * Created by echyong on 8/24/15.
  */
@@ -69,19 +74,19 @@ public class Complain {
         this.status = status;
     }
 
-    public DateTime getCreationTime() {
+    public Date getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(DateTime creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
-    public DateTime getApproveTime() {
+    public Date getApproveTime() {
         return approveTime;
     }
 
-    public void setApproveTime(DateTime approveTime) {
+    public void setApproveTime(Date approveTime) {
         this.approveTime = approveTime;
     }
 
@@ -115,26 +120,23 @@ public class Complain {
     // 0 - pending;  1 - accepted;  2 - rejected;
 
     @Column(name = "creation_time", nullable = false)
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime creationTime;
+    private Date creationTime;
 
     @Column(name = "approve_time", nullable = true)
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime approveTime;
+    private Date approveTime;
 
     @Column(name = "approve_user_id", nullable =  false)
     private String approve_user_id;
 
     @PrePersist
     public void prePersist() {
-        DateTime now = DateTime.now();
-        creationTime = now;
+        creationTime = new Date();
         status = 0; // pending
     }
 
     @PreUpdate
     public void preUpdate() {
-        approveTime = DateTime.now();
+        approveTime = new Date();
     }
 
     public void update(String approver, int status) {

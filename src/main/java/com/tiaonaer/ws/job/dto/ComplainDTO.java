@@ -4,7 +4,7 @@ package com.tiaonaer.ws.job.dto;
  * Created by echyong on 8/25/15.
  */
 import com.tiaonaer.ws.job.model.Complain;
-import org.joda.time.DateTime;
+import java.util.Date;
 
 public class ComplainDTO {
     public ComplainDTO() {
@@ -25,8 +25,8 @@ public class ComplainDTO {
     private Long id;
     private String user_id;
     private String job_id;
-    private DateTime creationTime;
-    private DateTime approveTime;
+    private Date creationTime;
+    private Date approveTime;
     private int type;
     private String content;
     private int status;
@@ -59,19 +59,19 @@ public class ComplainDTO {
         this.job_id = job_id;
     }
 
-    public DateTime getCreationTime() {
+    public Date getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(DateTime creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
-    public DateTime getApproveTime() {
+    public Date getApproveTime() {
         return approveTime;
     }
 
-    public void setApproveTime(DateTime approveTime) {
+    public void setApproveTime(Date approveTime) {
         this.approveTime = approveTime;
     }
 

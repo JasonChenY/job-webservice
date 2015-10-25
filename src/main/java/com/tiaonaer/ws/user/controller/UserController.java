@@ -6,7 +6,6 @@ import com.tiaonaer.ws.user.dto.SecurityRole;
 import com.tiaonaer.ws.user.dto.ThirdPartyUser;
 import com.tiaonaer.ws.user.dto.UserDTO;
 import com.tiaonaer.ws.user.exception.UserRegisterException;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Date;
 
 /**
  * Created by echyong on 10/18/15.
@@ -57,7 +57,7 @@ public class UserController {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, "N/A", AuthorityUtils.createAuthorityList("ROLE_USER"));
         if ( detail != null ) {
             detail.setLast_login_ip(request.getRemoteAddr());
-            detail.setLast_login_time(DateTime.now());
+            detail.setLast_login_time(new Date());
             token.setDetails(detail);
         } else {
             token.setDetails(new WebAuthenticationDetails(request));

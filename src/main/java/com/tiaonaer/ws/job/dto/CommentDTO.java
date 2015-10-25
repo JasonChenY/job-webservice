@@ -4,7 +4,7 @@ package com.tiaonaer.ws.job.dto;
  * Created by echyong on 8/25/15.
  */
 import com.tiaonaer.ws.job.model.Comment;
-import org.joda.time.DateTime;
+import java.util.Date;
 
 public class CommentDTO {
     public CommentDTO() {
@@ -23,7 +23,7 @@ public class CommentDTO {
         }
     }
     private Long id;
-    private DateTime creationTime;
+    private Date creationTime;
 
     public Long getId() {
         return id;
@@ -33,19 +33,19 @@ public class CommentDTO {
         this.id = id;
     }
 
-    public DateTime getCreationTime() {
+    public Date getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(DateTime creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
-    public DateTime getModificationTime() {
+    public Date getModificationTime() {
         return modificationTime;
     }
 
-    public void setModificationTime(DateTime modificationTime) {
+    public void setModificationTime(Date modificationTime) {
         this.modificationTime = modificationTime;
     }
 
@@ -81,7 +81,7 @@ public class CommentDTO {
         this.job_id = job_id;
     }
 
-    private DateTime modificationTime;
+    private Date modificationTime;
     private String content;
     private Boolean anonymous;
     private String user_id;

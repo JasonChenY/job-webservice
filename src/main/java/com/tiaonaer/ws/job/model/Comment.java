@@ -2,9 +2,15 @@ package com.tiaonaer.ws.job.model;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-
-import javax.persistence.*;
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 /**
  * Created by echyong on 8/24/15.
@@ -19,15 +25,13 @@ public class Comment {
     private Long id;
 
     @Column(name = "creation_time", nullable = false)
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime creationTime;
+    private Date creationTime;
 
     @Column(name = "content", nullable = false, length = MAX_LENGTH_CONTENTS)
     private String content;
 
     @Column(name = "modification_time", nullable = true)
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime modificationTime;
+    private Date modificationTime;
 
     @Column(name = "anonymous", nullable = false)
     private Boolean anonymous;
@@ -66,7 +70,7 @@ public class Comment {
         return id;
     }
 
-    public DateTime getCreationTime() {
+    public Date getCreationTime() {
         return creationTime;
     }
 
@@ -74,7 +78,7 @@ public class Comment {
         return content;
     }
 
-    public DateTime getModificationTime() {
+    public Date getModificationTime() {
         return modificationTime;
     }
 
@@ -84,13 +88,12 @@ public class Comment {
 
     @PrePersist
     public void prePersist() {
-        DateTime now = DateTime.now();
-        creationTime = now;
+        creationTime = new Date();
     }
 
     @PreUpdate
     public void preUpdate() {
-        modificationTime = DateTime.now();
+        modificationTime = new Date();
     }
 
     public void update(String content, Boolean anonymous) {
