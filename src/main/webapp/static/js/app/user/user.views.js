@@ -77,8 +77,8 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         console.log("Log in");
         $('#for-display-error', this.el).hide();
         var user = {};
-        user.username = $("#user-username", this.el).val();
-        user.password = $("#user-password", this.el).val();
+        user.username = $("#user-username", this.el).val().Trim();
+        user.password = $("#user-password", this.el).val().Trim();
 
         //var pathname = $(location).attr('pathname');
         //var path = pathname.substring(0, pathname.lastIndexOf('/'));
@@ -256,8 +256,8 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
         console.log("register");
         $('#for-display-error', this.el).hide();
         var user = {
-            username: $("#user-username", this.el).val(),
-            password: $("#user-password", this.el).val()
+            username: $("#user-username", this.el).val().Trim(),
+            password: $("#user-password", this.el).val().Trim()
         };
         var self = this;
         $.ajax({

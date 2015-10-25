@@ -34,6 +34,17 @@ tpl = {
 
 };
 
+function zeroize(value, length) {
+    if (!length) length = 2;
+    value = String(value);
+    for (var i = 0, zeros = ''; i < (length - value.length); i++) {
+        zeros += '0';
+    }
+    return zeros + value;
+};
+Date.prototype.toShortDateString = function() {
+    return this.getFullYear() + "-" + zeroize(this.getMonth()+1) + "-" + zeroize(this.getDate());
+};
 function formatDateString(input) {
     if ( input ) {
        var val=0;
@@ -41,7 +52,7 @@ function formatDateString(input) {
            val = input.millis;
        else
            val = input;
-       return new Date(val).toLocaleDateString();
+       return new Date(val).toShortDateString();
     } else {
        return 'N/A';
     }
@@ -126,3 +137,13 @@ function VerifySslCertificate(server, fingerprint) {
         alert("window.plugins.sslCertificateChecker not installed");
     }
 };
+
+String.prototype.Trim = function(){
+    return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+String.prototype.LTrim = function(){
+    return this.replace(/(^\s*)/g, "");
+}
+String.prototype.RTrim = function() {
+    return this.replace(/(\s*$)/g, "");
+}

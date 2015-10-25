@@ -5,6 +5,15 @@ TiaonaerApp.Models.Complain = Backbone.Model.extend({
         this.save(attrs,
             {
                 wait:true,
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                beforeSend: function(xhr) {
+                    if ( isMobile() ) {
+                        xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                    }
+                },
                 success: function(model) {
                     console.log("save succeed");
                 },
