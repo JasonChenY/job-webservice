@@ -66,7 +66,10 @@ TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
 TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
 
-TiaonaerApp.ServiceUrl = "https://192.168.137.128/jobws";
+//TiaonaerApp.ServerHost = "https://192.168.137.128";
+TiaonaerApp.ServerHost = "https://198.11.181.69";
+//TiaonaerApp.ServerHost = "https://www.tiaonaer.com";
+TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost + "/jobws";
 
 TiaonaerApp.spinner = new Spinner({
     lines: 13, // The number of lines to draw
@@ -104,6 +107,9 @@ TiaonaerApp.showView = function(viewName, model) {
                 view = new TiaonaerApp.Views.UserHomeView();
                 break;
             case "LoginView":
+                if ( isMobile() ) {
+                    VerifySslCertificate(TiaonaerApp.ServerHost, "48 0F 35 9F E8 C8 91 EA 00 D1 8F 86 53 4E 23 04 63 9D 0D 48");
+                }
                 view = new TiaonaerApp.Views.LoginView();
                 break;
             case "UserRegisterView":
@@ -223,6 +229,7 @@ $(document).ready(function(){
             TiaonaerApp.start();
         });
     */
+
     TiaonaerApp.start();
 });
 

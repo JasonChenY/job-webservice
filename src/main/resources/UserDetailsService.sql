@@ -72,7 +72,7 @@ create table complains(
 
 insert into users (username, password, enabled, account_type) values('user', 'c889eb33aa93cfa7c97e1a01d49b21bb', 1, 0);
 insert into authorities values('user', 'ROLE_USER');
-insert into users (username, password, enabled, account_type) values('jason', 'c889eb33aa93cfa7c97e1a01d49b21bb', 1, 0);
+insert into users (username, password, enabled, account_type) values('jason', 'a16a7f421812e73b061aa7a728ec7403', 1, 0);
 insert into authorities values('jason', 'ROLE_ADMIN');
 
 

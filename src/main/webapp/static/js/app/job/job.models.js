@@ -10,6 +10,15 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
             var favorite = new TiaonaerApp.Models.Favorite({id: self.get("favorite_id")});
             favorite.destroy({
                 wait:true,
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                beforeSend: function(xhr) {
+                    if ( isMobile() ) {
+                        xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                    }
+                },
                 success: function(favorite) {
                     self.set({
                         favorite_id: 0,
@@ -26,6 +35,17 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
             var favorite = new TiaonaerApp.Models.Favorite();
             favorite.save(attrs, {
                 wait: true,
+                /* for mobile app where default origin: file:// */
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                beforeSend: function(xhr) {
+                    if ( isMobile() ) {
+                        //tomcat will reject with 403 for 'Origin: file://'
+                        xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                    }
+                },
                 success: function (favorite) {
                     self.set({
                         favorite_id: favorite.get("id"),
@@ -56,6 +76,16 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
             var complain = new TiaonaerApp.Models.Complain();
             complain.save(attrs, {
                 wait: true,
+                /* for mobile app where default origin: file:// */
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                beforeSend: function(xhr) {
+                   //tomcat will reject with 403 for 'Origin: file://'
+                   xhr.setRequestHeader("Origin", TiaonaerApp.ServerHost);
+                   xhr.setRequestHeader("test", TiaonaerApp.ServerHost);
+                },
                 success: function (complain) {
                     self.set({
                         complain_pending: true,

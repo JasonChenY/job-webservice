@@ -44,20 +44,25 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             }
         });
     */
-        var win = window.open(TiaonaerApp.ServiceUrl + "/testServer/login", "_blank", "location=yes");
-        if ( win.executeScript ) {
+        var win = window.open(TiaonaerApp.ServiceUrl + "/testServer/login");
+        if ( isMobile() ) {
+            var loop = null;
             /* loadstop only for mobile InAppBrowser */
             win.addEventListener("loadstop", function() {
+                if ( loop ) return;
                 win.executeScript({ code: "localStorage.removeItem('LoginResult');" });
-                var loop = setInterval(function() {
+                loop = setInterval(function() {
                     win.executeScript(
                         {
                             code: "localStorage.getItem( 'LoginResult' )"
                         },
                         function( values ) {
                             var result = values[ 0 ];
-                            if ( result ) {
-                                clearInterval( loop );
+                            if ( result != null ) {
+                                if ( loop ) {
+                                    clearInterval( loop );
+                                    loop = null;
+                                }
                                 if ( win ) win.close();
                                 ThirdPartyLoginInCallback(true);
                             }
@@ -91,11 +96,19 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
                 withCredentials: true
             },
             crossDomain: true,
+            beforeSend: function(xhr) {
+                if ( isMobile() ) {
+                    xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                }
+            },
             success: function(data, status, xhr){
                 console.log("Trigger user:loginSuccess");
                 TiaonaerApp.vent.trigger("user:loginSuccess");
             },
             error: function(data, status, xhr) {
+                alert(data);
+                alert(status);
+                alert(xhr);
                 self.login_failed(data);
             }/*,
             complete: function(data, status, xhr) {
@@ -256,6 +269,11 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
                 withCredentials: true
             },
             crossDomain: true,
+            beforeSend: function(xhr) {
+                if ( isMobile() ) {
+                    xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                }
+            },
             success: function(data, status, xhr){
                 console.log("Trigger user:registerSuccess");
                 TiaonaerApp.vent.trigger("user:registerSuccess", data);
