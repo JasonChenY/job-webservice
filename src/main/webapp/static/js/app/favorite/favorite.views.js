@@ -15,6 +15,15 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
     favorite: function(e) {
         this.model.destroy({
             wait:true,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            beforeSend: function(xhr) {
+                if ( isMobile() ) {
+                    xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                }
+            },
             success: function(favorite) {
                 console.log("detroy succeed");
             },
