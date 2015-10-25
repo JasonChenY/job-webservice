@@ -32,10 +32,10 @@ if [ $1 = "create" ]; then
    rm -rf www
    ln -sf $dir/src/main/webapp www
 
-   cp $dir/app/res/mipmap-mdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-mdpi/
-   cp $dir/app/res/mipmap-hdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-hdpi/
-   cp $dir/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-xhdpi/
-   cp $dir/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable/
+   cp $dir/conf/app/res/mipmap-mdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-mdpi/
+   cp $dir/conf/app/res/mipmap-hdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-hdpi/
+   cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-xhdpi/
+   cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable/
 
    cordova build android
 elif [ $1 = "build" ]; then
