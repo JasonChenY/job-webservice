@@ -46,7 +46,7 @@ $(document).ready(function(){
         <button id="btn-close" class="ui-shadow ui-btn ui-btn-inline ui-corner-all ui-icon-delete ui-btn-icon-right">关闭当前窗口</button>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
-        <h1>版权: 2015-2025</h1>
+        <h1>Copyright @ 2015-2025</h1>
     </div>
 </div>
 </body>
