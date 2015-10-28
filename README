@@ -24,6 +24,21 @@ RUNNING TESTS:
 - You can run integration tests by using a command: mvn verify -P integration-test
 
 
+problems:
+1. IE9 third party login not works, window.opener is null after some redirection?,  test program works fine.
+   - add hint in loginSuccess.jsp and add some logic for user to refresh ( actually login is done already, just to trigger the render )
+closed: this problem doesnt exist anymore, note should install the self signed certificate as trusted ROOT ca.
 
-insert into users values('user','password',1);
+2. should hide all the BACK button on cordova app and mobile browser.
+
+3. how to build in the self keystore to cordova app
+closed. ( dont need do this, only need add self-signed root CA, or need do nothing for commercial certificate )
+
+4. anyway to get the local wifi ip in cordova app
+   <gap:plugin name="com.albahra.plugin.networkinterface" version="1.0.7" />
+
+5. improve 401 handling.
+
+6. accepted complains job items appear in result list.
+closed:  think more about that, this should be the correct behavior.
 
