@@ -135,3 +135,11 @@ table.filter_input_wrapper { width:100%; }
   box-shadow: none;
 }
 
+.back-btn-wrapper {
+  float:right;
+}
+.pagination-wrapper {
+  width: 320px;
+  margin:0px auto;
+}
+
