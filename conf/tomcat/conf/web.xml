@@ -30,6 +30,16 @@
   <!--                                                                      -->
   <!-- WARNING:  Do not configure application-specific resources here!      -->
   <!-- They should go in the "/WEB-INF/web.xml" file in your application.   -->
+
+    <filter>
+        <filter-name>requestdumper</filter-name>
+        <filter-class>org.apache.catalina.filters.RequestDumperFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>requestdumper</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
+
   <!-- config a filter to ignore origins, otherwise mobile device will report error -->
     <filter>
       <filter-name>CorsFilter</filter-name>
