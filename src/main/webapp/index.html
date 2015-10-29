@@ -314,8 +314,8 @@
             <a href="#" data-role="button" data-icon="minus" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b">取消收藏</a>
             <% } %>
         </div>
-        <div style="float:left;">
-            <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">去官网申请</a>
+        <div style="float:left;" data-theme="b">
+            <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网申请</a>
         </div>
         <div style="float:left;">
             <% if (!complain_pending) { %>
@@ -383,7 +383,7 @@
             }
             %>
         </span>
-            <span>举报时间:<% print(formatDateString(creationTime)); %></span>
+        <span>举报时间:<% print(formatDateString(creationTime)); %></span>
         <span>状态:
             <%
             switch(status) {
@@ -458,22 +458,19 @@
                 举报事项:
                 <%
                 switch(type) {
-                case 0: print('已过期'); break;
-                case 1: print('内容无效'); break;
-                case 2: print('其他'); break;
-                }
-                %>
-                -状态:
-                <%
+                    case 0: print('已过期'); break;
+                    case 1: print('内容无效'); break;
+                    case 2: print('其他'); break;
+                };
                 switch(status) {
-                case 0: print('正在处理中'); break;
-                case 1: print('已审核通过'); break;
-                case 2: print('审核未通过'); break;
+                    case 0: print('(正在处理中)'); break;
+                    case 1: print('(已审核通过)'); break;
+                    case 2: print('(审核未通过)'); break;
                 }
                 %>
             </a>
         </div>
-        <div style="float:left;">
+        <div style="float:left;" data-theme="b">
             <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
         </div>
     </div>
@@ -604,7 +601,7 @@
         <div class="back-btn-wrapper" >
             <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
         </div>
-        <div style="float:left;">
+        <div style="float:left;" data-theme="b" >
             <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
         </div>
         <div class="ui-block-b">
