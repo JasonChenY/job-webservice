@@ -112,7 +112,6 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
         this.listenTo(this.model, "change", this.modelAttrChanged);
     },
     events: {
-        'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
         'click a.job_url': "goto_job_url",
         'click a.favorite': "favorite",
         'click button.complain': "complain"

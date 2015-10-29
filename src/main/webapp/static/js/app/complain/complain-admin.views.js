@@ -70,6 +70,9 @@ TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
                 itemsOnPage: 10,
                 cssStyle: 'dark-theme',
                 displayedPages: 3,
+                edges: 2,
+                prevText: '<',
+                nextText: '>',
                 onPageClick: function(page, event) {
                     if ( event !== undefined ) event.preventDefault();
                     self.fetch_type = 1;
@@ -112,7 +115,6 @@ TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
         self.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     events: {
-        'click a.goback': function(e) { window.history.back(); e.preventDefault(); },
         'click a.job_url': "goto_job_url",
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,

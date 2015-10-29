@@ -307,34 +307,32 @@
       </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
-        <div class="ui-grid-c">
-            <div class="ui-block-a">
-                <% if (favorite_id === 0) { %>
-                <a href="#" data-role="button" data-icon="star" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-star ui-btn-b">收藏</a>
-                <% } else { %>
-                <a href="#" data-role="button" data-icon="minus" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b">取消收藏</a>
-                <% } %>
+        <div style="float:left;">
+            <% if (favorite_id === 0) { %>
+            <a href="#" data-role="button" data-icon="star" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-star ui-btn-b">收藏</a>
+            <% } else { %>
+            <a href="#" data-role="button" data-icon="minus" class="favorite ui-mini ui-btn ui-btn-icon-left ui-icon-minus ui-btn-b">取消收藏</a>
+            <% } %>
+        </div>
+        <div style="float:left;">
+            <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">去官网申请</a>
+        </div>
+        <div style="float:left;">
+            <% if (!complain_pending) { %>
+            <div data-role="controlgroup" data-type="horizontal">
+                <select id="complain_type">
+                    <option value="0">已过期</option>
+                    <option value="1">内容无效</option>
+                    <option value="2">其他</option>
+                </select>
+                <button class="complain">举报</button>
             </div>
-            <div class="ui-block-b">
-                <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">去官网申请</a>
-            </div>
-            <div class="ui-block-c">
-                <% if (!complain_pending) { %>
-                <div data-role="controlgroup" data-type="horizontal">
-                    <select id="complain_type">
-                        <option value="0">已过期</option>
-                        <option value="1">内容无效</option>
-                        <option value="2">其他</option>
-                    </select>
-                    <button class="complain">举报</button>
-                </div>
-                <% } else { %>
-                <a href="#" data-role="button" data-icon="comment" class="ui-disabled complain ui-btn ui-icon-comment ui-btn-icon-left ui-btn-b">已有用户举报</a>
-                <% } %>
-            </div>
-            <div class="ui-block-d">
-                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
-            </div>
+            <% } else { %>
+            <a href="#" data-role="button" data-icon="comment" class="ui-disabled complain ui-btn ui-icon-comment ui-btn-icon-left ui-btn-b">已有用户举报</a>
+            <% } %>
+        </div>
+        <div class="back-btn-wrapper">
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
         </div>
     </div>
 </script>
@@ -452,37 +450,31 @@
       </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
-        <div class="ui-grid-c">
-            <div class="ui-block-a">
-                <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
-            </div>
-            <div class="ui-block-b">
-                <a href="#" class="ui-disabled ui-btn">
-                    举报事项:
-                    <%
-                    switch(type) {
-                    case 0: print('已过期'); break;
-                    case 1: print('内容无效'); break;
-                    case 2: print('其他'); break;
-                    }
-                    %>
-                </a>
-            </div>
-            <div class="ui-block-c">
-                <a href="#" class="ui-disabled ui-btn">
-                    审核状态:
-                    <%
-                    switch(status) {
-                    case 0: print('正在处理中'); break;
-                    case 1: print('已审核通过'); break;
-                    case 2: print('审核未通过'); break;
-                    }
-                    %>
-                </a>
-            </div>
-            <div class="ui-block-d">
-                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
-            </div>
+        <div class="back-btn-wrapper" >
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
+        </div>
+        <div style="float:right;">
+            <a href="#" class="ui-disabled ui-btn">
+                举报事项:
+                <%
+                switch(type) {
+                case 0: print('已过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他'); break;
+                }
+                %>
+                -状态:
+                <%
+                switch(status) {
+                case 0: print('正在处理中'); break;
+                case 1: print('已审核通过'); break;
+                case 2: print('审核未通过'); break;
+                }
+                %>
+            </a>
+        </div>
+        <div style="float:left;">
+            <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
         </div>
     </div>
 </script>
@@ -536,26 +528,26 @@
     </div>
 
     <div data-role="footer" class="jqm-footer" data-theme="b" data-position="fixed" data-tap-toggle="false">
-        <div class="ui-grid-b grid-b-622">
-            <div class="ui-block-a"><div class="pagination"></div></div>
-            <div class="ui-block-b">
-                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                    <select name="complaintype" id="complaintype">
-                        <option value="-1" selected="selected">所有</option>
-                            <option value="0">已过期</option>
-                            <option value="1">内容无效</option>
-                        <option value="2">其他</option>
-                    </select>
-                    <select name="complainstatus" id="complainstatus">
-                            <option value="-1">所有</option>
-                            <option value="0" selected="selected">待处理</option>
-                            <option value="1">已审核</option>
-                            <option value="2">已拒绝</option>
-                    </select>
-                </fieldset>
-            </div>
-            <div class="ui-block-c"><a href="#" data-rel="back" class="ui-btn ui-mini">返回</a></div>
+        <div class="back-btn-wrapper" >
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
         </div>
+        <div style="float:right;">
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <select name="complaintype" id="complaintype">
+                    <option value="-1" selected="selected">所有</option>
+                        <option value="0">已过期</option>
+                        <option value="1">内容无效</option>
+                    <option value="2">其他</option>
+                </select>
+                <select name="complainstatus" id="complainstatus">
+                        <option value="-1">所有</option>
+                        <option value="0" selected="selected">待处理</option>
+                        <option value="1">已审核</option>
+                        <option value="2">已拒绝</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="pagination-wrapper"><div class="pagination"></div></div>
     </div>
 </script>
 
@@ -609,37 +601,35 @@
       </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
-        <div class="ui-grid-c">
-            <div class="ui-block-a">
-                <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
-            </div>
-            <div class="ui-block-b">
-                <a href="#" class="ui-disabled ui-btn">
-                    举报事项:
-                    <%
-                    switch(type) {
-                    case 0: print('已过期'); break;
-                    case 1: print('内容无效'); break;
-                    case 2: print('其他'); break;
-                    }
-                    %>
-                </a>
-            </div>
-            <div class="ui-block-c">
-                <% if ( status === 1 ) { %>
-                <a href="#" class="ui-disabled ui-btn">已审核</a>
-                <% } else if ( status === 2 ) { %>
-                <a href="#" class="ui-disabled ui-btn">已拒绝</a>
-                <% } else { %>
-                <fieldset data-role="controlgroup" data-type="horizontal">
-                    <input type="button" class="accept" value="接受"/>
-                    <input type="button" class="reject" value="拒绝"/>
-                </fieldset>
-                <% } %>
-            </div>
-            <div class="ui-block-d">
-                <a href="#" data-role="button" data-icon="recycle" data-role="back" class="goback ui-btn ui-icon-recycle ui-btn-icon-left ui-btn-b">返回</a>
-            </div>
+        <div class="back-btn-wrapper" >
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
+        </div>
+        <div style="float:left;">
+            <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网详情</a>
+        </div>
+        <div class="ui-block-b">
+            <a href="#" class="ui-disabled ui-btn">
+                举报事项:
+                <%
+                switch(type) {
+                case 0: print('已过期'); break;
+                case 1: print('内容无效'); break;
+                case 2: print('其他'); break;
+                }
+                %>
+            </a>
+        </div>
+        <div style="float:left;">
+            <% if ( status === 1 ) { %>
+            <a href="#" class="ui-disabled ui-btn">已审核</a>
+            <% } else if ( status === 2 ) { %>
+            <a href="#" class="ui-disabled ui-btn">已拒绝</a>
+            <% } else { %>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <input type="button" class="accept" value="接受"/>
+                <input type="button" class="reject" value="拒绝"/>
+            </fieldset>
+            <% } %>
         </div>
     </div>
 </script>
