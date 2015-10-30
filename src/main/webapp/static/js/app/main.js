@@ -67,8 +67,7 @@ TiaonaerApp.Views = {};
 TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
 
 //TiaonaerApp.ServerHost = "https://192.168.137.128";
-TiaonaerApp.ServerHost = "https://198.11.181.69";
-//TiaonaerApp.ServerHost = "https://www.tiaonaer.com";
+TiaonaerApp.ServerHost = "https://www.tiaonr.com";
 TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost + "/jobws";
 
 TiaonaerApp.spinner = new Spinner({

@@ -1,13 +1,15 @@
-mkdir -p rootCA
-mkdir -p rootCA/{private,certs,crl,newcerts}
-touch rootCA/private/.rand
-touch rootCA/index.txt
-touch rootCA/serial
-echo "01" > rootCA/serial 
+topdir=/sdk/tmp/spring/solr-pagination/conf/cert
+currdir=$topdir/root
+mkdir -p $currdir/rootCA
+mkdir -p $currdir/rootCA/{private,certs,crl,newcerts}
+touch $currdir/rootCA/private/.rand
+touch $currdir/rootCA/index.txt
+touch $currdir/rootCA/serial
+echo "01" > $currdir/rootCA/serial 
 
-export RANDFILE="rootCA/private/.rnd"; 
-openssl genrsa -des3 -out /sdk/tmp/ca/root/rootCA/private/cakey.pem 1024
-openssl req -new -x509 -key /sdk/tmp/ca/root/rootCA/private/cakey.pem -out /sdk/tmp/ca/root/rootCA/cacert.pem -extensions v3_ca -passin pass:rootca -subj /C=CN/ST=SH/L=SH/O=ZhiSheng\ Inc/OU=Cert/CN=RootCA
+export RANDFILE="$currdir/rootCA/private/.rnd"; 
+openssl genrsa -des3 -out $currdir/rootCA/private/cakey.pem 1024
+openssl req -new -x509 -key $currdir/rootCA/private/cakey.pem -out $currdir/rootCA/cacert.pem -extensions v3_ca -passin pass:rootca -subj /C=CN/ST=SH/L=SH/O=ZhiSheng\ Inc/OU=Cert/CN=RootCA -days 3650
 
 #openssl rsa -in /sdk/tmp/ca/root/rootCA/private/cakey.pem -text -noout
 #openssl x509 -in /sdk/tmp/ca/root/rootCA/cacert.pem -text -noout
@@ -16,6 +18,6 @@ openssl req -new -x509 -key /sdk/tmp/ca/root/rootCA/private/cakey.pem -out /sdk/
 #openssl genrsa -des3 -out agency.key 1024
 #openssl req -new -key agency.key -out agency.csr
 
-openssl ca -in /sdk/tmp/ca/agency/agency.csr -extensions v3_ca -config ./openssl.cnf -passin pass:rootca
+openssl ca -in $topdir/agency/agency.csr -extensions v3_ca -config $currdir/openssl.cnf -passin pass:rootca -days 3650
 
-send /sdk/tmp/ca/root/rootCA/newcerts/01.pem to agency ( agency.key as well if we generated the key for agency )
+send $currdir/rootCA/newcerts/01.pem to agency ( agency.key as well if we generated the key for agency )

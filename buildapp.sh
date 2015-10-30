@@ -17,7 +17,7 @@ fi
 if [ $1 = "create" ]; then
    cd $destdir
    rm -rf jobapp
-   cordova create jobapp com.tiaonaer.jobapp 跳哪儿
+   cordova create jobapp com.tiaonr.jobapp 跳哪儿
    cd jobapp 
 
    echo "download plugins"

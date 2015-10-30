@@ -9,7 +9,7 @@
     <context:property-placeholder location="classpath:application.properties" ignore-resource-not-found="false"/>
 
     <!-- Enable Solr repositories and configure repository base package -->
-    <solr:repositories base-package="com.tiaonaer.ws.job.repository.solr"/>
+    <solr:repositories base-package="com.tiaonr.ws.job.repository.solr"/>
 
     <!-- Bean definitions for the dev profile -->
     <beans profile="dev">

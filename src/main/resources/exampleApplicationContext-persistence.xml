@@ -18,7 +18,7 @@
         <property name="password" value="${db.password}"/>
     </bean-->
 
-    <bean id="dataSource" class="com.tiaonaer.ws.config.ExtendedBasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="com.tiaonr.ws.config.ExtendedBasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${db.driver}"/>
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
@@ -37,7 +37,7 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
-        <property name="packagesToScan" value="com.tiaonaer.ws.job.model"/>
+        <property name="packagesToScan" value="com.tiaonr.ws.job.model"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -49,5 +49,5 @@
         </property>
     </bean>
 
-    <jpa:repositories base-package="com.tiaonaer.ws.job.repository"/>
+    <jpa:repositories base-package="com.tiaonr.ws.job.repository"/>
 </beans>

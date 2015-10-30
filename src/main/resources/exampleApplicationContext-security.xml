@@ -28,8 +28,8 @@
         <security:expression-handler ref="expressionHandler"/>
     </security:global-method-security>
 
-    <bean id="corsFilter" class="com.tiaonaer.ws.security.util.CorsFilter" init-method="beaninit">
-        <property name="allowedOriginsConfig" value="http://www.tiaonaer.com,https://www.tiaonaer.com,http://192.168.137.128,https://192.168.137.128,http://198.11.181.69,https://198.11.181.69"/>
+    <bean id="corsFilter" class="com.tiaonr.ws.security.util.CorsFilter" init-method="beaninit">
+        <property name="allowedOriginsConfig" value="http://www.tiaonr.com,https://www.tiaonr.com,http://192.168.137.128,https://192.168.137.128"/>
         <property name="allowedCredentialsConfig" value="true"/>
     </bean>
 
@@ -37,10 +37,10 @@
         <property name="permissionEvaluator" ref="CustomPermissionEvaluator" />
     </bean>
 
-    <bean id="CustomPermissionEvaluator" class="com.tiaonaer.ws.security.authorization.CustomPermissionEvaluator"/>
+    <bean id="CustomPermissionEvaluator" class="com.tiaonr.ws.security.authorization.CustomPermissionEvaluator"/>
 
     <!-- Configures the authentication entry point -->
-    <bean id="restAuthenticationEntryPoint" class="com.tiaonaer.ws.security.authentication.RestAuthenticationEntryPoint"/>
+    <bean id="restAuthenticationEntryPoint" class="com.tiaonr.ws.security.authentication.RestAuthenticationEntryPoint"/>
 
     <!-- Configures a custom login filter bean -->
     <bean id="loginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
@@ -54,13 +54,13 @@
     </bean>
 
     <!-- Configures a custom authentication success handler that returns the HTTP status code 200 instead of the 301 HTTP status code -->
-    <bean id="restAuthenticationSuccessHandler" class="com.tiaonaer.ws.security.authentication.RestAuthenticationSuccessHandler"/>
+    <bean id="restAuthenticationSuccessHandler" class="com.tiaonr.ws.security.authentication.RestAuthenticationSuccessHandler"/>
 
     <!-- Configures a custom authentication failure handler -->
-    <bean id="restAuthenticationFailureHandler" class="com.tiaonaer.ws.security.authentication.RestAuthenticationFailureHandler"/>
+    <bean id="restAuthenticationFailureHandler" class="com.tiaonr.ws.security.authentication.RestAuthenticationFailureHandler"/>
 
     <!-- Configures a custom logout success handler -->
-    <bean id="restLogoutSuccessHandler" class="com.tiaonaer.ws.security.authentication.RestLogoutSuccessHandler"/>
+    <bean id="restLogoutSuccessHandler" class="com.tiaonr.ws.security.authentication.RestLogoutSuccessHandler"/>
 
     <!-- Configures in-memory implementation of the UserDetailsService implementation -->
     <!--security:authentication-manager alias="authenticationManager">

@@ -223,7 +223,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName          = @alt_names
 
 [alt_names]
-DNS.1   = www.tiaonaer.com
+DNS.1   = www.tiaonr.com
 IP.1    = 192.168.137.128
 IP.2    = 198.11.181.69
 

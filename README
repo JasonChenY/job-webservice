@@ -30,12 +30,14 @@ problems:
 closed: this problem doesnt exist anymore, note should install the self signed certificate as trusted ROOT ca.
 
 2. should hide all the BACK button on cordova app and mobile browser.
+closed.
 
 3. how to build in the self keystore to cordova app
 closed. ( dont need do this, only need add self-signed root CA, or need do nothing for commercial certificate )
 
 4. anyway to get the local wifi ip in cordova app
    <gap:plugin name="com.albahra.plugin.networkinterface" version="1.0.7" />
+closed. dont need do this way, root cause identified, android 4.4 use file:// which not accepted by tomcat.
 
 5. improve 401 handling.
 
