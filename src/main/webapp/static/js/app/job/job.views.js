@@ -86,7 +86,8 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
             pageSize: "page.size",
             sortKey: "page.sort",
             order: "page.sort.dir",
-            directions: 1
+            directions: 1,
+            fq: "job_expired:false"
         };
         filters = filters || {};
         this.collection.queryParams = _.extend(defqs, filters);
