@@ -7,7 +7,8 @@ TiaonaerApp.JobRouting = function(){
             "job/update/:id": "update",
             "job/list": "list",
             "job/search": "search",
-            "job/filter?:filters": "filter"
+            "job/filter?:filters": "filter",
+            "job/filter": "filter"
         }
     });
 

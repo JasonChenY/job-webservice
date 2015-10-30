@@ -185,6 +185,10 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         return !this.model.isAnonymousUser();
     },
 
+    getUserRole: function() {
+        return this.model.role;
+    },
+
     userLoggedIn: function(user) {
         this.model.set({
             username: user.username,

@@ -247,10 +247,13 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
     reset_filter: function(e) {
         $('input[type="checkbox"]', this.el).attr('checked',false).checkboxradio("refresh");
 
-        $('input[type="radio"]:first', this.el).prop("checked", true);
-        $('input[type="radio"]', this.el).checkboxradio("refresh");
+        $('#jobfilter_date_ctlgrp input[type="radio"]:first', this.el).prop("checked", true);
+        $('#jobfilter_date_ctlgrp input[type="radio"]', this.el).checkboxradio("refresh");
 
         $('#jobfilter_keyword', this.el).val("");
+
+        $('#jobfilter_expired_ctlgrp input[type="radio"]:first', this.el).prop("checked", true);
+        $('#jobfilter_expired_ctlgrp input[type="radio"]', this.el).checkboxradio("refresh");
 
         if ( e ) e.preventDefault();
     },
@@ -310,12 +313,16 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
         }
 
         // filter items with job_expired: true, might offer UI later.
-        if ( fqstr.length > 0 ) fqstr += ' AND ';
-        fqstr += "job_expired:false";
+        var expired = $('#jobfilter_expired_ctlgrp input[type="radio"]:checked', this.el).val();
+        if ( expired === 'true' ) {
+           if ( fqstr.length > 0 ) fqstr += ' AND ';
+           fqstr += "job_expired:true";
+        }
 
-        fqstr = "("+fqstr+")";
-
-        filters['fq'] = fqstr;
+        if ( fqstr.length > 0 ) {
+           fqstr = "("+fqstr+")";
+           filters['fq'] = fqstr;
+        }
 
         var keyword =  $('#jobfilter_keyword', this.el).val();
         if ( !keyword || /^\s*$/.test(keyword) )  {

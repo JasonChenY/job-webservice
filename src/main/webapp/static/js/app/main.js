@@ -99,6 +99,15 @@ TiaonaerApp.isAnonymousUser = function() {
     }
 };
 
+TiaonaerApp.getUserRole = function() {
+    var UserHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+    if ( !UserHomeView || !UserHomeView.isUserLoggedIn() ) {
+        return 'ROLE_ANONYMOUS';
+    } else {
+        return UserHomeView.getUserRole();
+    }
+};
+
 TiaonaerApp.showView = function(viewName, model) {
     var view = TiaonaerApp.ViewContainer.findByCustom(viewName);
     if ( !view ) {

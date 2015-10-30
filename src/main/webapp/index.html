@@ -277,18 +277,27 @@
                 <input type="radio" name="jobfilter_date_radio" id="jobfilter_date_30" value="30">
                 <label for="jobfilter_date_30">最近一月</label>
             </fieldset>
+            <fieldset data-role="controlgroup" data-theme="b" data-type="horizontal" id="jobfilter_expired_ctlgrp">
+                <input type="radio" name="jobfilter_expired_radio" id="jobfilter_expired_false" value="false" checked="checked">
+                <label for="jobfilter_expired_false">有效职位</label>
+                <input type="radio" name="jobfilter_expired_radio" id="jobfilter_expired_true" value="true">
+                <label for="jobfilter_expired_true">已过期职位</label>
+            </fieldset>
         </div>
     </div>
 
     <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b">
-        <div style="float:left;">
-            <input type="text" data-clear-btn="true" name="jobfilter_keyword_txt" id="jobfilter_keyword" value="" placeholder="关键字查找职位">
+        <div class="back-btn-wrapper" >
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
         </div>
         <div style="float:right;">
             <a href="#" id="jobfilter_search" data-rel="close" class="ui-btn ui-icon-search ui-btn-icon-left ui-btn-inline">搜索</a>
         </div>
         <div style="float:right;">
             <a href="#" id="jobfilter_reset" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline">重置</a>
+        </div>
+        <div style="float:left;">
+            <input type="text" data-clear-btn="true" name="jobfilter_keyword_txt" id="jobfilter_keyword" value="" placeholder="关键字查找职位">
         </div>
     </div>
 </script>

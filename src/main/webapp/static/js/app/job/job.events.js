@@ -64,6 +64,8 @@ TiaonaerApp.vent.on("job:filter", function(filters) {
         }
         qs += key + "=" + filters[key];
     });
-
-    Backbone.history.navigate("#/job/filter?"+qs);
+    if ( qs.length > 0 ) {
+        qs = "?" + qs;
+    }
+    Backbone.history.navigate("#/job/filter"+qs);
 });
