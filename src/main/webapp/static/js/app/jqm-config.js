@@ -27,17 +27,6 @@ $(document).bind({
         $(event.currentTarget).remove();
     });
 
-    $('a[data-rel="back"]').click(function(event) {
-        event.stopPropagation();
-        if ($.mobile.urlHistory.stack.length == 1) {
-            //$.mobile.changePage($(this).attr('href'));
-            window.history.back();
-        } else {
-            $.mobile.back()
-        }
-        return false
-    });
-
     $.mobile.loader.prototype.options.text = "请稍等...";
     $.mobile.loader.prototype.options.textVisible = true;
     $.mobile.loader.prototype.options.theme = "a";
