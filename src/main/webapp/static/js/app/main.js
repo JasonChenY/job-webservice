@@ -169,14 +169,17 @@ TiaonaerApp.showView = function(viewName, model) {
             }
         }
     }
+/*
+    strange behavior if handled in this common place:
     $('a[data-rel="back"]', $(view.el)).click(function(event) {
         event.stopPropagation();
         //$.mobile.changePage($(this).attr('href'));
         //window.history.back();
         //$.mobile.back();
         Backbone.history.history.back();
-        return false
+        return true;
     });
+*/
     $.mobile.changePage($(view.el));
 };
 

@@ -71,6 +71,10 @@ TiaonaerApp.Views.ComplainListView = TiaonaerApp.View.extend({
         console.log("render complainlist view");
         $(this.el).html(this.template());
         return this;
+    },
+
+    events: {
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     }
 });
 
@@ -88,7 +92,8 @@ TiaonaerApp.Views.ComplainDetailView = Backbone.View.extend({
         this.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
     events: {
-        'click a.job_url': "goto_job_url"
+        'click a.job_url': "goto_job_url",
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
     goto_job_url: function(e) {
         window.open(e.target.href);

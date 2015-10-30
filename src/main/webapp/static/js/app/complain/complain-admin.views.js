@@ -91,7 +91,8 @@ TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
 
     events: {
         'change #complaintype': "complain_filter",
-        'change #complainstatus': "complain_filter"
+        'change #complainstatus': "complain_filter",
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
 
     complain_filter: function(e) {
@@ -118,6 +119,7 @@ TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
         'click a.job_url': "goto_job_url",
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
     goto_job_url: function(e) {
         window.open(e.target.href);

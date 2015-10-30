@@ -46,7 +46,8 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
     },
 
     events: {
-        'click #jobsearch' : function(e) { TiaonaerApp.vent.trigger("job:search"); e.preventDefault();}
+        'click #jobsearch' : function(e) { TiaonaerApp.vent.trigger("job:search"); e.preventDefault();},
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
 
     collectionSwitched: function() {
@@ -115,7 +116,8 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     events: {
         'click a.job_url': "goto_job_url",
         'click a.favorite': "favorite",
-        'click button.complain': "complain"
+        'click button.complain': "complain",
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
     goto_job_url: function(e) {
         //window.open(e.target.href, '_blank', 'location=yes,fullscreen=yes,scrollbars=yes');
@@ -230,7 +232,8 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
     events: {
         'click [data-role="navbar"] a': "refresh_iscroll",
         'click #jobfilter_reset': "reset_filter",
-        'click #jobfilter_search': "job_filter"
+        'click #jobfilter_search': "job_filter",
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
 
     refresh_iscroll: function(event) {

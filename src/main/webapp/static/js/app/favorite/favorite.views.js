@@ -113,6 +113,10 @@ TiaonaerApp.Views.FavoriteListView = TiaonaerApp.View.extend({
         console.log("render favoritelist view");
         $(this.el).html(this.template());
         return this;
+    },
+
+    events: {
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     }
 });
 
