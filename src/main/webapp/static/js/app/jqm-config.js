@@ -27,12 +27,22 @@ $(document).bind({
         $(event.currentTarget).remove();
     });
 
+    $('a[data-rel="back"]').click(function(event) {
+        event.stopPropagation();
+        if ($.mobile.urlHistory.stack.length == 1) {
+            //$.mobile.changePage($(this).attr('href'));
+            window.history.back();
+        } else {
+            $.mobile.back()
+        }
+        return false
+    });
 
-    $.mobile.loader.prototype.options.text = "正在加载数据...";
+    $.mobile.loader.prototype.options.text = "请稍等...";
     $.mobile.loader.prototype.options.textVisible = true;
     $.mobile.loader.prototype.options.theme = "a";
     $.mobile.loader.prototype.options.html = "";
-    $.mobile.pageLoadErrorMessage = '读取数据失败，请检查网络或者稍后重试!';
+    $.mobile.pageLoadErrorMessage = '服务器连接失败，请检查网络或者稍后重试!';
   },
 ajaxStart: function() {
     setTimeout(function() {$.mobile.loading('show'); }, 0);
