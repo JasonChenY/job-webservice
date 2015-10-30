@@ -103,20 +103,29 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
 
     private Criteria createKeywordSearchConditions(String query) {
         if ( query == null ) return null;
-        String[] words = query.split(" ");
-        Criteria conditions = null;
+        if ( query.startsWith("\"") && query.endsWith("\"") ) {
+            return new Criteria(JobDocument.JOB_TITLE).expression(query)
+                    .or(new Criteria(JobDocument.JOB_DESCRIPTION).expression(query));
+        } else {
+            String[] words = query.split(" ");
+/*
+            Criteria conditions = null;
 
-        for (String word: words) {
-            if (conditions == null) {
-                conditions = new Criteria(JobDocument.JOB_TITLE).contains(word)
-                        .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
+            for (String word : words) {
+                if (conditions == null) {
+                    conditions = new Criteria(JobDocument.JOB_TITLE).contains(word)
+                            .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
+                } else {
+                    conditions = conditions.or(new Criteria(JobDocument.JOB_TITLE).contains(word))
+                            .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
+                }
             }
-            else {
-                conditions = conditions.or(new Criteria(JobDocument.JOB_TITLE).contains(word))
-                        .or(new Criteria(JobDocument.JOB_TITLE).contains(word));
-            }
+            return conditions;
+*/
+            return new Criteria(JobDocument.JOB_TITLE).contains(words)
+                    .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(words));
+
         }
-        return conditions;
     }
 
     @Override
