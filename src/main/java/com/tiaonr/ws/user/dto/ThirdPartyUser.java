@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class ThirdPartyUser {
     private String identifier;
-    private int identity_type; // 0: TestServer 1: QQ 2: Weibo 3: Sina
+    private int identity_type; // 1: TestServer 2: QQ 3: Weibo 4: Baidu
     private String user_id;
     private String display_name; // nickname: QQ
     private Date binding_time;

@@ -27,7 +27,7 @@ create unique index ix_auth_username on authorities (username,authority);
 
 create table users_binding (
         identifier varchar(100) not null, -- unique id from third party (openid )
-        identity_type int not null, -- 1: TestServer 2: QQ 3: Weibo 4: Sina
+        identity_type int not null, -- 1: TestServer 2: QQ 3: Weibo 4: Baidu
         user_id varchar(50) not null, -- system id in users
         display_name varchar(50), -- nickname for qq
         binding_time timestamp not null default CURRENT_TIMESTAMP,

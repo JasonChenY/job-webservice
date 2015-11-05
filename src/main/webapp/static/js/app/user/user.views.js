@@ -17,7 +17,8 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.login(); },
         "click #btn-login-cancel": "login_cancel",
         "click #btn-testServer-login": function(e) { this.thirdParty_login("testServer"); },
-        "click #btn-qq-login": function(e) { this.thirdParty_login("qq"); }
+        "click #btn-qq-login": function(e) { this.thirdParty_login("qq"); },
+        "click #btn-sina-login": function(e) { this.thirdParty_login("weibo"); }
     },
     thirdParty_login: function(type) {
     /*

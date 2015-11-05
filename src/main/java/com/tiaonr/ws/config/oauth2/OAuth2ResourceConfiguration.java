@@ -223,8 +223,21 @@ public class OAuth2ResourceConfiguration {
     @Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
     public OAuth2RestTemplate weiboRestTemplate(OAuth2ClientContext clientContext) {
         OAuth2RestTemplate template = new OAuth2RestTemplate(weibo(), clientContext);
+        /*
+        POST request for "https://api.weibo.com/oauth2/access_token" resulted in 200 (OK)
+        Server : nginx/1.6.1
+        Date : Thu, 05 Nov 2015 14:09:46 GMT
+        Content-Type : text/plain;charset=UTF-8
+        Content-Length : 117
+        Connection : keep-alive
+        Pragma : No-cache
+        Cache-Control : no-cache
+        Expires : Thu, 01 Jan 1970 00:00:00 GMT
+        Api-Server-IP : 10.73.89.48
+        {"access_token":"2.00EETB7B0PaXe83c06e23e1408Exr_","remind_in":"157679999","expires_in":157679999,"uid":"1300667624"}
+        */
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.valueOf("text/javascript")));
+        converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
         template.setMessageConverters(Arrays.<HttpMessageConverter<?>> asList(converter));
         return template;
     }
