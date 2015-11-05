@@ -46,6 +46,7 @@ public class TestServerController extends UserController {
         ThirdPartyUser detail = new ThirdPartyUser();
         detail.setIdentifier(testuser.username);
         detail.setIdentity_type(1);
+        detail.setDisplay_name(testuser.username); // no displayname
 
         /* bound the third party user to one system user if not done yet */
         String user_id = bindUser(detail);

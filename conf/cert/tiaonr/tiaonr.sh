@@ -38,15 +38,16 @@ keytool -importkeystore -deststorepass tomcat -destkeypass tiaonr -destkeystore 
                keyAlias="1" 
                keyPass="tiaonr"/>
 
-#b. tomcat/bin/setenv.sh
+#b. tomcat/bin/setenv.sh (this is DEPRECATED, otherwise will cause problem when connecting to qq/weibo)
 JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=prod"
-JAVA_OPTS="$JAVA_OPTS -Djavax.net.ssl.trustStore=/sdk/tmp/ca/tiaonr/tomcat.keystore -Djavax.net.ssl.trustStorePassword=tomcat"
+#JAVA_OPTS="$JAVA_OPTS -Djavax.net.ssl.trustStore=/sdk/tmp/ca/tiaonr/tomcat.keystore -Djavax.net.ssl.trustStorePassword=tomcat"
 
-(# import certificate to client's JVM keystore ( not working )
-keytool -import -trustcacerts -alias tiaonr -file /sdk/memo/search/certificate/jks/tiaonr.cer -keystore "/sdk/tools/jdk1.8.0_51/jre/lib/security/cacerts" -storepass changeit
+#c. import SELF-SIGNED ROOT certificate to client's JVM keystore
+keytool -import -trustcacerts -alias tiaonrRootCA -file /sdk/tmp/spring/solr-pagination/conf/cert/root/rootCA/cacert.pem -keystore /etc/ssl/certs/java/cacerts -storepass changeit
+(Note, not following keystore)
+keytool -import -trustcacerts -alias tiaonrRootCA -file /sdk/tmp/spring/solr-pagination/conf/cert/root/rootCA/cacert.pem -keystore "/sdk/tools/jdk1.8.0_51/jre/lib/security/cacerts" -storepass changeit
 #list jvm's keystore
 keytool -list -keystore /sdk/tools/jdk1.8.0_51/jre/lib/security/cacerts -storepass changeit
-)
 
 
 ############### Browser ###############

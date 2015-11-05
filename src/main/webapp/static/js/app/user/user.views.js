@@ -16,9 +16,10 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         "click #btn-user-login": "login",
         "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.login(); },
         "click #btn-login-cancel": "login_cancel",
-        "click #btn-testServer-login": "testServer_login"
+        "click #btn-testServer-login": function(e) { this.thirdParty_login("testServer"); },
+        "click #btn-qq-login": function(e) { this.thirdParty_login("qq"); }
     },
-    testServer_login: function() {
+    thirdParty_login: function(type) {
     /*
         !!!!!
         Cant use AJAX for third party login, 301/302 will be intercepted by browser,
@@ -44,7 +45,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             }
         });
     */
-        var win = window.open(TiaonaerApp.ServiceUrl + "/testServer/login");
+        var win = window.open(TiaonaerApp.ServiceUrl + "/" + type + "/login");
         if ( isCordovaApp() ) {
             var loop = null;
             /* loadstop only for mobile InAppBrowser */
@@ -73,6 +74,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             });
         }
     },
+
     login: function() {
         console.log("Log in");
         $('#for-display-error', this.el).hide();

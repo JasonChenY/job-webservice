@@ -9,6 +9,7 @@ public class ThirdPartyUser {
     private String identifier;
     private int identity_type; // 0: TestServer 1: QQ 2: Weibo 3: Sina
     private String user_id;
+    private String display_name; // nickname: QQ
     private Date binding_time;
     private Date last_login_time;
     private String last_login_ip;
@@ -82,4 +83,9 @@ public class ThirdPartyUser {
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
     }
+
+    public String getDisplay_name() { return display_name; }
+
+    public void setDisplay_name(String display_name) { this.display_name = display_name; }
+
 }

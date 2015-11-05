@@ -145,6 +145,11 @@
 
         <!--Context path="/jstest" reloadable="true" docBase="/sdk/tmp/webapps"/-->
         <Context path="/jobs" reloadable="true" docBase="/sdk/tools/jobs/client/www"/>
+        <!--To install jobws as the root application:
+        mv tomcat/webapps/ROOT tomcat/webapps/ROOT_BAK
+        main.js: TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost
+        -->
+        <Context docBase="/sdk/tmp/spring/solr-pagination/target/jobws" path="/" privileged="true" antiResourceLocking="false"></Context>
       </Host>
     </Engine>
   </Service>

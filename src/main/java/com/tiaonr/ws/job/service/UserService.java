@@ -34,7 +34,7 @@ public class UserService {
     private static final String GET_BINDING_USER_SQL = "select user_id from users_binding where identifier = ? and identity_type = ?";
     private static final String CREATE_USER_SQL = "insert into users (username, password, enabled, account_type) values (?,?,?,?)";
     private static final String CREATE_AUTHORITY_SQL = "insert into authorities (username, authority) values (?,?)";
-    private static final String CREATE_BINDING_SQL = "insert into users_binding (identifier,identity_type,user_id) values (?,?,?)";
+    private static final String CREATE_BINDING_SQL = "insert into users_binding (identifier,identity_type,user_id,display_name) values (?,?,?,?)";
     private static final String UPDATE_USER_LOGINTIME_SQL = "update users set last_login_time=?, last_login_ip=? where username=?";
     private static final String UPDATE_USER_BINDING_LOGINTIME_SQL = "update users_binding set last_login_time=?, last_login_ip=? where identifier=? and identity_type=?";
 
@@ -72,12 +72,12 @@ public class UserService {
             return (String)users.get(0);
         } else {
             /* generate a internal system account */
-            final String username = UUID.randomUUID().toString();
+            final String user_id = UUID.randomUUID().toString();
 
             /* create a new internal system account */
             jdbcTemplate.update(this.CREATE_USER_SQL, new PreparedStatementSetter() {
                 public void setValues(PreparedStatement ps) throws SQLException {
-                    ps.setString(1, username);
+                    ps.setString(1, user_id);
                     ps.setString(2, "N/A");
                     ps.setBoolean(3, true);
                     ps.setInt(4, 1);
@@ -87,7 +87,7 @@ public class UserService {
             /* create authority for this internal system account */
             jdbcTemplate.update(this.CREATE_AUTHORITY_SQL, new PreparedStatementSetter() {
                 public void setValues(PreparedStatement ps) throws SQLException {
-                    ps.setString(1, username);
+                    ps.setString(1, user_id);
                     ps.setString(2, "ROLE_USER");
                 }
             });
@@ -97,11 +97,12 @@ public class UserService {
                 public void setValues(PreparedStatement ps) throws SQLException {
                     ps.setString(1, user.getIdentifier());
                     ps.setInt(2, user.getIdentity_type());
-                    ps.setString(3, username);
+                    ps.setString(3, user_id);
+                    ps.setString(4, user.getDisplay_name());
                 }
             });
 
-            return username;
+            return user_id;
         }
     }
 

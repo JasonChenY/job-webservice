@@ -88,7 +88,7 @@ public class UserController {
 
             if (authentication.getDetails() instanceof ThirdPartyUser) {
                 ThirdPartyUser detail = (ThirdPartyUser)authentication.getDetails();
-                dto.setUsername(detail.getIdentifier());
+                dto.setUsername(detail.getDisplay_name());
                 dto.setIdentity_type(detail.getIdentity_type());
                 //dto.setFigure_url(...);
                 userService.updateLoginTime(detail);
