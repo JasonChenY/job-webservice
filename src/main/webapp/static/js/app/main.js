@@ -115,9 +115,11 @@ TiaonaerApp.showView = function(viewName, model) {
                 view = new TiaonaerApp.Views.UserHomeView();
                 break;
             case "LoginView":
+                /* dont need this any more, we trust the certification
                 if ( isCordovaApp() ) {
-                    VerifySslCertificate(TiaonaerApp.ServerHost, "22 16 33 89 93 19 49 43 CA 60 73 0C BD 13 85 3C DD 2D 37 A1");
+                    VerifySslCertificate(TiaonaerApp.ServerHost, "DA DC D0 FC B3 58 AD B9 56 CA 07 E1 E2 EB 5C F0 BB 5A F2 64");
                 }
+                */
                 view = new TiaonaerApp.Views.LoginView();
                 break;
             case "UserRegisterView":

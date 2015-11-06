@@ -25,9 +25,9 @@ if [ $1 = "create" ]; then
    cordova plugin add cordova-plugin-inappbrowser
 
    # following stuff can be removed with official certificate ?
-   cordova plugin add cordova-plugin-sslcertificatechecker
+   # cordova plugin add cordova-plugin-sslcertificatechecker
    # there is one bug to be fixed manully Log->LOG.
-   cordova plugin add cordova-plugin-certificates
+   # cordova plugin add cordova-plugin-certificates
 
    rm -rf www
    ln -sf $dir/src/main/webapp www
