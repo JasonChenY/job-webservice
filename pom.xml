@@ -195,8 +195,79 @@
                 <version>2.1.1</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <packagingExcludes>static/js/app/, tpl/</packagingExcludes>
+                    <!--warSourceExcludes>static/js/, tpl/</warSourceExcludes-->
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jswarn>false</jswarn>
+                    <nosuffix>true</nosuffix>
+                    <disableOptimizations>true</disableOptimizations>
+                    <aggregations>
+                        <aggregation>
+                            <removeIncluded>true</removeIncluded>
+                            <insertNewLine>true</insertNewLine>
+                            <inputDir>${project.build.directory}/${project.build.finalName}/static/css</inputDir>
+                            <output>${project.build.directory}/${project.build.finalName}/static/jobws.min.css</output>
+                            <includes>
+                                <include>styles.css</include>
+                                <include>simplePagination.css</include>
+                                <include>jquery.mobile-1.4.5.css</include>
+                                <include>jquery.mobile.iscrollview.css</include>
+                                <include>jquery.mobile.iscrollview-pull.css</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <removeIncluded>true</removeIncluded>
+                            <insertNewLine>true</insertNewLine>
+                            <inputDir>${project.build.directory}/${project.build.finalName}/static/js/app</inputDir>
+                            <output>${project.build.directory}/${project.build.finalName}/static/jobws.min.js</output>
+                            <includes>
+                                <include>main.js</include>
+                                <include>makePy.js</include>
+                                <include>utils.js</include>
+                                <include>user/*.js</include>
+                                <include>job/*.js</include>
+                                <include>favorite/*.js</include>
+                                <include>complain/*.js</include>
+                                <include>error/*.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <removeIncluded>true</removeIncluded>
+                            <insertNewLine>true</insertNewLine>
+                            <inputDir>${project.build.directory}/${project.build.finalName}/static/js/vendor</inputDir>
+                            <output>${project.build.directory}/${project.build.finalName}/static/lib.min.js</output>
+                            <includes>
+                                <include>jquery-1.11.1.js</include>
+                                <include>jqm-config.js</include>
+                                <include>jquery.mobile-1.4.5.js</include>
+                                <include>iscroll-4.2.js</include>
+                                <include>jquery.mobile.iscrollview.js</include>
+                                <include>spin.js</include>
+                                <include>underscore-1.8.3.js</include>
+                                <include>backbone-1.2.3.js</include>
+                                <include>backbone.paginator.js</include>
+                                <include>backbone.marionette.js</include>
+                                <include>jquery.simplePagination.js</include>
+                            </includes>
+                        </aggregation>
+                    </aggregations>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
@@ -299,7 +370,17 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
+            <!-- for workaround used:
             <version>${spring.security.oauth2.version}</version>
+mvn install:install-file \
+  -Dfile=/sdk/tmp/spring/solr-pagination/conf/tomcat/lib/spring-security-oauth2-2.0.8.BUILD-SNAPSHOT.jar \
+  -DgroupId=org.springframework.security.oauth \
+  -DartifactId=spring-security-oauth2 \
+  -Dversion=2.0.8.BUILD-SNAPSHOT \
+  -Dpackaging=jar \
+  -DgeneratePom=true
+            -->
+            <version>2.0.8.BUILD-SNAPSHOT</version>
         </dependency>
 
         <dependency>

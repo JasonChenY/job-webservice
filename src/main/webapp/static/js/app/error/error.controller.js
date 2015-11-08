@@ -15,4 +15,4 @@ TodoApp.Controllers.ErrorController = {
         TodoApp.mainRegion.show(errorView);
     }
 
-}
+};

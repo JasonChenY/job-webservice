@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>Login Failed</title>
-<link rel="shortcut icon" href="${pageContext.request.contextPath}/static/img/favicon.ico"/>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/static/images/favicon.ico"/>
 <script type="text/javascript">
     function load()
     {

@@ -30,16 +30,29 @@ if [ $1 = "create" ]; then
    # cordova plugin add cordova-plugin-certificates
 
    rm -rf www
-   ln -sf $dir/src/main/webapp www
+   #ln -sf $dir/src/main/webapp www
+
+   mkdir -p www/static
+   cp -r $dir/target/jobws/locales www
+   cp $dir/target/jobws/index.html www
+   cp -r $dir/target/jobws/static/images www/static
+   cp $dir/target/jobws/static/lib.min.js www/static
+   cp $dir/target/jobws/static/jobws.min.js www/static
+   cp $dir/target/jobws/static/jobws.min.css www/static
 
    cp $dir/conf/app/res/mipmap-mdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-mdpi/
    cp $dir/conf/app/res/mipmap-hdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-hdpi/
    cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-xhdpi/
-   cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable/
+   #cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable/
 
    cordova build android
 elif [ $1 = "build" ]; then
    cd $destdir/jobapp
+   cp $dir/target/jobws/index.html www
+   cp -r $dir/target/jobws/static/images www/static
+   cp $dir/target/jobws/static/lib.min.js www/static
+   cp $dir/target/jobws/static/jobws.min.js www/static
+   cp $dir/target/jobws/static/jobws.min.css www/static
    cordova build android
 else
    echo "usage: $prog (create|build)"

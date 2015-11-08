@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/img/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/jquery.mobile-1.4.5.css"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.11.1.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/vendor/jquery.mobile-1.4.5.js"></script>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/static/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/jquery.mobile-1.4.5.min.css"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/vendor/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/vendor/jquery.mobile-1.4.5.min.js"></script>
 <script>
 $(document).on({
     pageshow: function() {
