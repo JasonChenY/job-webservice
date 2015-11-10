@@ -46,31 +46,39 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             }
         });
     */
-        var win = window.open(TiaonaerApp.ServiceUrl + "/" + type + "/login");
+        $('#for-display-error', this.el).hide();
+        TiaonaerApp.childWin = window.open(TiaonaerApp.ServiceUrl + "/" + type + "/login");
         if ( isCordovaApp() ) {
-            var loop = null;
-            /* loadstop only for mobile InAppBrowser */
-            win.addEventListener("loadstop", function() {
-                if ( loop ) return;
-                win.executeScript({ code: "localStorage.removeItem('LoginResult');" });
-                loop = setInterval(function() {
-                    win.executeScript(
+            // loadstart only for mobile InAppBrowser, instead of loadstop because we might get login result in first page.
+            TiaonaerApp.childWin.addEventListener('exit', function(event) {
+                if ( TiaonaerApp.loopForChildWin ) {
+                    clearInterval(TiaonaerApp.loopForChildWin);
+                    TiaonaerApp.loopForChildWin = null;
+                };
+            });
+            TiaonaerApp.childWin.addEventListener("loadstart", function(event) {
+                if ( TiaonaerApp.loopForChildWin ) return;
+                TiaonaerApp.childWin.executeScript({ code: "localStorage.removeItem('LoginResult');" });
+                TiaonaerApp.loopForChildWin = setInterval(function() {
+                    TiaonaerApp.childWin.executeScript(
                         {
                             code: "localStorage.getItem( 'LoginResult' )"
                         },
                         function( values ) {
-                            var result = values[ 0 ];
+                            var result = values[0];
                             if ( result != null ) {
-                                if ( loop ) {
-                                    clearInterval( loop );
-                                    loop = null;
+                                clearInterval( TiaonaerApp.loopForChildWin );
+                                TiaonaerApp.loopForChildWin = null;
+
+                                if ( TiaonaerApp.childWin ) {
+                                    TiaonaerApp.childWin.close();
+                                    TiaonaerApp.childWin = null;
                                 }
-                                if ( win ) win.close();
-                                ThirdPartyLoginInCallback(true);
+                                ThirdPartyLoginInCallback(result);
                             }
                         }
                     );
-                },10000);
+                },15000);
                 //should use some reasonable value, because this will kill the keyboard ui, can use too short value, too long bad experience
             });
         }
@@ -109,9 +117,6 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
                 TiaonaerApp.vent.trigger("user:loginSuccess");
             },
             error: function(data, status, xhr) {
-                alert(data);
-                alert(status);
-                alert(xhr);
                 self.login_failed(data);
             }/*,
             complete: function(data, status, xhr) {

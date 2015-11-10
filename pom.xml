@@ -376,11 +376,11 @@ mvn install:install-file \
   -Dfile=/sdk/tmp/spring/solr-pagination/conf/tomcat/lib/spring-security-oauth2-2.0.8.BUILD-SNAPSHOT.jar \
   -DgroupId=org.springframework.security.oauth \
   -DartifactId=spring-security-oauth2 \
-  -Dversion=2.0.8.BUILD-SNAPSHOT \
+  -Dversion=2.0.8.private \
   -Dpackaging=jar \
   -DgeneratePom=true
             -->
-            <version>2.0.8.BUILD-SNAPSHOT</version>
+            <version>2.0.8.private</version>
         </dependency>
 
         <dependency>

@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,8 +41,13 @@ public class TestServerController extends UserController {
     // render with jsp page
     @RequestMapping("/testServer/login")
     public String login(Model model) throws AuthenticationException {
-        TestServerUser testuser = testServerRestTemplate.getForObject(testServerResourceUri + "/getUserInfo", TestServerUser.class);
-
+        TestServerUser testuser = null;
+        try {
+            testuser = testServerRestTemplate.getForObject(testServerResourceUri + "/getUserInfo", TestServerUser.class);
+        } catch ( OAuth2Exception oe ) {
+            model.addAttribute("reason", oe.toString());
+            return "loginFailure";
+        }
         //translate thirdparty user account to UserDTO.
         ThirdPartyUser detail = new ThirdPartyUser();
         detail.setIdentifier(testuser.username);

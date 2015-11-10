@@ -15,11 +15,11 @@ window.log = function(){
 };
 
 function ThirdPartyLoginInCallback(result) {
-    console.log("Third Party Login result!");
-    if ( result )
+    if ( result === true || result === 'true' ) {
         TiaonaerApp.vent.trigger("user:loginSuccess");
-    else
+    } else {
         TiaonaerApp.vent.trigger("user:loginFailed");
+    }
 };
 
 /* for IE9 cors issue ( not support XmlHttpRequest ) */

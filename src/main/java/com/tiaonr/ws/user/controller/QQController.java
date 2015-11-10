@@ -214,7 +214,8 @@ public class QQController extends UserController {
             openid = m.group(1);
             LOGGER.debug("openid: " + openid);
         } else {
-            //throw new AuthenticationException("server error, failed to get openid!");
+            model.addAttribute("reason", "failed to get openid");
+            return "loginFailure";
         }
 
         /*
