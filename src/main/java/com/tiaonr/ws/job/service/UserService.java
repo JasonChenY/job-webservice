@@ -5,6 +5,7 @@ import com.tiaonr.ws.user.dto.UserDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +33,7 @@ import java.sql.Timestamp;
 public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private static final String GET_BINDING_USER_SQL = "select user_id from users_binding where identifier = ? and identity_type = ?";
-    private static final String CREATE_USER_SQL = "insert into users (username, password, enabled, account_type) values (?,?,?,?)";
+    private static final String CREATE_USER_SQL = "insert into users (username, password, enabled, email, account_type) values (?,?,?,?,?)";
     private static final String CREATE_AUTHORITY_SQL = "insert into authorities (username, authority) values (?,?)";
     private static final String CREATE_BINDING_SQL = "insert into users_binding (identifier,identity_type,user_id,display_name) values (?,?,?,?)";
     private static final String UPDATE_USER_LOGINTIME_SQL = "update users set last_login_time=?, last_login_ip=? where username=?";
@@ -51,11 +52,35 @@ public class UserService {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private Md5PasswordEncoder passwordEncoder;
+
     @Transactional
     public UserDetails registerUser(UserDetails user) {
         LOGGER.debug("enter registerUser");
         userDetailsManager.createUser(user);
         return user;
+    }
+
+    @Transactional
+    public boolean registerUser(final UserDTO user) {
+        LOGGER.debug("enter registerUser");
+        jdbcTemplate.update(this.CREATE_USER_SQL, new PreparedStatementSetter() {
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, user.getUsername());
+                ps.setString(2, passwordEncoder.encodePassword(user.getPassword(), user.getUsername()));
+                ps.setBoolean(3, true);
+                ps.setString(4, user.getEmail());
+                ps.setInt(5, 0);
+            }
+        });
+        jdbcTemplate.update(this.CREATE_AUTHORITY_SQL, new PreparedStatementSetter() {
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, user.getUsername());
+                ps.setString(2, "ROLE_USER");
+            }
+        });
+        return true;
     }
 
     public boolean userExists(String username) {
@@ -80,7 +105,8 @@ public class UserService {
                     ps.setString(1, user_id);
                     ps.setString(2, "N/A");
                     ps.setBoolean(3, true);
-                    ps.setInt(4, 1);
+                    ps.setString(4, "N/A"); // to be extended to email in future.
+                    ps.setInt(5, 1);
                 }
             });
 

@@ -45,9 +45,9 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @Autowired
-    @Qualifier("org.springframework.security.authenticationManager")
-    private AuthenticationManager authenticationManager;
+    //@Autowired
+    //@Qualifier("org.springframework.security.authenticationManager")
+    //private AuthenticationManager authenticationManager;
 
     public String bindUser(ThirdPartyUser user) {
         return userService.bindUser(user);
@@ -101,7 +101,7 @@ public class UserController {
     }
 
     public boolean userExists(String user_id) {
-        LOGGER.debug("check whether this user_id is occupied");
+        LOGGER.debug("check whether " + user_id + " is occupied");
         return userService.userExists(user_id);
     }
 

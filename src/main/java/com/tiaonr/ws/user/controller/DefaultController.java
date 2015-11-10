@@ -2,6 +2,7 @@ package com.tiaonr.ws.user.controller;
 
 import com.tiaonr.ws.job.service.UserService;
 import com.tiaonr.ws.user.dto.UserDTO;
+import com.tiaonr.ws.user.dto.UserRegisterDTO;
 import com.tiaonr.ws.user.exception.UserRegisterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public class DefaultController extends UserController {
                 true, true, true, true, AuthorityUtils.createAuthorityList("ROLE_USER"));
         try {
             LOGGER.debug("add user to db");
-            userService.registerUser(user);
+            userService.registerUser(dto);
         } catch (Exception e) {
             LOGGER.warn("User Register Failed");
             throw new UserRegisterException(e.getMessage());
@@ -62,6 +63,16 @@ public class DefaultController extends UserController {
     @ResponseBody
     public boolean apiUserExists(@PathVariable("user_id") String user_id) {
         return userExists(user_id);
+    }
+
+    //cannt place email on url string(encodeURI wont encode '.'),
+    // otherwise need do special decode here.
+    // also cant use www-formencoded format
+    @RequestMapping(value = "/api/user", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean apiUserExistsByEmail(@RequestBody UserRegisterDTO info) {
+        LOGGER.debug("check whether " + info.getEmail() + " exists");
+        return userExists(info.getEmail());
     }
 
     @ExceptionHandler(UserRegisterException.class)

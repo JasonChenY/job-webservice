@@ -92,11 +92,15 @@
 
 
 
-    <bean id="jdbcUserService" class="org.springframework.security.provisioning.JdbcUserDetailsManager" >
+    <!--bean id="jdbcUserService" class="org.springframework.security.provisioning.JdbcUserDetailsManager" -->
+    <bean id="jdbcUserService" class="com.tiaonr.ws.security.authentication.CustomJdbcUserDetailsManager" >
         <property name="dataSource" ref="dataSource" />
         <property name="authenticationManager" ref="authenticationManager" />
         <property name="usersByUsernameQuery">
-            <value>select username,password,enabled from users where username = ? and account_type = 0</value>
+            <value>select username,password,enabled from users where (username = ? or email = ?) and account_type = 0</value>
+        </property>
+        <property name="userExistsSql">
+            <value>select username from users where (username = ? or email = ?) and account_type = 0</value>
         </property>
     </bean>
 

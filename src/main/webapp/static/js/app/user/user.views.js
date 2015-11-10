@@ -231,6 +231,7 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
 
     events: {
         "blur #user-username": "check_user_validity",
+        "blur #user-email": "check_email_validity",
         "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.register(); },
         "click #btn-user-register": "register",
         "click #btn-register-cancel": "register_cancel"
@@ -258,13 +259,41 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
             });
         }
     },
-
+    check_email_validity: function() {
+        var email = $('#user-email', this.el).val();
+        var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if ( !filter.test(email) ) {
+            $('#display-error', this.el).text("邮箱地址不正确！");
+            $('#for-display-error', this.el).show();
+            $('#user-email', this.el).focus();
+        } else {
+            var self = this;
+            $.ajax({
+                url: TiaonaerApp.ServiceUrl + "/api/user",
+                type: 'POST',
+                data: JSON.stringify({email: email}),
+                contentType: "application/json; charset=UTF-8",
+                success: function(data, status, xhr){
+                    if ( data ) {
+                        $('#display-error', self.el).text(email + " 已注册！");
+                        $('#for-display-error', self.el).show();
+                        $('#user-email', self.el).focus();
+                    } else {
+                        $('#for-display-error', self.el).hide();
+                    }
+                }
+            });
+        }
+    },
     register: function() {
-        console.log("register");
-        $('#for-display-error', this.el).hide();
+        if ( $('#for-display-error', this.el).is(':visible') ) {
+            //$('#for-display-error', this.el).hide();
+            return;
+        }
         var user = {
             username: $("#user-username", this.el).val().Trim(),
-            password: $("#user-password", this.el).val().Trim()
+            password: $("#user-password", this.el).val().Trim(),
+            email: $("#user-email", this.el).val().Trim()
         };
         var self = this;
         $.ajax({
