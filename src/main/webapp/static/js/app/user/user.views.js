@@ -186,7 +186,8 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         'click #btn_complain': function() { TiaonaerApp.vent.trigger("complain:list"); },
         'click #btn_complain_admin': function() { TiaonaerApp.vent.trigger("complain:adminlist"); },
         'click #btn_login': function() { TiaonaerApp.vent.trigger("user:login"); },
-        'click #btn_logout': function() { TiaonaerApp.vent.trigger("user:logout"); }
+        'click #btn_logout': function() { TiaonaerApp.vent.trigger("user:logout"); },
+        'click #btn_download': function() { TiaonaerApp.vent.trigger("software:download"); }
     },
 
     isUserLoggedIn: function () {
@@ -219,6 +220,18 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
 
         TiaonaerApp.ViewContainer.apply("setValid", [false]);
     }
+});
+
+TiaonaerApp.Views.DownloadView = Backbone.View.extend({
+    id: 'download-page',
+    template: "#template-download-view",
+    initialize:function () {
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
+    },
+    render:function () {
+        $(this.el).html(this.template());
+        return this;
+    },
 });
 
 TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({

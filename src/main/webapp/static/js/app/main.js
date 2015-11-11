@@ -149,6 +149,9 @@ TiaonaerApp.showView = function(viewName, model) {
             case "ComplainAdminDetailView":
                 view = new TiaonaerApp.Views.ComplainAdminDetailView({model:model});
                 break;
+            case "DownloadView":
+                view = new TiaonaerApp.Views.DownloadView();
+                break;
         }
         $(view.el).attr('data-role', 'page');
         view.render();
