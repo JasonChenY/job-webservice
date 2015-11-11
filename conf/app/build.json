@@ -1,0 +1,11 @@
+{
+     "android": {
+         "release": {
+             "keystore": "../../conf/cert/tiaonr/tomcat.keystore",
+             "storePassword": "tomcat",
+             "alias": "1",
+             "password" : "tiaonr",
+             "keystoreType": ""
+         }
+     }
+}

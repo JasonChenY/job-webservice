@@ -45,7 +45,9 @@ if [ $1 = "create" ]; then
    cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-xhdpi/
    #cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable/
 
-   cordova build android
+   cp $dir/conf/app/build.json $destdir/jobapp
+
+   cordova build android --release
 elif [ $1 = "build" ]; then
    cd $destdir/jobapp
    cp $dir/target/jobws/index.html www
@@ -53,7 +55,10 @@ elif [ $1 = "build" ]; then
    cp $dir/target/jobws/static/lib.min.js www/static
    cp $dir/target/jobws/static/jobws.min.js www/static
    cp $dir/target/jobws/static/jobws.min.css www/static
-   cordova build android
+
+   cp $dir/conf/app/build.json $destdir/jobapp
+
+   cordova build android --release
 else
    echo "usage: $prog (create|build)"
    exit

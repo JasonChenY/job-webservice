@@ -195,8 +195,18 @@
                 <version>2.1.1</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <packagingExcludes>static/js/app/, tpl/</packagingExcludes>
+                    <packagingExcludes>static/js/app/, tpl/, WEB-INF/classes/*.sql</packagingExcludes>
                     <!--warSourceExcludes>static/js/, tpl/</warSourceExcludes-->
+
+                    <webResources>
+                        <resource>
+                            <directory>${project.build.directory}/jobapp/platforms/android/build/outputs/apk</directory>
+                            <includes>
+                                <include>android-release.apk</include>
+                            </includes>
+                            <targetPath>static</targetPath>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
