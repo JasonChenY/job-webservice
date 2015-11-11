@@ -12,7 +12,7 @@ create table users(
 	    register_time timestamp not null default CURRENT_TIMESTAMP,
 	    last_login_time datetime,
 	    last_login_ip varchar(50),
-	    email varchar(50),
+	    email varchar(50) unique,
 	    phone varchar(50),
 	    account_type int not null default 0, -- comment '0: user registered, 1: system generated account'
         primary key(username)        
