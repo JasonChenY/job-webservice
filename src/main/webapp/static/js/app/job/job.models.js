@@ -26,7 +26,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                     });
                 },
                 error: function(data, status, xhr) {
-                    alert(status.responseText);
+                    console.log(status.responseText);
                 }
             });
         } else {
@@ -57,7 +57,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                         */
                 },
                 error: function(data, status, xhr) {
-                    alert(status.responseText);
+                    console.log(status.responseText);
                 }
             });
         }
@@ -93,7 +93,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                     if ( status.responseText === 'You have complained about this job before' ) {
                         alert('不可以重复投诉同一职位!');
                     } else {
-                        alert(status.responseText);
+                        console.log(status.responseText);
                     }
                 }
             });
