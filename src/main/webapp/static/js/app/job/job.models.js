@@ -25,8 +25,8 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                         favorities_num: self.get("favorities_num")-1
                     });
                 },
-                fail: function(favorite) {
-                    console.log("receive error rsp for unfavoriting");
+                error: function(data, status, xhr) {
+                    alert(status.responseText);
                 }
             });
         } else {
@@ -56,8 +56,8 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                         * but JQM not work perfectly, we let listview to listen to collection change event.
                         */
                 },
-                fail: function(favorite) {
-                    console.log("receive error rsp for favoriting");
+                error: function(data, status, xhr) {
+                    alert(status.responseText);
                 }
             });
         }
@@ -89,8 +89,12 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                         complain_pending: true
                     });
                 },
-                fail: function(complain) {
-                    console.log("receive error rsp for favoriting");
+                error: function(data, status, xhr) {
+                    if ( status.responseText === 'You have complained about this job before' ) {
+                        alert('不可以重复投诉同一职位!');
+                    } else {
+                        alert(status.responseText);
+                    }
                 }
             });
         }

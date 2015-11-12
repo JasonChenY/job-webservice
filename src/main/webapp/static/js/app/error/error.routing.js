@@ -1,4 +1,4 @@
-TodoApp.ErrorRouting = function(){
+TiaonaerApp.ErrorRouting = function(){
     var ErrorRouting = {};
 
     ErrorRouting.Router = Backbone.Marionette.AppRouter.extend({
@@ -9,9 +9,9 @@ TodoApp.ErrorRouting = function(){
         }
     });
 
-    TodoApp.addInitializer(function(){
+    TiaonaerApp.addInitializer(function(){
         ErrorRouting.router = new ErrorRouting.Router({
-            controller: TodoApp.Controllers.ErrorController
+            controller: TiaonaerApp.Controllers.ErrorController
         });
     });
 

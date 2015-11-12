@@ -66,10 +66,9 @@ TiaonaerApp.Vents = {};
 TiaonaerApp.Views = {};
 TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
 
-//TiaonaerApp.ServerHost = "https://192.168.137.128";
 TiaonaerApp.ServerHost = "https://www.tiaonr.com";
 TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost + "/jobws";
-
+/*
 TiaonaerApp.spinner = new Spinner({
     lines: 13, // The number of lines to draw
     length: 30, // The length of each line
@@ -87,7 +86,7 @@ TiaonaerApp.spinner = new Spinner({
     top: '100', // Top position relative to parent in px
     left: 'auto' // Left position relative to parent in px
 });
-
+*/
 TiaonaerApp.isAnonymousUser = function() {
     var UserHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
     if ( !UserHomeView || !UserHomeView.isUserLoggedIn() ) {
@@ -185,12 +184,14 @@ TiaonaerApp.showView = function(viewName, model) {
 };
 
 $(document).bind('ajaxStart', function() {
-    console.log("ajaxStart");
-    TiaonaerApp.spinner.spin(document.getElementById('activity-indicator'));
+    //TiaonaerApp.spinner.spin(document.getElementById('activity-indicator'));
 }).bind('ajaxError', function(event, request ,settings) {
     console.log('ajaxError with status code: ', request.status);
-    TiaonaerApp.spinner.stop();
-
+    //TiaonaerApp.spinner.stop();
+    if ( request.status === 401 ) {
+        TiaonaerApp.vent.trigger("user:login");
+    }
+    /*
     if (request.status !== 400) {
         if (request.status === 404) {
             TiaonaerApp.vent.trigger("error:404");
@@ -200,26 +201,13 @@ $(document).bind('ajaxStart', function() {
             } else {
                 TiaonaerApp.vent.trigger("error:notAuthorized");
             }
-            /*
-            if ( !TiaonaerApp.isAnonymousUser() ) {
-                TiaonaerApp.vent.trigger("error:notAuthorized");
-            } else {
-                var reason = request.getResponseHeader("Reason");
-                if (reason === "Bad credentials") {
-                    console.log("Login failed.")
-                    TiaonaerApp.vent.trigger("user:loginFailed");
-                } else {
-                    console.log("User is anonymous")
-                    TiaonaerApp.vent.trigger("user:login");
-                }
-            }*/
         } else {
             TiaonaerApp.vent.trigger("error:error");
         }
     }
+    */
 }).bind('ajaxStop', function() {
-    console.log("ajaxStop");
-    TiaonaerApp.spinner.stop();
+    //TiaonaerApp.spinner.stop();
 });
 
 $(document).ready(function(){
