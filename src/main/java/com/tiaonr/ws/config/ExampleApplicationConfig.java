@@ -5,6 +5,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+import com.tiaonr.ws.config.CustomContextLoaderListener;
 
 import javax.servlet.*;
 import java.util.EnumSet;
@@ -36,6 +37,6 @@ public class ExampleApplicationConfig implements WebApplicationInitializer {
         filter.setContextAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.dispatcher");
         servletContext.addFilter("oauth2ClientContextFilter", filter).addMappingForUrlPatterns(null, false, "/*");
 
-        servletContext.addListener(new ContextLoaderListener(rootContext));
+        servletContext.addListener(new CustomContextLoaderListener(rootContext));
     }
 }
