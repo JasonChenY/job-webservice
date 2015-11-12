@@ -1,6 +1,6 @@
 TiaonaerApp.Controllers.UserController = {
     home: function() {
-        window.log("Rendering initial home view.");
+        console.log("Rendering initial home view.");
         TiaonaerApp.showView("UserHomeView");
     },
 
