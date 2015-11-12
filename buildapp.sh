@@ -23,6 +23,7 @@ if [ $1 = "create" ]; then
    echo "download plugins"
    cordova platform add android
    cordova plugin add cordova-plugin-inappbrowser
+   cordova plugin add cordova-plugin-splashscreen
 
    # following stuff can be removed with official certificate ?
    # cordova plugin add cordova-plugin-sslcertificatechecker
@@ -44,6 +45,20 @@ if [ $1 = "create" ]; then
    cp $dir/conf/app/res/mipmap-hdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-hdpi/
    cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable-xhdpi/
    #cp $dir/conf/app/res/mipmap-xhdpi/icon.png $destdir/jobapp/platforms/android/res/drawable/
+
+   cp $dir/conf/app/res/drawable-land-ldpi/screen.png $destdir/jobapp/platforms/android/res/drawable-land-ldpi
+   cp $dir/conf/app/res/drawable-land-mdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-land-mdpi
+   cp $dir/conf/app/res/drawable-land-hdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-land-hdpi
+   cp $dir/conf/app/res/drawable-land-xhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-land-xhdpi
+   cp $dir/conf/app/res/drawable-land-xxhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-land-xxhdpi
+   cp $dir/conf/app/res/drawable-land-xxxhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-land-xxxhdpi
+
+   cp $dir/conf/app/res/drawable-port-ldpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-ldpi
+   cp $dir/conf/app/res/drawable-port-mdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-mdpi
+   cp $dir/conf/app/res/drawable-port-hdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-hdpi
+   cp $dir/conf/app/res/drawable-port-xhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-xhdpi
+   cp $dir/conf/app/res/drawable-port-xxhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-xxhdpi
+   cp $dir/conf/app/res/drawable-port-xxxhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-xxxhdpi
 
    cordova build android
 elif [ $1 = "build" ]; then
