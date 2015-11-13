@@ -91,7 +91,7 @@ function strip_tags(input, allowed) {
   //   returns 6: '1 <br/> 1'
   //   example 7: strip_tags('1 <br/> 1', '<br><br/>');
   //   returns 7: '1 <br/> 1'
-
+  if (!input) return "";
   allowed = (((allowed || '') + '')
     .toLowerCase()
     .match(/<[a-z][a-z0-9]*>/g) || [])

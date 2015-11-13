@@ -37,7 +37,7 @@ TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
             pageSize: "page.size",
             sortKey: "page.sort",
             order: "page.sort.dir",
-            directions: 1
+            directions: {"-1": "asc", "1": "desc"}
         };
         var filters = {};
         if ( type !== undefined && type !== -1 && type !== "-1" ) filters['type'] = type;

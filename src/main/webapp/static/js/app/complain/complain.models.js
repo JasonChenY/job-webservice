@@ -30,14 +30,16 @@ TiaonaerApp.Collections.ComplainList = Backbone.PageableCollection.extend({
     state: {
         firstPage: 1,
         order: 1,
-        pageSize: 10
+        pageSize: 10,
+        sortKey: "creationTime"
     },
 
     queryParams: {
         currentPage: "page.page",
         pageSize: "page.size",
         sortKey: "page.sort",
-        order: "page.sort.dir"
+        order: "page.sort.dir",
+        directions: {"-1": "asc", "1": "desc"}
     },
 
     parseState: function (resp, queryParams, state, options) {
@@ -65,7 +67,8 @@ TiaonaerApp.Collections.ComplainAdminList = Backbone.PageableCollection.extend({
         currentPage: "page.page",
         pageSize: "page.size",
         sortKey: "page.sort",
-        order: "page.sort.dir"
+        order: "page.sort.dir",
+        directions: {"-1": "asc", "1": "desc"}
     },
 
     parseState: function (resp, queryParams, state, options) {
