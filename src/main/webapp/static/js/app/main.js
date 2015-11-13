@@ -195,7 +195,9 @@ $(document).bind('ajaxStart', function() {
     TiaonaerApp.spinner.stop();
 
     if (request.status !== 400) {
-        if (request.status === 404) {
+        if ( request.status === 500 ) {
+            alert("非常抱歉，服务目前暂不可用，稍后重试！");
+        } else if (request.status === 404) {
             TiaonaerApp.vent.trigger("error:404");
         } else if (request.status === 401) {
             if ( TiaonaerApp.isAnonymousUser() ) {
