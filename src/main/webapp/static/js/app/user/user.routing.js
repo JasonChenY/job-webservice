@@ -6,7 +6,8 @@ TiaonaerApp.UserRouting = function() {
             "": "home",
             "user/login": "login",
             "user/logout": "logout",
-            "user/register": "register"
+            "user/register": "register",
+            "software/download": "download"
         }
     });
 

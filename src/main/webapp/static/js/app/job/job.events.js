@@ -51,6 +51,7 @@ TiaonaerApp.vent.on("job:search", function() {
 });
 
 TiaonaerApp.vent.on("job:filter", function(filters) {
+/*
     console.log("Processing job filter event: " + filters);
 
     // problem to serialize filters object to string in url.
@@ -67,5 +68,8 @@ TiaonaerApp.vent.on("job:filter", function(filters) {
     if ( qs.length > 0 ) {
         qs = "?" + qs;
     }
+
     Backbone.history.navigate("#/job/filter"+qs);
+*/
+    Backbone.history.navigate("#/job/filter");
 });

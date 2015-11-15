@@ -1,5 +1,12 @@
 package com.tiaonr.ws.config;
 
+import java.util.Arrays;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -19,6 +26,9 @@ import javax.annotation.Resource;
 public class HttpSolrContext {
 
     private static final String PROPERTY_NAME_SOLR_SERVER_URL = "solr.server.url";
+    private static final String PROPERTY_NAME_SOLR_SERVER_USE_AUTH = "solr.server.use.auth";
+    private static final String PROPERTY_NAME_SOLR_SERVER_AUTH_USERNAME = "solr.server.auth.username";
+    private static final String PROPERTY_NAME_SOLR_SERVER_AUTH_PASSWORD = "solr.server.auth.password";
 
     @Resource
     private Environment environment;
@@ -34,6 +44,19 @@ public class HttpSolrContext {
 
     @Bean
     public SolrTemplate solrTemplate() throws Exception {
-        return new SolrTemplate(solrServerFactoryBean().getObject());
+        SolrServer solrServer = solrServerFactoryBean().getObject();
+
+        if ( environment.getRequiredProperty(PROPERTY_NAME_SOLR_SERVER_USE_AUTH, boolean.class) ) {
+            HttpSolrServer httpSolrServer = (HttpSolrServer) solrServer;
+
+            Credentials credentials = new UsernamePasswordCredentials(
+                    environment.getRequiredProperty(PROPERTY_NAME_SOLR_SERVER_AUTH_USERNAME),
+                    environment.getRequiredProperty(PROPERTY_NAME_SOLR_SERVER_AUTH_PASSWORD));
+
+            AbstractHttpClient httpClient = (AbstractHttpClient) httpSolrServer.getHttpClient();
+            httpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY), credentials);
+            httpClient.getParams().setParameter("http.auth.target-scheme-pref", Arrays.asList(new String[]{"BASIC"}));
+        }
+        return new SolrTemplate(solrServer);
     }
 }

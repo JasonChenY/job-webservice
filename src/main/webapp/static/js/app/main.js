@@ -14,11 +14,11 @@ window.log = function(){
 };
 
 function ThirdPartyLoginInCallback(result) {
-    console.log("Third Party Login result!");
-    if ( result )
+    if ( result === true || result === 'true' ) {
         TiaonaerApp.vent.trigger("user:loginSuccess");
-    else
+    } else {
         TiaonaerApp.vent.trigger("user:loginFailed");
+    }
 };
 
 /* for IE9 cors issue ( not support XmlHttpRequest ) */
@@ -147,6 +147,9 @@ TiaonaerApp.showView = function(viewName, model) {
             case "ComplainAdminDetailView":
                 view = new TiaonaerApp.Views.ComplainAdminDetailView({model:model});
                 break;
+            case "DownloadView":
+                view = new TiaonaerApp.Views.DownloadView();
+                break;
         }
         $(view.el).attr('data-role', 'page');
         view.render();
@@ -192,7 +195,9 @@ $(document).bind('ajaxStart', function() {
     }
     /*
     if (request.status !== 400) {
-        if (request.status === 404) {
+        if ( request.status === 500 ) {
+            alert("非常抱歉，服务目前暂不可用，稍后重试！");
+        } else if (request.status === 404) {
             TiaonaerApp.vent.trigger("error:404");
         } else if (request.status === 401) {
             if ( TiaonaerApp.isAnonymousUser() ) {

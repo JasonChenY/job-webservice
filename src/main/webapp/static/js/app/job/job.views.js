@@ -204,7 +204,7 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
         var index = 0;
         _.each(_.keys(facets.companies), function(key) {
             var val = facets.companies[key];
-            var $el = $("<label for='jf_company_cb-"+index+"'>"+key+"("+val+")" + "</label><input id='jf_company_cb-" + index + "' type='checkbox' value='"+key+"'></input>");
+            var $el = $("<label for='jf_company_cb-"+index+"'>"+key+"("+val+")" + "</label><input id='jf_company_cb-" + index + "' type='checkbox' value=\""+key+"\"></input>");
             jobfilter_company_ctlgrp.controlgroup("container")['append']($el);
             $($el[1]).checkboxradio();
             $($el[1]).parents(".ui-checkbox").attr("data-filtertext", makePy(key));
@@ -335,7 +335,9 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
 
         console.log(filters);
 
+        TiaonaerApp.filters=filters;
         TiaonaerApp.vent.trigger("job:filter", filters);
+
         e.preventDefault();
     }
 });

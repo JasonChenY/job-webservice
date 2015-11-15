@@ -9,7 +9,7 @@
 
     <context:property-placeholder location="classpath:application.properties" ignore-resource-not-found="false"/>
 
-    <import resource="exampleApplicationContext-persistence.xml"/>
+    <!--import resource="exampleApplicationContext-persistence.xml"/-->
     <import resource="exampleApplicationContext-security.xml"/>
     <import resource="exampleApplicationContext-solr.xml"/>
 

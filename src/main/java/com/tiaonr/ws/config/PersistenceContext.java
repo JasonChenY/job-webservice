@@ -1,6 +1,7 @@
 package com.tiaonr.ws.config;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import com.jolbox.bonecp.BoneCPDataSource;
+//import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.core.io.ClassPathResource;
@@ -25,7 +26,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.tiaonr.ws.job.repository.jpa")
 public class PersistenceContext {
-
     protected static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
     protected static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
     protected static final String PROPERTY_NAME_DATABASE_URL = "db.url";
@@ -41,24 +41,23 @@ public class PersistenceContext {
 
     @Resource
     private Environment environment;
-/*
-    @Value("${init-db:false}")
-    private String initDatabase;
-*/
+
     @Bean
     public DataSource dataSource() {
-        /*
         BoneCPDataSource dataSource = new BoneCPDataSource();
         dataSource.setDriverClass(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
         dataSource.setJdbcUrl(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-        */
-
-        BasicDataSource dataSource = new BasicDataSource();
+/*
+        BasicDataSource dataSource = new ExtendedBasicDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
         dataSource.setUrl(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
-
+        dataSource.setTestOnBorrow(true);
+        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setRemoveAbandoned(true);
+*/
         dataSource.setUsername(environment.getProperty(PROPERTY_NAME_DATABASE_USERNAME));
         dataSource.setPassword(environment.getProperty(PROPERTY_NAME_DATABASE_PASSWORD));
+
         return dataSource;
     }
 /*
