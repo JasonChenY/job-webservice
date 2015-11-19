@@ -171,6 +171,7 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
             case 3: btn_ui_user.buttonMarkup({ icon: "sina" }); break;
             case 4: btn_ui_user.buttonMarkup({ icon: "baidu" }); break;
         }
+        //if ( isCordovaApp() ) { $("#btn_download", this.el).hide(); }
         return this;
     },
 
@@ -230,6 +231,10 @@ TiaonaerApp.Views.DownloadView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template());
+        if ( isCordovaApp() ) {
+            $("#download-android", this.el).attr("href", TiaonaerApp.ServiceUrl + "/" + $("#download-android", this.el).attr("href"));
+            $("#download-ios", this.el).attr("href", TiaonaerApp.ServiceUrl + "/" + $("#download-ios", this.el).attr("href"));
+        };
         return this;
     },
 });
