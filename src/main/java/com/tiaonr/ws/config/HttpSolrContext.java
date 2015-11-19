@@ -1,5 +1,6 @@
 package com.tiaonr.ws.config;
 
+import java.io.IOException;
 import java.util.Arrays;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
@@ -16,6 +17,18 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.data.solr.server.support.HttpSolrServerFactoryBean;
 
 import javax.annotation.Resource;
+
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpException;
+import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.auth.AuthState;
+import org.apache.http.auth.Credentials;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.impl.auth.BasicScheme;
 
 /**
  * @author jason.y.chen
@@ -42,6 +55,24 @@ public class HttpSolrContext {
         return factory;
     }
 
+    private static class PreemptiveAuthInterceptor implements HttpRequestInterceptor {
+        public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
+            AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
+
+            // If no auth scheme avaialble yet, try to initialize it
+            // preemptively
+            if (authState.getAuthScheme() == null) {
+                CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(ClientContext.CREDS_PROVIDER);
+                HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+                Credentials creds = credsProvider.getCredentials(new AuthScope(targetHost.getHostName(), targetHost.getPort()));
+                if (creds == null)
+                    throw new HttpException("No credentials for preemptive authentication");
+                authState.setAuthScheme(new BasicScheme());
+                authState.setCredentials(creds);
+            }
+        }
+    }
+
     @Bean
     public SolrTemplate solrTemplate() throws Exception {
         SolrServer solrServer = solrServerFactoryBean().getObject();
@@ -56,6 +87,7 @@ public class HttpSolrContext {
             AbstractHttpClient httpClient = (AbstractHttpClient) httpSolrServer.getHttpClient();
             httpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY), credentials);
             httpClient.getParams().setParameter("http.auth.target-scheme-pref", Arrays.asList(new String[]{"BASIC"}));
+            httpClient.addRequestInterceptor(new PreemptiveAuthInterceptor(),0);
         }
         return new SolrTemplate(solrServer);
     }

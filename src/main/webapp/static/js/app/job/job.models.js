@@ -91,7 +91,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 },
                 error: function(data, status, xhr) {
                     if ( status.responseText === 'You have complained about this job before' ) {
-                        alert('不可以重复投诉同一职位!');
+                        alert('不要重复投诉同一职位哦!');
                     } else {
                         console.log(status.responseText);
                     }

@@ -179,6 +179,9 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
             crossDomain: true,
             success:  function(facets) {
                 self.GotData(facets);
+            },
+            error: function() {
+                self.setValid(false);
             }
         });
     },
