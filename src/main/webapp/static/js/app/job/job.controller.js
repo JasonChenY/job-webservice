@@ -73,11 +73,11 @@ TiaonaerApp.Controllers.JobController = {
 
     search: function() {
         // Only registered user can use search function.
-        if (TiaonaerApp.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
-        } else {
+        //if (TiaonaerApp.isAnonymousUser()) {
+        //    TiaonaerApp.vent.trigger("user:login");
+        //} else {
             TiaonaerApp.showView("JobSearchView");
-        }
+        //}
     },
 
     // filter should again translate the QueryString to hash, then apply to paginator
