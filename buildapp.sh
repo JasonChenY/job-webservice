@@ -24,6 +24,7 @@ if [ $1 = "create" ]; then
    cordova platform add android
    cordova plugin add cordova-plugin-inappbrowser
    cordova plugin add cordova-plugin-splashscreen
+   # <preference name="SplashScreenDelay" value="10000" />
 
    # following stuff can be removed with official certificate ?
    # cordova plugin add cordova-plugin-sslcertificatechecker

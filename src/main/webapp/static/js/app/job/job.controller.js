@@ -87,9 +87,12 @@ TiaonaerApp.Controllers.JobController = {
         if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         } else {
-            var jobListView = TiaonaerApp.ViewContainer.findByCustom("JobListView");
-            //jobListView.switchCollection(filters?parseQueryString(filters):null);
-            jobListView.switchCollection(TiaonaerApp.filters);
+            if ( TiaonaerApp.filters ) {
+                var jobListView = TiaonaerApp.ViewContainer.findByCustom("JobListView");
+                //jobListView.switchCollection(filters?parseQueryString(filters):null);
+                jobListView.switchCollection(TiaonaerApp.filters);
+                TiaonaerApp.filters = null;
+            }
             TiaonaerApp.showView("JobListView");
         }
     }
