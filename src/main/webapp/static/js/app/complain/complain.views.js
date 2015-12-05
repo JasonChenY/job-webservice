@@ -45,7 +45,7 @@ TiaonaerApp.Views.ComplainListView = TiaonaerApp.View.extend({
                 this.$('#complainlist').append(new TiaonaerApp.Views.ComplainItemView({model:item}).render().el);
         }, this);
         this.$('#complainlist').listview().listview('refresh');
-        this.$('.complainlist_iscroller_wrapper').iscrollview().iscrollview("refresh");
+        this.$('.complainlist_iscroller_wrapper').iscrollview("scrollTo", 0, 0, 10, null);
 
         if ( this.fetch_type === 0 ) {
             console.log("fetch_type === 0, length: " + this.totalRecords);

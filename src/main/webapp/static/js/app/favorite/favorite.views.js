@@ -86,7 +86,8 @@ TiaonaerApp.Views.FavoriteListView = TiaonaerApp.View.extend({
                 this.$('#favoritelist').append(new TiaonaerApp.Views.FavoriteItemView({model:favoriteitem}).render().el);
         }, this);
         this.$('#favoritelist').listview().listview('refresh');
-        this.$('.favoritelist_iscroller_wrapper').iscrollview().iscrollview("refresh");
+        this.$('.favoritelist_iscroller_wrapper').iscrollview("scrollTo", 0, 0, 10, null);
+        //this.$('.favoritelist_iscroller_wrapper').iscrollview().iscrollview("refresh");
 
         if ( this.fetch_type === 0 ) {
             this.totalRecords = this.collection.state.totalRecords;

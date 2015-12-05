@@ -58,7 +58,8 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
             this.$('#joblist').append(new TiaonaerApp.Views.JobItemView({model:jobitem}).render().el);
         }, this);
         this.$('#joblist').listview().listview('refresh');
-        this.$('.joblist_iscroller_wrapper').iscrollview().iscrollview("refresh");
+        this.$('.joblist_iscroller_wrapper').iscrollview("scrollTo", 0, 0, 10, null);
+        //this.$('.joblist_iscroller_wrapper').iscrollview().iscrollview("refresh");
 
         if ( this.fetch_type === 0 ) {
             var self = this;
