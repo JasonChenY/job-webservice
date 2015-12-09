@@ -214,8 +214,22 @@ $(document).bind('ajaxStart', function() {
     //TiaonaerApp.spinner.stop();
 });
 
+function checkUpdate(){
+    var url = TiaonaerApp.ServiceUrl + '/api/checkupdate?device=' + window.device.platform;
+    //cordova.getAppVersion.getVersionNumber(function(versionNumber) {alert(versionNumber);});
+    cordova.getAppVersion.getVersionCode(function(versionCode) {
+        $.get(url,{},function(version){
+            if (versionCode < version.versionCode) {
+                var r = confirm(version.description);
+                if(r){
+                    window.open(version.location);//, '_system', 'location=yes');
+                }
+            }
+        });
+    });
+}
+
 $(document).ready(function(){
-    console.log("document.ready");
     /*
     i18n.init({
         debug: true,
@@ -244,5 +258,9 @@ $(document).ready(function(){
     */
 
     TiaonaerApp.start();
+
+    if ( isCordovaApp() ) {
+       setTimeout(function(){ checkUpdate(); },1000);
+    }
 });
 

@@ -4,6 +4,9 @@ package com.tiaonr.ws.config;
  * Created by echyong on 11/12/15.
  */
 
+import com.tiaonr.ws.software.SoftwareVersions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import javax.servlet.ServletContextEvent;
@@ -14,15 +17,29 @@ import java.sql.SQLException;
 import java.sql.Driver;
 import java.util.List;
 import java.util.Collections;
+import com.tiaonr.ws.software.FileMonitor;
 
 public class CustomContextLoaderListener extends ContextLoaderListener {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomContextLoaderListener.class);
+
     public CustomContextLoaderListener(WebApplicationContext context) {
         super(context);
     }
 
     @Override
+    public void contextInitialized(ServletContextEvent event) {
+        super.contextInitialized(event);
+        try {
+            FileMonitor.start(event.getServletContext().getRealPath("/static/app"));
+            SoftwareVersions.reload(event.getServletContext().getRealPath("/static/app/versions.txt"));
+        } catch ( Exception e) {
+            LOGGER.warn("failed to start FileMonitor", e);
+        }
+    }
+
+    @Override
     public void contextDestroyed(ServletContextEvent event) {
-        super.contextDestroyed(event);
+        FileMonitor.stop();
 
         /*
         Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
@@ -50,6 +67,8 @@ public class CustomContextLoaderListener extends ContextLoaderListener {
         } catch ( SQLException e ) {
             //LOGGER.debug("exception:", e);
         }
+
+        super.contextDestroyed(event);
 
         /* Deregister driver
         Other Alternatives:

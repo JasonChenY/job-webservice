@@ -25,6 +25,8 @@ if [ $1 = "create" ]; then
    cordova plugin add cordova-plugin-inappbrowser
    cordova plugin add cordova-plugin-splashscreen
    # <preference name="SplashScreenDelay" value="10000" />
+   cordova plugin add https://github.com/whiteoctober/cordova-plugin-app-version.git
+   cordova plugin add cordova-plugin-device
 
    # following stuff can be removed with official certificate ?
    # cordova plugin add cordova-plugin-sslcertificatechecker
@@ -62,6 +64,7 @@ if [ $1 = "create" ]; then
    cp $dir/conf/app/res/drawable-port-xxxhdpi/screen.png $destdir/jobapp/platforms/android/res/drawable-port-xxxhdpi
 
    cp $dir/conf/app/build.json $destdir/jobapp
+   cp $dir/conf/app/config.xml $destdir/jobapp
 
    cordova build android --release
 elif [ $1 = "build" ]; then
@@ -73,6 +76,7 @@ elif [ $1 = "build" ]; then
    cp $dir/target/jobws/static/jobws.min.css www/static
 
    cp $dir/conf/app/build.json $destdir/jobapp
+   cp $dir/conf/app/config.xml $destdir/jobapp
 
    cordova build android --release
 else
