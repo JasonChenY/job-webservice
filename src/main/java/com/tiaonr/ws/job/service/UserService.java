@@ -105,7 +105,7 @@ public class UserService {
                     ps.setString(1, user_id);
                     ps.setString(2, "N/A");
                     ps.setBoolean(3, true);
-                    ps.setString(4, "N/A"); // to be extended to email in future.
+                    ps.setString(4, null); // to be extended to email in future.
                     ps.setInt(5, 1);
                 }
             });

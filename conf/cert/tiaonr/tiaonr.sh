@@ -80,3 +80,18 @@ mount -o remount,ro /system
 reboot
 
 Now can see the certification installed in "Settings -> Security -> Certificate -> System"
+
+
+
+
+##wosign##
+openssl genrsa -des3 -out tiaonr.key 4096
+openssl req -new -key tiaonr.key -out tiaonr.csr -passin pass:tiaonr -subj /C=CN/ST=SH/L=SH/O=Tiaonr\ Inc/OU=tiaonr/CN=www.tiaonr.com -extensions v3_req -days 365
+
+unzip for\ Other\ Server.zip
+cp 2_issuer_Intermediate.crt chain.pem
+cat 1_cross_Intermediate.crt >> chain.pem
+cat root.crt  >> chain.pem
+openssl verify -CAfile chain.pem 3_user_www.tiaonr.com.crt
+openssl pkcs12 -export -in 3_user_www.tiaonr.com.crt -inkey  /tmp/tiaonr.key -out tiaonr.p12 -chain -CAfile chain.pem -passin pass:tiaonr -passout pass:tiaonr
+keytool -importkeystore -deststorepass tomcat -destkeystore tomcat.keystore -srckeystore tiaonr.p12 -srcstoretype PKCS12 -srcstorepass tiaonr

@@ -110,11 +110,12 @@ public class FavoriteService {
         if ( doc == null ) {
             LOGGER.warn("404 Favorited Job not exist in repository, data mismatch, id: {}", model.getJob_id());
             dto.setJob_title("Sorry, this job already deleted!");
+            return null;
         } else {
             dto.setJob_title(doc.getJob_title());
             dto.setJob_company(doc.getJob_company());
             dto.setJob_expired(doc.getJob_expired());
+            return dto;
         }
-        return dto;
     }
 }

@@ -19,6 +19,6 @@ public class ComplainsDTO extends PageNavigation {
             complains.add(dto);
         }
     }
-    public void addComplain(ComplainDTO dto) { complains.add(dto);}
+    public void addComplain(ComplainDTO dto) { if ( dto != null ) complains.add(dto);}
     public List<ComplainDTO> getComplains() { return complains; }
 }

@@ -143,10 +143,11 @@ public class ComplainService {
         if ( doc == null ) {
             LOGGER.warn("404 Complained Job not exist in repository, data mismatch, id: {}", model.getJob_id());
             dto.setJob_title("Job Removed From Database already!");
+            return null;
         } else {
             dto.setJob_title(doc.getJob_title());
             dto.setJob_company(doc.getJob_company());
+            return dto;
         }
-        return dto;
     }
 }

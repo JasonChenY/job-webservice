@@ -14,6 +14,6 @@ public class FavoritesDTO extends PageNavigation {
     public FavoritesDTO(Page<?> page) {
         super(page);
     }
-    public void addFavorite(FavoriteDTO dto) { favorites.add(dto);}
+    public void addFavorite(FavoriteDTO dto) { if ( dto != null ) favorites.add(dto);}
     public List<FavoriteDTO> getFavorites() { return favorites; }
 }

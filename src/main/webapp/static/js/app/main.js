@@ -66,7 +66,7 @@ TiaonaerApp.Views = {};
 TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
 
 TiaonaerApp.ServerHost = "https://www.tiaonr.com";
-TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost + "/jobws";
+TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost;
 /*
 TiaonaerApp.spinner = new Spinner({
     lines: 13, // The number of lines to draw
