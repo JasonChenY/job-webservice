@@ -66,7 +66,3 @@ TiaonaerApp.vent.on("user:logoutSuccess", function() {
     TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedOut();
     Backbone.history.navigate("#/");
 });
-
-TiaonaerApp.vent.on("software:download", function() {
-    Backbone.history.navigate("#/software/download");
-});

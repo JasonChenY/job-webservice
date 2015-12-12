@@ -36,9 +36,5 @@ TiaonaerApp.Controllers.UserController = {
         } else {
             console.log("Not logged in yet");
         }
-    },
-
-    download: function() {
-        TiaonaerApp.showView("DownloadView");
     }
 };

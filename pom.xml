@@ -206,6 +206,13 @@
                             </includes>
                             <targetPath>static/app</targetPath>
                         </resource>
+                        <resource>
+                            <directory>${project.basedir}/conf/app</directory>
+                            <includes>
+                                <include>versions.txt</include>
+                            </includes>
+                            <targetPath>static/app</targetPath>
+                        </resource>
                     </webResources>
                 </configuration>
             </plugin>
@@ -252,6 +259,7 @@
                                 <include>job/*.js</include>
                                 <include>favorite/*.js</include>
                                 <include>complain/*.js</include>
+                                <include>app/*.js</include>
                                 <include>error/*.js</include>
                             </includes>
                         </aggregation>

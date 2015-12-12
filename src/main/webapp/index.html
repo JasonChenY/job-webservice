@@ -84,7 +84,13 @@
             <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_favorite" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-heart">我的收藏</button></div></div>
             <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-mail">我的举报</button></div></div>
             <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_comment" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">我的评论</button></div></div>
-            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_download" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-arrow-d">APP下载</button></div></div>
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e">
+            <%if (isCordovaApp()) {%>
+                <button id="btn_app_about" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-gear">关于跳哪儿</button>
+            <%}else{%>
+                <button id="btn_app_download" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-arrow-d">客户端下载</button>
+            <%}%>
+            </div></div>
             <% if ( role === 'ROLE_ADMIN' ) { %>
             <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_complain_admin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-eye">待处理举报</button></div></div>
             <% } %>
@@ -647,9 +653,9 @@
         </div>
     </div>
 </script>
-<script id="template-download-view" type="text/html">
+<script id="template-app-download-view" type="text/html">
     <div data-role="header" data-theme="b">
-        <h1>软件下载</h1>
+        <h1>客户端下载</h1>
     </div>
     <div data-role="content">
         <div class="ui-grid-a ui-responsive">
@@ -680,6 +686,29 @@
         <h1>Copyright @ 2015-2025</h1>
     </div>
 </script>
+
+<script id="template-app-about-view" type="text/html">
+    <div data-role="header" data-theme="b">
+        <h1>关于跳哪儿</h1>
+    </div>
+    <div data-role="content">
+        <div style="text-align:center;">
+            <img src="static/images/logo.png" width="100" height="100" alt="跳哪儿">
+            <label id="app-cur-version"></label>
+        </div>
+        <ul data-role="listview" data-filter="false" data-inset="true" data-split-theme="b">
+            <li><a id="app-about-version"><h2>版本更新</h2><p id="app-about-version-p" class="ui-li-aside">已是最新版本</p></a></li>
+            <li><a><h2>意见和反馈</h2></a></li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <div class="back-btn-wrapper" >
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
+        </div>
+        <h1>Copyright @ 2015-2025</h1>
+    </div>
+</script>
+
 <script>
 //$.getScript(TiaonaerApp.ServiceUrl+"/static/js/app/user/user.views.patch.js");
 </script>

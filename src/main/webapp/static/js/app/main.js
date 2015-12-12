@@ -147,8 +147,11 @@ TiaonaerApp.showView = function(viewName, model) {
             case "ComplainAdminDetailView":
                 view = new TiaonaerApp.Views.ComplainAdminDetailView({model:model});
                 break;
-            case "DownloadView":
-                view = new TiaonaerApp.Views.DownloadView();
+            case "AppDownloadView":
+                view = new TiaonaerApp.Views.AppDownloadView();
+                break;
+            case "AppAboutView":
+                view = new TiaonaerApp.Views.AppAboutView();
                 break;
         }
         $(view.el).attr('data-role', 'page');
@@ -216,10 +219,10 @@ $(document).bind('ajaxStart', function() {
 
 function checkUpdate(){
     var url = TiaonaerApp.ServiceUrl + '/api/checkupdate?device=' + window.device.platform;
-    //cordova.getAppVersion.getVersionNumber(function(versionNumber) {alert(versionNumber);});
     cordova.getAppVersion.getVersionCode(function(versionCode) {
         $.get(url,{},function(version){
             if (versionCode < version.versionCode) {
+                TiaonaerApp.appVersion = version; //saved for later usage.
                 var r = confirm(version.description);
                 if(r){
                     window.open(version.location);//, '_system', 'location=yes');

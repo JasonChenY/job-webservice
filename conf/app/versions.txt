@@ -1,9 +1,9 @@
 [
 {
    "deviceType": "Android",
-   "versionCode": 100028,
-   "versionName": "1.0.2",
-   "description": "有新版本(1.0.2)可供更新.\n 1.界面美化 \n 2.性能优化",
+   "versionCode": 100048,
+   "versionName": "1.0.4",
+   "description": "有新版本(1.0.4)可供更新.\n 1.背景美化，功能介绍 \n 2.版本检测",
    "location": "http://www.tiaonr.com/static/app/android-release.apk"
 },
 {

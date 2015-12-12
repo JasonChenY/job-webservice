@@ -188,7 +188,8 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         'click #btn_complain_admin': function() { TiaonaerApp.vent.trigger("complain:adminlist"); },
         'click #btn_login': function() { TiaonaerApp.vent.trigger("user:login"); },
         'click #btn_logout': function() { TiaonaerApp.vent.trigger("user:logout"); },
-        'click #btn_download': function() { TiaonaerApp.vent.trigger("software:download"); }
+        'click #btn_app_download': function() { TiaonaerApp.vent.trigger("app:download"); },
+        'click #btn_app_about': function() { TiaonaerApp.vent.trigger("app:about"); }
     },
 
     isUserLoggedIn: function () {
@@ -221,22 +222,6 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
 
         TiaonaerApp.ViewContainer.apply("setValid", [false]);
     }
-});
-
-TiaonaerApp.Views.DownloadView = Backbone.View.extend({
-    id: 'download-page',
-    template: "#template-download-view",
-    initialize:function () {
-        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
-    },
-    render:function () {
-        $(this.el).html(this.template());
-        if ( isCordovaApp() ) {
-            $("#download-android", this.el).attr("href", TiaonaerApp.ServiceUrl + "/" + $("#download-android", this.el).attr("href"));
-            $("#download-ios", this.el).attr("href", TiaonaerApp.ServiceUrl + "/" + $("#download-ios", this.el).attr("href"));
-        };
-        return this;
-    },
 });
 
 TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
