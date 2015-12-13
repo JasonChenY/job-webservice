@@ -7,8 +7,8 @@ TiaonaerApp.vent.on("favorite:list", function() {
     Backbone.history.navigate("#/favorite/list");
 });
 
-TiaonaerApp.vent.on("favorite:detail", function() {
+TiaonaerApp.vent.on("favorite:detail", function(model) {
     console.log("Processing favorite:list event");
-    // TODO to show job detail here.
+    Backbone.history.navigate("#/job/view/"+model.get('job_id'));
 });
 

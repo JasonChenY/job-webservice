@@ -158,6 +158,35 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     }
 });
 
+TiaonaerApp.Views.JobInfoView = Backbone.View.extend({
+    id: "jobinfo-page",
+    template: '#template-jobinfo-view',
+    model: TiaonaerApp.Models.Job,
+    initialize:function() {
+        console.log("JobInfoView's initialize");
+        this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
+    },
+    events: {
+        'click a.job_url': "goto_job_url",
+        'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
+    },
+    goto_job_url: function(e) {
+        window.open(e.target.href);
+        e.preventDefault();
+    },
+    switchModel: function(model) {
+        this.model = model;
+        this.render();
+    },
+    render:function (eventName) {
+        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).trigger('create');
+        $('.iscroll-wrapper', this.el).iscrollview().iscrollview("refresh");
+        $('.ui-footer', this.el).toolbar('refresh');
+        return this;
+    }
+});
+
 Date.prototype.minusDays = function(days) {
     this.setDate(this.getDate() - days);
     return this;
@@ -339,7 +368,6 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
 
         console.log(filters);
 
-        TiaonaerApp.filters=filters;
         TiaonaerApp.vent.trigger("job:filter", filters);
 
         e.preventDefault();

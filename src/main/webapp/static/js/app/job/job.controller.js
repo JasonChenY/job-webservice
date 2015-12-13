@@ -33,35 +33,17 @@ var parseQueryString = function (url) {
 };
 
 TiaonaerApp.Controllers.JobController = {
-/*
-    add: function() {
-        window.log("Rendering add todo view.");
-        if (this.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
-        }
-        else {
-            var addTodoView = new TiaonaerApp.Views.AddTodoView();
-            TiaonaerApp.mainRegion.show(addTodoView);
-        }
-    },
-*/
     list: function() {
         console.log("list in JobController");
         TiaonaerApp.showView("JobListView");
     },
     view: function(id) {
-        window.log("Rendering view page for todo entry with id: ", id);
-        if (TiaonaerApp.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
-        }
-        else {
-            var viewJobView = new TiaonaerApp.Views.ViewJobView({id: id});
-            TiaonaerApp.mainRegion.show(viewJobView);
-        }
+        var job = new TiaonaerApp.Models.Job({id: id});
+        job.fetch({success:function() {
+            TiaonaerApp.showView("JobInfoView", job);
+        }});
     },
-
     update: function(id) {
-        window.log("Rendering update todo view.")
         if (TiaonaerApp.isAnonymousUser()) {
             TiaonaerApp.vent.trigger("user:login");
         }
@@ -84,9 +66,10 @@ TiaonaerApp.Controllers.JobController = {
     // we dont need authentication here and use dont need bookmark this.
     filter: function(filters) {
         console.log("Filter job entries:" + filters);
-        if (TiaonaerApp.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
-        } else {
+        // Only registered user can use search function.
+        //if (TiaonaerApp.isAnonymousUser()) {
+            //TiaonaerApp.vent.trigger("user:login");
+        //} else {
             if ( TiaonaerApp.filters ) {
                 var jobListView = TiaonaerApp.ViewContainer.findByCustom("JobListView");
                 //jobListView.switchCollection(filters?parseQueryString(filters):null);
@@ -94,6 +77,6 @@ TiaonaerApp.Controllers.JobController = {
                 TiaonaerApp.filters = null;
             }
             TiaonaerApp.showView("JobListView");
-        }
+        //}
     }
 };

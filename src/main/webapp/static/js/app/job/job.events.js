@@ -71,5 +71,6 @@ TiaonaerApp.vent.on("job:filter", function(filters) {
 
     Backbone.history.navigate("#/job/filter"+qs);
 */
+    TiaonaerApp.filters=filters;
     Backbone.history.navigate("#/job/filter");
 });

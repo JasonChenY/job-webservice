@@ -64,6 +64,11 @@
     <script type="text/javascript" src="static/js/app/complain/complain.routing.js"></script>
     <script type="text/javascript" src="static/js/app/complain/complain.views.js"></script>
     <script type="text/javascript" src="static/js/app/complain/complain-admin.views.js"></script>
+
+    <script type="text/javascript" src="static/js/app/app/app.controller.js"></script>
+    <script type="text/javascript" src="static/js/app/app/app.events.js"></script>
+    <script type="text/javascript" src="static/js/app/app/app.routing.js"></script>
+    <script type="text/javascript" src="static/js/app/app/app.views.js"></script>
 -->
 </head>
 <body>
@@ -186,7 +191,7 @@
 </script>
 
 <script id="template-jobitem-view" type="text/html">
-    <a href="#job/view/<%=id%>" data-transition="pop" class="jobdetail">
+    <a href="#job/dummyview/<%=id%>" data-transition="pop" class="jobdetail">
         <%= job_title %>
         <p>
             <span><%= job_company %></span>
@@ -360,8 +365,30 @@
     </div>
 </script>
 
+<script id="template-jobinfo-view" type="text/html">
+    <div data-role="header" data-theme="b"><h1 class="ui-title" role="heading" aria-level="1">职位详情</h1></div>
+    <div class='ui-content' data-role="content" role="main">
+        <div data-role="content" data-iscroll class="iscroll-wrapper">
+            <div><%=job_title%></div>
+            <div><%=job_company%></div>
+            <div><%=job_location%></div>
+            <div><% print(formatDateString(job_post_date)); %></div>
+            <hr>
+            <div><%=job_description%></div>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none" data-theme="b" data-mini="true">
+        <div style="float:left;" data-theme="b">
+            <a href="<%=job_url%>" data-role="button" data-icon="navigation" target="_blank" data-rel="external" class="job_url ui-btn ui-icon-navigation ui-btn-icon-left ui-btn-b">官网申请</a>
+        </div>
+        <div class="back-btn-wrapper">
+            <a href="#" data-rel="back" class="ui-btn ui-mini">返回</a>
+        </div>
+    </div>
+</script>
+
 <script id="template-favoriteitem-view" type="text/html">
-    <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+    <a data-transition="pop" class="detail">
         <%= job_title %>
         <p>
             <span><%= job_company %></span>
@@ -394,7 +421,7 @@
 </script>
 
 <script id="template-complainitem-view" type="text/html">
-    <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+    <a href="#job/dummyview/<%= job_id %>" data-transition="pop" class="detail">
         <%= job_title %> --- <%= job_company %>
         <p>
         <span>举报事项:
@@ -500,7 +527,7 @@
 </script>
 
 <script id="template-complainitem-admin-view" type="text/html">
-    <a href="#job/view/<%= job_id %>" data-transition="pop" class="detail">
+    <a href="#job/dummyview/<%= job_id %>" data-transition="pop" class="detail">
         <%= job_title %> --- <%= job_company %>
         <p>
         <span>举报事项:
@@ -555,15 +582,15 @@
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
                 <select name="complaintype" id="complaintype">
                     <option value="-1" selected="selected">所有</option>
-                        <option value="0">已过期</option>
-                        <option value="1">内容无效</option>
+                    <option value="0">已过期</option>
+                    <option value="1">内容无效</option>
                     <option value="2">其他</option>
                 </select>
                 <select name="complainstatus" id="complainstatus">
-                        <option value="-1">所有</option>
-                        <option value="0" selected="selected">待处理</option>
-                        <option value="1">已审核</option>
-                        <option value="2">已拒绝</option>
+                    <option value="-1">所有</option>
+                    <option value="0" selected="selected">待处理</option>
+                    <option value="1">已审核</option>
+                    <option value="2">已拒绝</option>
                 </select>
             </fieldset>
         </div>

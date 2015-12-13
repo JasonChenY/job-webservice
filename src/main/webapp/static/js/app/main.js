@@ -132,6 +132,9 @@ TiaonaerApp.showView = function(viewName, model) {
             case "JobDetailView":
                 view = new TiaonaerApp.Views.JobDetailView({model:model});
                 break;
+            case "JobInfoView":
+                view = new TiaonaerApp.Views.JobInfoView({model:model});
+                break;
             case "FavoriteListView":
                 view = new TiaonaerApp.Views.FavoriteListView();
                 break;
@@ -162,6 +165,7 @@ TiaonaerApp.showView = function(viewName, model) {
         if ( model ) {
             switch ( viewName ) {
                 case "JobDetailView":
+                case "JobInfoView":
                 case "ComplainDetailView":
                 case "ComplainAdminDetailView":
                     view.switchModel(model);
