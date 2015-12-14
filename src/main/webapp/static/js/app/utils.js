@@ -150,3 +150,6 @@ String.prototype.LTrim = function(){
 String.prototype.RTrim = function() {
     return this.replace(/(\s*$)/g, "");
 }
+String.prototype.FullTrim = function() {
+    return this.replace(/&nbsp;/g, " ").replace(/\s{2,}/g, " ");
+}

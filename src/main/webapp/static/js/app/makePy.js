@@ -59,5 +59,3 @@ arrRslt = arrRslt.concat(tmp);
 }
 return arrRslt;
 }
-//两端去空格函数
-String.prototype.trim = function() {    return this.replace(/(^\s*)|(\s*$)/g,""); }

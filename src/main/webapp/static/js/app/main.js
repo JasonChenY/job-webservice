@@ -267,7 +267,7 @@ $(document).ready(function(){
     TiaonaerApp.start();
 
     if ( isCordovaApp() ) {
-       setTimeout(function(){ checkUpdate(); },1000);
+       setTimeout(function(){ checkUpdate(); },50);
     }
 });
 

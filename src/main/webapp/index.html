@@ -194,14 +194,16 @@
     <a href="#job/dummyview/<%=id%>" data-transition="pop" class="jobdetail">
         <%= job_title %>
         <p>
+            <!--span style="float:right;"><%=comments_num%>评论</span-->
+            <%if(favorities_num>0){%>
+            <span style="float:right;"><%=favorities_num%>收藏</span>
+            <%}%>
             <span><%= job_company %></span>
             <span><%= job_location %></span>
             <span><% print(formatDateString(job_post_date)); %></span>
-            <span><%=favorities_num%>次收藏</span>
-            <span><%=comments_num%>条评论</span>
         </p>
     <pre>
-        <% print(strip_tags(job_description)); %>
+        <% print(strip_tags(job_description).FullTrim()); %>
     </pre>
     </a>
     <% if (favorite_id === 0) { %>
