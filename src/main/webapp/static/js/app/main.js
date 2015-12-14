@@ -190,6 +190,7 @@ TiaonaerApp.showView = function(viewName, model) {
     });
 */
     $.mobile.changePage($(view.el));
+    return view;
 };
 
 $(document).bind('ajaxStart', function() {

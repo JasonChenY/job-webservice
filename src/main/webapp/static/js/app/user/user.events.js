@@ -40,10 +40,16 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
         success: function(user) {
             if (user.username) {
                 console.log("Found logged in user: ", user);
-                TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedIn(user);
-
-                // restore back to the view triggered the login process.
-                window.history.back();
+                var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+                if ( userHomeView ) {
+                    userHomeView.userLoggedIn(user);
+                    // restore back to the view triggered the login process.
+                    window.history.back();
+                } else {
+                    // in case access login page directly, homeview not created yet.
+                    userHomeView = TiaonaerApp.showView("UserHomeView");
+                    userHomeView.userLoggedIn(user);
+                }
             } else {
                 console.log("Logged in user was not found.")
             }
