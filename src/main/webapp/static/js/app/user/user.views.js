@@ -17,6 +17,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.login(); },
         "click #btn-login-cancel": "login_cancel",
         "click #btn-testServer-login": function(e) { this.thirdParty_login("testServer"); },
+        "click #btn-weixin-login": function(e) { this.thirdParty_login("weixin"); },
         "click #btn-qq-login": function(e) { this.thirdParty_login("qq"); },
         "click #btn-sina-login": function(e) { this.thirdParty_login("weibo"); }
     },
@@ -169,7 +170,8 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
             case 1: btn_ui_user.buttonMarkup({ icon: "testserver" }); break;
             case 2: btn_ui_user.buttonMarkup({ icon: "qq" }); break;
             case 3: btn_ui_user.buttonMarkup({ icon: "sina" }); break;
-            case 4: btn_ui_user.buttonMarkup({ icon: "baidu" }); break;
+            case 4: btn_ui_user.buttonMarkup({ icon: "weixin" }); break;
+            case 5: btn_ui_user.buttonMarkup({ icon: "baidu" }); break;
         }
         //if ( isCordovaApp() ) { $("#btn_download", this.el).hide(); }
         return this;

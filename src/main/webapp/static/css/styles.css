@@ -96,6 +96,14 @@ a.jobdetail.ui-btn {
   box-shadow: none;
 }
 
+.ui-icon-weixin {
+  background: url(images/Connect_logo_weixin.png);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+  box-shadow: none;
+}
+
 .back-btn-wrapper {
   float:right;
 }

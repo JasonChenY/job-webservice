@@ -24,7 +24,7 @@ import com.tiaonr.ws.user.dto.UserDTO;
 @PropertySource("classpath:oauth2.properties")
 @Controller
 public class WeiboController extends UserController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(QQController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeiboController.class);
 
     @Autowired
     private RestOperations weiboRestTemplate;

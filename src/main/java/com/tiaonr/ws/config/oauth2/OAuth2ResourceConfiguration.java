@@ -107,6 +107,22 @@ public class OAuth2ResourceConfiguration {
     }
 
     @Bean
+    public OAuth2ProtectedResourceDetails weixin() {
+        AuthorizationCodeResourceDetails details = new ExtendedBaseOAuth2ProtectedResourceDetails();
+        details.setId("weixin");
+        details.setClientIdName("appid");
+        details.setClientId("wx5802184b308ffb9d");
+        details.setClientSecret("9cc179ed74f95ed7ca7f19720647263a");
+        details.setAccessTokenUri("https://api.weixin.qq.com/sns/oauth2/access_token");
+        details.setUserAuthorizationUri("https://open.weixin.qq.com/connect/qrconnect");
+        details.setTokenName("access_token");
+        details.setScope(Arrays.asList("snsapi_login"));
+        details.setAuthenticationScheme(AuthenticationScheme.query);
+        details.setClientAuthenticationScheme(AuthenticationScheme.form);
+        return details;
+    }
+
+    @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
     public OAuth2RestTemplate facebookRestTemplate(OAuth2ClientContext clientContext) {
         OAuth2RestTemplate template = new OAuth2RestTemplate(facebook(), clientContext);
@@ -236,6 +252,16 @@ public class OAuth2ResourceConfiguration {
         Api-Server-IP : 10.73.89.48
         {"access_token":"2.00EETB7B0PaXe83c06e23e1408Exr_","remind_in":"157679999","expires_in":157679999,"uid":"1300667624"}
         */
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
+        template.setMessageConverters(Arrays.<HttpMessageConverter<?>> asList(converter));
+        return template;
+    }
+
+    @Bean
+    @Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
+    public OAuth2RestTemplate weixinRestTemplate(OAuth2ClientContext clientContext) {
+        OAuth2RestTemplate template = new OAuth2RestTemplate(weixin(), clientContext);
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
         template.setMessageConverters(Arrays.<HttpMessageConverter<?>> asList(converter));
