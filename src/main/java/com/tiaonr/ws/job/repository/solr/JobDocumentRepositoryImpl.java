@@ -108,23 +108,25 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
                     .or(new Criteria(JobDocument.JOB_DESCRIPTION).expression(query));
         } else {
             String[] words = query.split(" ");
-/*
+
             Criteria conditions = null;
 
             for (String word : words) {
+                word = word.trim();
+                if ( word.isEmpty() ) continue;
                 if (conditions == null) {
                     conditions = new Criteria(JobDocument.JOB_TITLE).contains(word)
                             .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
                 } else {
-                    conditions = conditions.or(new Criteria(JobDocument.JOB_TITLE).contains(word))
+                    Criteria part = new Criteria(JobDocument.JOB_TITLE).contains(word)
                             .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
+                    conditions = part.connect().and(conditions);
                 }
             }
             return conditions;
-*/
-            return new Criteria(JobDocument.JOB_TITLE).contains(words)
-                    .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(words));
 
+            //return new Criteria(JobDocument.JOB_TITLE).contains(words)
+            //        .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(words));
         }
     }
 
