@@ -112,6 +112,7 @@ public class OAuth2ResourceConfiguration {
         details.setId("weixin");
         details.setClientIdName("appid");
         details.setClientId("wx5802184b308ffb9d");
+        details.setClientSecretName("secret");
         details.setClientSecret("9cc179ed74f95ed7ca7f19720647263a");
         details.setAccessTokenUri("https://api.weixin.qq.com/sns/oauth2/access_token");
         details.setUserAuthorizationUri("https://open.weixin.qq.com/connect/qrconnect");
@@ -151,9 +152,32 @@ public class OAuth2ResourceConfiguration {
         // add additioanl HttpMessageConverter here doesnt take effect.
         //
         // Use HttpComponentsClientHttpRequestFactory to get wire logs, but also failed.
-        // Finally fallback to recompile spring-web's RestTemplate.java to add raw log.
+        // Finally fallback to recompile spring-web's RestTemplate.java's handleResponse to add raw log.
+        /*
+        if (logger.isDebugEnabled()) {
+            try {
+                logger.debug(method.name() + " request for \"" + url + "\" resulted in " +
+                        response.getRawStatusCode() + " (" + response.getStatusText() + ")" +
+                        (hasError ? "; invoking error handler" : ""));
+
+                String body = org.apache.commons.io.IOUtils.toString(response.getBody());
+                logger.debug(body);
+
+                HttpHeaders headers = response.getHeaders();
+                java.util.Iterator<String> it = headers.keySet().iterator();
+                while(it.hasNext()){
+                    String theKey = it.next();
+                    logger.debug(theKey + " : " + headers.getFirst(theKey));
+                }
+            }
+            catch (IOException ex) {
+                // ignore
+            }
+        }
+        */
         //
         // Solution: recompile spring-security-oauth2, changing FormOAuth2AccessTokenMessageConverter.java to support text/html.
+        // Latest solution: update OAuth2AccessTokenSupport.java to set FormOAuth2AccessTokenMessageConverter to support text/html.
         /*
         client.RestTemplate (RestTemplate.java:handleResponse(641)) - POST request for "https://graph.qq.com/oauth2.0/token" resulted in 200 (OK)
         client.RestTemplate (RestTemplate.java:handleResponse(651)) - Server : tws
@@ -261,9 +285,22 @@ public class OAuth2ResourceConfiguration {
     @Bean
     @Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
     public OAuth2RestTemplate weixinRestTemplate(OAuth2ClientContext clientContext) {
+        /*
+        POST https://api.weixin.qq.com/sns/oauth2/access_token
+        grant_type=authorization_code&code=001f06e53a1f59907bf4f47e6ad01faw&redirect_uri=https%3A%2F%2Fwww.tiaonr.com%2Fweixin%2Flogin&appid=wx5802184b308ffb9d&secret=9cc179ed74f95ed7ca7f19720647263a
+
+        Rsp:
+        Status Code: 200 OK
+        Connection: keep-alive
+        Content-Length: 460
+        Content-Type: text/plain
+        Date: Thu, 17 Dec 2015 08:58:10 GMT
+        Server: nginx/1.8.0
+        {"access_token":"OezXcEiiBSKSxW0eoylIeE3J4p8u5QbKS_gVRShH5hm0tTcbqtqSxfCpBs_EwQdjBynqjfCIUGfFTf_yjdU9xuCts-_vh46-ebsEcRa8rrxFrxQtu4EqOg9-BwwRdAm3Dm9Jrs-zJhBdOEbCLbctQg","expires_in":7200,"refresh_token":"OezXcEiiBSKSxW0eoylIeE3J4p8u5QbKS_gVRShH5hm0tTcbqtqSxfCpBs_EwQdjEOE7QplCNreomk3d1YG3_KtEgla9ct_Za6Sar3H_1RtdwctfqNM7796fgHlBLISg_8QdTEvfvCK7W3NPrZbd5w","openid":"oU3iLwXAynRt3VJdS2j6kffjLoKE","scope":"snsapi_login","unionid":"o9A_Iwb0SwVstbiU98TE1vYdYldQ"}
+        **/
         OAuth2RestTemplate template = new OAuth2RestTemplate(weixin(), clientContext);
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
+        converter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_PLAIN));
         template.setMessageConverters(Arrays.<HttpMessageConverter<?>> asList(converter));
         return template;
     }

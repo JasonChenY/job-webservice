@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,83 +95,25 @@ public class WeixinController extends UserController {
         public Weixin_userinfo() {}
     }
 
-    private static class Weixin_info {
-        String access_token;
-        int expires_in;
-        String refresh_token;
-        String openid;
-        String scope;
-
-        public String getAccess_token() {
-            return access_token;
-        }
-
-        public void setAccess_token(String access_token) {
-            this.access_token = access_token;
-        }
-
-        public int getExpires_in() {
-            return expires_in;
-        }
-
-        public void setExpires_in(int expires_in) {
-            this.expires_in = expires_in;
-        }
-
-        public String getRefresh_token() {
-            return refresh_token;
-        }
-
-        public void setRefresh_token(String refresh_token) {
-            this.refresh_token = refresh_token;
-        }
-
-        public String getOpenid() {
-            return openid;
-        }
-
-        public void setOpenid(String openid) {
-            this.openid = openid;
-        }
-
-        public String getScope() {
-            return scope;
-        }
-
-        public void setScope(String scope) {
-            this.scope = scope;
-        }
-
-        public Weixin_info() {}
-    }
-
     @RequestMapping("/weixin/login")
     public String login(Model model) throws AuthenticationException {
-        LOGGER.debug("enter qq login");
+        LOGGER.debug("enter weixin login");
 
-        Weixin_info weixin_info = weixinRestTemplate.getForObject("https://api.weixin.qq.com/sns/oauth2/access_token", Weixin_info.class);
-        LOGGER.debug("openid string: " + weixin_info.getOpenid());
-/*
-        String openid = null;
-        Matcher m = Pattern.compile("\"openid\"\\s*:\\s*\"(\\w+)\"").matcher(me);
-        if(m.find()) {
-            openid = m.group(1);
-            LOGGER.debug("openid: " + openid);
-        } else {
-            model.addAttribute("reason", "failed to get openid");
-            return "loginFailure";
-        }
-*/
-        String openid = weixin_info.getOpenid();
-
-        String url = "https://api.weixin.qq.com/sns/userinfo&openid=" + openid;
+        /* weixin return openid inside access token, no additional api to fetch openid, which is not standard.
+           solution: change oauth (OAuth2RestTemplate.java) to carry openid (if existing) from accessToken.AdditionalInformation for outgoing request.
+           String url = "https://api.weixin.qq.com/sns/userinfo&openid=" + openid;
+        */
+        String url = "https://api.weixin.qq.com/sns/userinfo";
         Weixin_userinfo userinfo = weixinRestTemplate.getForObject(url, Weixin_userinfo.class);
         LOGGER.debug("nickname: " + userinfo.getNickname());
         LOGGER.debug("figure_url: " + userinfo.getHeadimgurl());
 
-        //translate thirdparty user account to UserDTO.
+        /*
+         *From here can get openid, but fortunately weixin will return openid in response as well.
+         *java.util.Map<String, Object> maps = ((OAuth2RestTemplate)weixinRestTemplate).getOAuth2ClientContext().getAccessToken().getAdditionalInformation();
+        */
         ThirdPartyUser detail = new ThirdPartyUser();
-        detail.setIdentifier(openid);
+        detail.setIdentifier(userinfo.getOpenid());
         detail.setIdentity_type(4);
         detail.setDisplay_name(userinfo.getNickname());
 
