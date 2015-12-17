@@ -124,9 +124,6 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
                 }
             }
             return conditions;
-
-            //return new Criteria(JobDocument.JOB_TITLE).contains(words)
-            //        .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(words));
         }
     }
 
