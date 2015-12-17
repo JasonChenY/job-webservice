@@ -109,5 +109,13 @@ a.jobdetail.ui-btn {
   width: 320px;
   margin:0px auto;
 }
-/*.ui-page*/
-.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{background:url(images/background.jpg) 0 0 repeat;}
+
+.ui-page {
+  background-color: rgb(186, 200, 213) !important;
+}
+
+/*
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{
+  background:url(images/background.jpg) 0 0 repeat;
+}
+*/
