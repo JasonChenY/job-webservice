@@ -115,8 +115,7 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
                 word = word.trim();
                 if ( word.isEmpty() ) continue;
                 if (conditions == null) {
-                    conditions = new Criteria(JobDocument.JOB_TITLE).contains(word)
-                            .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
+                    conditions = new Criteria(JobDocument.JOB_DESCRIPTION).contains(word);
                 } else {
                     Criteria part = new Criteria(JobDocument.JOB_TITLE).contains(word)
                             .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
