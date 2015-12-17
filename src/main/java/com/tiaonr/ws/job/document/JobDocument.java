@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.apache.solr.client.solrj.beans.Field;
-import org.springframework.data.solr.core.geo.GeoLocation;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 import com.tiaonr.ws.job.document.SearchableJobDefinition;
