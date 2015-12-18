@@ -230,7 +230,7 @@ function checkUpdate(){
                 TiaonaerApp.appVersion = version; //saved for later usage.
                 var r = confirm(version.description);
                 if(r){
-                    window.open(version.location, '_system', 'location=yes');
+                    window.open(version.location);//, '_system', 'location=yes');
                 }
             }
         });
