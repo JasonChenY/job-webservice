@@ -78,6 +78,7 @@ elif [ $1 = "build" ]; then
    cp $dir/conf/app/build.json $destdir/jobapp
    cp $dir/conf/app/config.xml $destdir/jobapp
 
+   #sed -i 's/"window.open"/"window.opencordova"/g' $destdir/jobapp/plugins/cordova-plugin-inappbrowser/plugin.xml
    cordova build android --release
 else
    echo "usage: $prog (create|build)"

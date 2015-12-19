@@ -42,6 +42,7 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
         this.collection =  new TiaonaerApp.Collections.JobList();
         this.listenTo(this.collection, "reset", this.collectionSwitched);
         this.listenTo(this.collection, "change", this.collectionSwitched);
+        this.setValid(false);
         this.switchCollection();
     },
 
@@ -78,6 +79,7 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
                 }
             });
         }
+        this.setValid(true);
     },
 
     resetForNewUser: function() { this.switchCollection();},

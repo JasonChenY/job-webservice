@@ -38,7 +38,7 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
         beforeSend:function(){
         },
         success: function(user) {
-            if (user.username) {
+            if (user.username && (user.username!=='anonymousUser')) {
                 console.log("Found logged in user: ", user);
                 var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
                 if ( userHomeView ) {
