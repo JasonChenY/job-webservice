@@ -31,15 +31,7 @@ a.jobdetail.ui-btn {
    white-space: nowrap !important;
 }
 
-.panel_jobfilter_iscroller_wrapper {
-   height: 175px !important;
-}
-.panel_jobfilter_iscroller_wrapper .iscroll-scroller {
-   right: 0px !important;
-}
-.panel_jobfilter_iscroller_wrapper .iscroll-scroller .iscroll-content {
-   padding: 0px !important;
-}
+
 /**********************************JobFilter Page***************************/
 .page_jobfilter_iscroller_wrapper .iscroll-scroller {
    width: 100% !important;
@@ -48,7 +40,19 @@ a.jobdetail.ui-btn {
    padding: 0px !important;
 }
 
-
+/* reduce the keyword search input's width, default right padding */
+.ui-input-has-clear {
+    padding-right: 0em !important;
+}
+.ui-btn {
+    margin: 0em 0px !important;
+}
+.ui-input-text {
+    margin: 0em 0px !important;
+}
+.ui-controlgroup {
+    margin: 0em 0px !important;
+}
 /**********************************JobDetail Page***************************/
 #job_detail_page .ui-block-a,.ui-block-b,.ui-block-c {
    text-align: center;
@@ -61,7 +65,7 @@ a.jobdetail.ui-btn {
 
 /* for navigation bar's to have same height as button */
 .dark-theme a, .dark-theme span {
-    line-height: 44px !important;
+    line-height: 30px !important;
 }
 
 .ui-icon-testserver {

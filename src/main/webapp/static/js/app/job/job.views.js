@@ -119,7 +119,7 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     events: {
         'click a.job_url': "goto_job_url",
         'click a.favorite': "favorite",
-        'click button.complain': "complain",
+        'click a.complain': "complain",
         'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
     goto_job_url: function(e) {

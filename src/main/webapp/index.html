@@ -88,8 +88,8 @@
             <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_job" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-search">职位列表</button></div></div>
             <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_favorite" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-heart">我的收藏</button></div></div>
             <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-mail">我的举报</button></div></div>
-            <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_comment" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">我的评论</button></div></div>
-            <div class="ui-block-a"><div class="ui-bar ui-bar-e">
+            <!--div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_comment" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-comment">我的评论</button></div></div-->
+            <div class="ui-block-b"><div class="ui-bar ui-bar-e">
             <%if (isCordovaApp()) {%>
                 <button id="btn_app_about" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-gear">关于跳哪儿</button>
             <%}else{%>
@@ -97,7 +97,7 @@
             <%}%>
             </div></div>
             <% if ( role === 'ROLE_ADMIN' ) { %>
-            <div class="ui-block-b"><div class="ui-bar ui-bar-e"><button id="btn_complain_admin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-eye">待处理举报</button></div></div>
+            <div class="ui-block-a"><div class="ui-bar ui-bar-e"><button id="btn_complain_admin" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-top ui-icon-eye">待处理举报</button></div></div>
             <% } %>
         </div>
     </div>
@@ -119,13 +119,13 @@
             <label for="user-password">密码:</label>
             <input type="password" id="user-password" placeholder="" value="" data-mini="true">
         </div>
-        <div class="ui-field-contain">
+        <!--div class="ui-field-contain">
             <fieldset data-role="controlgroup">
                 <legend></legend>
                 <label for="user-rememberme">保持登录状态</label>
                 <input type="checkbox" id="user-rememberme" class="custom" />
             </fieldset>
-        </div>
+        </div-->
         <div class="ui-field-contain">
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <legend></legend>
@@ -356,10 +356,10 @@
                     <option value="1">内容无效</option>
                     <option value="2">其他</option>
                 </select>
-                <button class="complain">举报</button>
+                <a href="#" data-role="button" data-icon="mail" class="complain ui-mini ui-btn ui-btn-icon-left ui-icon-mail ui-btn-b">举报</a>
             </div>
             <% } else { %>
-            <a href="#" data-role="button" data-icon="comment" class="ui-disabled complain ui-btn ui-icon-comment ui-btn-icon-left ui-btn-b">已有用户举报</a>
+            <a href="#" data-role="button" data-icon="mail" class="ui-disabled complain ui-btn ui-icon-mail ui-btn-icon-left ui-btn-b">已举报</a>
             <% } %>
         </div>
         <div class="back-btn-wrapper">
