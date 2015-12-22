@@ -1,9 +1,9 @@
 [
 {
    "deviceType": "Android",
-   "versionCode": 100058,
-   "versionName": "1.0.5",
-   "description": "有新版本(1.0.5)可供更新.\n 1.微信第三方登录 \n 2.隐藏百度登录",
+   "versionCode": 100068,
+   "versionName": "1.0.6",
+   "description": "有新版本(1.0.6)可供更新.\n 1.微信第三方登录 \n 2.隐藏百度登录 \n 3.界面CSS优化",
    "location": "http://www.tiaonr.com/static/app/android-release.apk"
 },
 {

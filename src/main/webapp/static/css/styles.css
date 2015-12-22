@@ -41,17 +41,20 @@ a.jobdetail.ui-btn {
 }
 
 /* reduce the keyword search input's width, default right padding */
-.ui-input-has-clear {
-    padding-right: 0em !important;
+.ui-footer .ui-input-has-clear {
+   padding-right:0!important;
 }
-.ui-btn {
-    margin: 0em 0px !important;
+.ui-footer .ui-input-clear {
+   top: 12% !important;
 }
-.ui-input-text {
-    margin: 0em 0px !important;
+.ui-footer .ui-btn {
+   margin:0 0!important
 }
-.ui-controlgroup {
-    margin: 0em 0px !important;
+.ui-footer .ui-input-text {
+   margin:0 0!important
+}
+.ui-footer .ui-controlgroup {
+   margin:0 0!important
 }
 /**********************************JobDetail Page***************************/
 #job_detail_page .ui-block-a,.ui-block-b,.ui-block-c {

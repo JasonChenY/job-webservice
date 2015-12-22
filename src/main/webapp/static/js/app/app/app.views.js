@@ -39,7 +39,7 @@ TiaonaerApp.Views.AppAboutView = Backbone.View.extend({
         if ( TiaonaerApp.appVersion ) {
             var r = confirm(TiaonaerApp.appVersion.description);
             if(r){
-               window.open(TiaonaerApp.appVersion.location);//, '_system', 'location=yes');
+               window.open(TiaonaerApp.appVersion.location, '_system', 'location=yes');
             }
         }
     }
