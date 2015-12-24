@@ -38,7 +38,7 @@
         <spring.security.version>4.0.2.RELEASE</spring.security.version>
         <spring.security.oauth2.version>2.0.7.RELEASE</spring.security.oauth2.version>
         <solr.version>5.2.1</solr.version>
-        <spring.data.commons.version>1.11.0.RELEASE</spring.data.commons.version>
+        <spring.data.commons.version>1.11.2.RELEASE</spring.data.commons.version>
         <mysql.version>5.1.26</mysql.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
 
@@ -472,12 +472,18 @@ mvn install:install-file \
             <artifactId>commons-dbcp</artifactId>
             <version>${commons-dbcp.version}</version>
         </dependency>
-        
-        <!--dependency>
+
+        <!-- spring-data will include spring-data-commons, e.g 1.9.0->1.11.0,
+        if mismatched versions used, will cuase strange problem for data solr,
+        it is better to skip spring-data-commons here.
+        Due to bug DATACMNS-761 (reduced page size), fixed in 1.11.2
+        upgrade spring-data-commons
+        -->
+        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
             <version>${spring.data.commons.version}</version>
-        </dependency-->
+        </dependency>
 
         <!-- Spring Data Solr -->
         <dependency>
