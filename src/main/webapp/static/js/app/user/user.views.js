@@ -65,7 +65,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
                 //"function save(f) { var w=window.open(f);};var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var a=document.createElement('a');var at=document.createTextNode('或者保存二微码图片到相册再用微信扫描');a.appendChild(at);a.href='#';a.onclick=function(e){save(ele.src);};v.appendChild(a);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);};"
                 //"function save(f){I1.document.location=f;savepic();};function savepic(){if(I1.document.readyState=='complete') {I1.document.execCommand('saveas', null, 'test.jpg');} else {window.setTimeout('savepic()',10);}};var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var a=document.createElement('a');var at=document.createTextNode('或者保存二微码图片到相册再用微信扫描');a.appendChild(at);a.href='#';a.onclick=function(e){save(ele.src);};v.appendChild(a);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);var f=document.createElement('iframe');f.name='I1';f.style.display='none';document.body.appendChild(f);};"
                 //"function save(f){I1.document.location=f;savepic();};function savepic(){if(I1.document.readyState=='complete') {I1.document.execCommand('saveas', null, 'test.jpg');} else {window.setTimeout('savepic()',10);}};var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var a=document.createElement('a');var at=document.createTextNode('或者保存二微码图片到相册再用微信扫描');a.appendChild(at);a.href=ele.src;a.download='test.jpg';v.appendChild(a);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);};"
-                "var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var p=document.createElement('p');p.innerHTML='或者截屏再用微信到相册扫描';v.appendChild(p);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);localStorage.setItem('LoginResult', ele.src);};"
+                "var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var p=document.createElement('p');p.innerHTML='或者截屏再用微信到相册扫描';v.appendChild(p);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);localStorage.setItem('LoginResult', JSON.stringify(ele.src));};"
                 });
             });
             }
@@ -77,21 +77,22 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
                 TiaonaerApp.loopForChildWin = setInterval(function() {
                     TiaonaerApp.childWin.executeScript(
                         {
-                            code: "localStorage.getItem( 'LoginResult' )"
+                            code: "localStorage.getItem('LoginResult')"
                         },
                         function( values ) {
                             var result = values[0];
                             if ( result != null ) {
-                              if ( result === true || result === false || result === 'true' || result === 'false' ) {
+                              result = JSON.parse(result);
+                              if ( typeof(result) === 'object' || typeof(result) === 'boolean' ) {
                                 clearInterval( TiaonaerApp.loopForChildWin );
                                 TiaonaerApp.loopForChildWin = null;
-
                                 if ( TiaonaerApp.childWin ) {
                                     TiaonaerApp.childWin.close();
                                     TiaonaerApp.childWin = null;
                                 }
                                 ThirdPartyLoginInCallback(result);
-                              } else if ( result.substr(0,4) === 'http' ) {
+                              } else if ( typeof(result) === 'string' ) {
+                                // should be url of qrcode jpg
                                 if ( TiaonaerApp.childWin_loadstop === 0 ) {
                                   //removeEventListener not take effect.
                                   TiaonaerApp.childWin_loadstop = 1;
@@ -111,8 +112,6 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
     },
 
     login: function() {
-        console.log("Log in");
-        localStorage.removeItem("username");
         $('#for-display-error', this.el).hide();
         var user = {};
         user.username = $("#user-username", this.el).val().Trim();
@@ -139,9 +138,17 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
                     xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
                 }
             },
-            success: function(data, status, xhr){
+            success: function(user, status, xhr){
                 console.log("Trigger user:loginSuccess");
-                TiaonaerApp.vent.trigger("user:loginSuccess");
+                //TiaonaerApp.vent.trigger("user:loginSuccess");
+                var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+                if ( userHomeView ) {
+                    userHomeView.userLoggedIn(user);
+                    window.history.back();
+                } else {
+                    userHomeView = TiaonaerApp.showView("UserHomeView");
+                    userHomeView.userLoggedIn(user);
+                }
             },
             error: function(data, status, xhr) {
                 self.login_failed(data);

@@ -19,6 +19,7 @@ public class UserDTO {
     public UserDTO(String username, SecurityRole role) {
         this.username = username;
         this.role = role;
+        this.identity_type = 0;
     }
 
     public String getUsername() {

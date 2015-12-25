@@ -13,14 +13,6 @@ window.log = function(){
     }
 };
 
-function ThirdPartyLoginInCallback(result) {
-    if ( result === true || result === 'true' ) {
-        TiaonaerApp.vent.trigger("user:loginSuccess");
-    } else {
-        TiaonaerApp.vent.trigger("user:loginFailed");
-    }
-};
-
 /* for IE9 cors issue ( not support XmlHttpRequest ) */
 $.support.cors = true;
 

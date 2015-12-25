@@ -18,7 +18,7 @@ $(document).on({
         if ( window.opener ) {
             window.opener.ThirdPartyLoginInCallback(false);
         } else {
-            localStorage.setItem("LoginResult", false);
+            localStorage.setItem("LoginResult", JSON.stringify(false));
         }
     }
 });

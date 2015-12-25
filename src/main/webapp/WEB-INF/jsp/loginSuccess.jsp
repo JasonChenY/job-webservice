@@ -15,18 +15,20 @@
 <script>
 $(document).on({
     pageshow: function() {
+        var user = {
+            "username": "${username}",
+            "identity_type": "${identity_type}",
+            "role": "${role}"
+        };
         if ( window.opener ) {
             $('#auto-close-hint').hide();
             $('#btn-close').show();
-            window.opener.ThirdPartyLoginInCallback(true);
+            window.opener.ThirdPartyLoginInCallback(user);
         } else {
-            localStorage.setItem("LoginResult", true);
+            localStorage.setItem("LoginResult", JSON.stringify(user));
             $('#auto-close-hint').show();
             $('#btn-close').hide();
         }
-        localStorage.setItem("username", "${username}");
-        localStorage.setItem("identity_type", "${identity_type}");
-        localStorage.setItem("role", "${role}");
     }
 });
 $(document).ready(function(){

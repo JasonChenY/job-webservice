@@ -23,7 +23,7 @@ public class FileMonitor {
     }
     public static void start(String path) throws Exception {
         // The monitor will perform polling on the folder every 5 seconds
-        final long pollingInterval = 5 * 1000;
+        final long pollingInterval = 60 * 1000;
 
         File folder = new File(path);
 

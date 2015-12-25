@@ -1,3 +1,11 @@
+function ThirdPartyLoginInCallback(result) {
+    if ( typeof(result) === 'object' ) {
+        TiaonaerApp.vent.trigger("user:loginSuccess", result);
+    } else  {
+        TiaonaerApp.vent.trigger("user:loginFailed");
+    }
+};
+
 TiaonaerApp.vent.on("routing:started", function(){
     if( ! Backbone.History.started) {
         Backbone.history.start();
@@ -25,13 +33,7 @@ TiaonaerApp.vent.on("user:loginFailed", function() {
     TiaonaerApp.ViewContainer.findByCustom("LoginView").login_failed();
 });
 
-TiaonaerApp.vent.on("user:loginSuccess", function() {
-  if ( localStorage.getItem("username") ) {
-    var user = {
-        username: localStorage.getItem("username"),
-        identity_type: localStorage.getItem("identity_type"),
-        role: localStorage.getItem("role")
-    };
+TiaonaerApp.vent.on("user:loginSuccess", function(user) {
     var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
     if ( userHomeView ) {
         userHomeView.userLoggedIn(user);
@@ -40,7 +42,8 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
         userHomeView = TiaonaerApp.showView("UserHomeView");
         userHomeView.userLoggedIn(user);
     }
-  } else {
+/*
+    // save one API toward server.
     $.ajax({
         //async: false,
         type: "GET",
@@ -69,7 +72,7 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
             }
         }
     });
-  }
+*/
 });
 
 TiaonaerApp.vent.on("user:logout", function() {
