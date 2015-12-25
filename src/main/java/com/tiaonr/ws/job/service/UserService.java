@@ -33,6 +33,7 @@ import java.sql.Timestamp;
 public class UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private static final String GET_BINDING_USER_SQL = "select user_id from users_binding where identifier = ? and identity_type = ?";
+    //private static final String GET_BINDING_USER_SQL = "select authorities.username as username,authorities.authority as authority from users_binding,authorities where users_binding.user_id=authorities.username and users_binding.identifier= ? and users_binding.identity_type = ?";
     private static final String CREATE_USER_SQL = "insert into users (username, password, enabled, email, account_type) values (?,?,?,?,?)";
     private static final String CREATE_AUTHORITY_SQL = "insert into authorities (username, authority) values (?,?)";
     private static final String CREATE_BINDING_SQL = "insert into users_binding (identifier,identity_type,user_id,display_name) values (?,?,?,?)";

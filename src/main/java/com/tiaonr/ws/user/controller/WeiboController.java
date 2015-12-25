@@ -295,7 +295,7 @@ public class WeiboController extends UserController {
         //translate thirdparty user account to UserDTO.
         ThirdPartyUser detail = new ThirdPartyUser();
         detail.setIdentifier(uid.uid);
-        detail.setIdentity_type(3);
+        detail.setIdentity_type(IDENTITY_TYPE_WEIBO);
         detail.setDisplay_name(userinfo.getName());
 
         /* bound the third party user to one system user if not done yet */
@@ -308,8 +308,8 @@ public class WeiboController extends UserController {
         loginUser(user, detail);
 
         model.addAttribute("username", userinfo.getName());
-        model.addAttribute("email", "N/A");
-        model.addAttribute("phone", "N/A");
+        model.addAttribute("identity_type", IDENTITY_TYPE_WEIBO);
+        model.addAttribute("role", "ROLE_USER");
 
         return "loginSuccess";
     }

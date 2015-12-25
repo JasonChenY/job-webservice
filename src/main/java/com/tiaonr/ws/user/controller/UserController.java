@@ -38,6 +38,10 @@ import java.util.Date;
  */
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    public static int IDENTITY_TYPE_TESTSERVER = 1;
+    public static int IDENTITY_TYPE_QQ = 2;
+    public static int IDENTITY_TYPE_WEIBO = 3;
+    public static int IDENTITY_TYPE_WEIXIN = 4;
 
     @Resource
     private SecurityContextUtil securityContextUtil;
@@ -69,6 +73,8 @@ public class UserController {
 
         LOGGER.debug("save security context to http session, authenticate done.");
         request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+
+        userService.updateLoginTime(detail);
     }
 
     public UserDTO getLoggedInUser() {

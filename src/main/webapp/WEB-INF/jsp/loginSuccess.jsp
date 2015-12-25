@@ -24,6 +24,9 @@ $(document).on({
             $('#auto-close-hint').show();
             $('#btn-close').hide();
         }
+        localStorage.setItem("username", "${username}");
+        localStorage.setItem("identity_type", "${identity_type}");
+        localStorage.setItem("role", "${role}");
     }
 });
 $(document).ready(function(){
@@ -39,8 +42,6 @@ $(document).ready(function(){
     <div data-role="header" data-theme="b"><h1>登录信息</h1></div>
     <div data-role="content">
         <p>帐号: ${username}</p>
-        <p>邮箱: ${email}</p>
-        <p>电话: ${phone}</p>
         <h3>温馨提示</h3>
         <p>已经可以使用跳哪儿的所有功能了,你也可以到用户管理中心创建本地帐号，绑定多个第三方帐号.</p>
         <div id="auto-close-hint" style="color:red">请稍候，当前窗口将会自动关闭！</div>

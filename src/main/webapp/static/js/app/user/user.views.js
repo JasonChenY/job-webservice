@@ -112,6 +112,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
 
     login: function() {
         console.log("Log in");
+        localStorage.removeItem("username");
         $('#for-display-error', this.el).hide();
         var user = {};
         user.username = $("#user-username", this.el).val().Trim();

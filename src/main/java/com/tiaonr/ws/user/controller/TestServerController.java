@@ -51,7 +51,7 @@ public class TestServerController extends UserController {
         //translate thirdparty user account to UserDTO.
         ThirdPartyUser detail = new ThirdPartyUser();
         detail.setIdentifier(testuser.username);
-        detail.setIdentity_type(1);
+        detail.setIdentity_type(IDENTITY_TYPE_TESTSERVER);
         detail.setDisplay_name(testuser.username); // no displayname
 
         /* bound the third party user to one system user if not done yet */
@@ -66,6 +66,8 @@ public class TestServerController extends UserController {
         model.addAttribute("username", testuser.username);
         model.addAttribute("email", testuser.email);
         model.addAttribute("phone", testuser.phone);
+        model.addAttribute("identity_type", IDENTITY_TYPE_TESTSERVER);
+        model.addAttribute("role", "ROLE_USER");
 
         return "loginSuccess";
     }

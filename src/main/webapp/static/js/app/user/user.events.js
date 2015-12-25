@@ -26,7 +26,21 @@ TiaonaerApp.vent.on("user:loginFailed", function() {
 });
 
 TiaonaerApp.vent.on("user:loginSuccess", function() {
-    console.log("handle user:loginSuccess");
+  if ( localStorage.getItem("username") ) {
+    var user = {
+        username: localStorage.getItem("username"),
+        identity_type: localStorage.getItem("identity_type"),
+        role: localStorage.getItem("role")
+    };
+    var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+    if ( userHomeView ) {
+        userHomeView.userLoggedIn(user);
+        window.history.back();
+    } else {
+        userHomeView = TiaonaerApp.showView("UserHomeView");
+        userHomeView.userLoggedIn(user);
+    }
+  } else {
     $.ajax({
         //async: false,
         type: "GET",
@@ -55,13 +69,7 @@ TiaonaerApp.vent.on("user:loginSuccess", function() {
             }
         }
     });
-
-    /*
-    var restore_page = function() {
-        window.history.back();
-    }
-    TiaonaerApp.getLoggedInUser(restore_page);
-    */
+  }
 });
 
 TiaonaerApp.vent.on("user:logout", function() {

@@ -233,7 +233,7 @@ public class QQController extends UserController {
         //translate thirdparty user account to UserDTO.
         ThirdPartyUser detail = new ThirdPartyUser();
         detail.setIdentifier(openid);
-        detail.setIdentity_type(2);
+        detail.setIdentity_type(IDENTITY_TYPE_QQ);
         detail.setDisplay_name(userinfo.nickname);
 
         /* bound the third party user to one system user if not done yet */
@@ -246,8 +246,8 @@ public class QQController extends UserController {
         loginUser(user, detail);
 
         model.addAttribute("username", userinfo.nickname);
-        model.addAttribute("email", "N/A");
-        model.addAttribute("phone", "N/A");
+        model.addAttribute("identity_type", IDENTITY_TYPE_QQ);
+        model.addAttribute("role", "ROLE_USER");
 
         return "loginSuccess";
     }

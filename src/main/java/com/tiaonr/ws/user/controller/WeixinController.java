@@ -114,7 +114,7 @@ public class WeixinController extends UserController {
         */
         ThirdPartyUser detail = new ThirdPartyUser();
         detail.setIdentifier(userinfo.getOpenid());
-        detail.setIdentity_type(4);
+        detail.setIdentity_type(IDENTITY_TYPE_WEIXIN);
         detail.setDisplay_name(userinfo.getNickname());
 
         /* bound the third party user to one system user if not done yet */
@@ -127,8 +127,8 @@ public class WeixinController extends UserController {
         loginUser(user, detail);
 
         model.addAttribute("username", userinfo.getNickname());
-        model.addAttribute("email", "N/A");
-        model.addAttribute("phone", "N/A");
+        model.addAttribute("identity_type", IDENTITY_TYPE_WEIXIN);
+        model.addAttribute("role", "ROLE_USER");
 
         return "loginSuccess";
     }
