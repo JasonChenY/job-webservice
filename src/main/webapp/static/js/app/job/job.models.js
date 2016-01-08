@@ -1,5 +1,5 @@
-TiaonaerApp.Models.Job = Backbone.Model.extend({
-    urlRoot: TiaonaerApp.ServiceUrl + "/" + "api/job",
+App.Models.Job = Backbone.Model.extend({
+    urlRoot: App.ServiceUrl + "/" + "api/job",
 
     toggle_favorite: function() {
         var self = this;
@@ -7,7 +7,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
             console.log("unfavorite job " + self.get("id"));
             //var encoded = encodeURIComponent(self.model.get("id"));
             //console.log(encoded);
-            var favorite = new TiaonaerApp.Models.Favorite({id: self.get("favorite_id")});
+            var favorite = new App.Models.Favorite({id: self.get("favorite_id")});
             favorite.destroy({
                 wait:true,
                 xhrFields: {
@@ -16,7 +16,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 crossDomain: true,
                 beforeSend: function(xhr) {
                     if ( isCordovaApp() ) {
-                        xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                        xhr.setRequestHeader("Origin",App.ServerHost);
                     }
                 },
                 success: function(favorite) {
@@ -32,7 +32,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
         } else {
             console.log("favorite job " + self.get("id"));
             var attrs = { job_id: self.get("id") };
-            var favorite = new TiaonaerApp.Models.Favorite();
+            var favorite = new App.Models.Favorite();
             favorite.save(attrs, {
                 wait: true,
                 /* for mobile app where default origin: file:// */
@@ -43,7 +43,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 beforeSend: function(xhr) {
                     if ( isCordovaApp() ) {
                         //tomcat will reject with 403 for 'Origin: file://'
-                        xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                        xhr.setRequestHeader("Origin",App.ServerHost);
                     }
                 },
                 success: function (favorite) {
@@ -73,7 +73,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 job_id: self.get("id"),
                 type: complain_type
             };
-            var complain = new TiaonaerApp.Models.Complain();
+            var complain = new App.Models.Complain();
             complain.save(attrs, {
                 wait: true,
                 xhrFields: {
@@ -82,7 +82,7 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
                 crossDomain: true,
                 beforeSend: function(xhr) {
                    //tomcat will reject with 403 for 'Origin: file://'
-                   xhr.setRequestHeader("Origin", TiaonaerApp.ServerHost);
+                   xhr.setRequestHeader("Origin", App.ServerHost);
                 },
                 success: function (complain) {
                     self.set({
@@ -101,10 +101,10 @@ TiaonaerApp.Models.Job = Backbone.Model.extend({
     }
 });
 
-TiaonaerApp.Collections.JobList = Backbone.PageableCollection.extend({
-    model: TiaonaerApp.Models.Job,
+App.Collections.JobList = Backbone.PageableCollection.extend({
+    model: App.Models.Job,
 
-    url: TiaonaerApp.ServiceUrl + "/" + "api/job",
+    url: App.ServiceUrl + "/" + "api/job",
     /*url: function() {
         return "api/job?q=*:*&job_type:0&job_expired:false&facet=true&facet.field=job_company&facet.field=job_location&facet.mincount=1&sort=job_post_date+desc&wt=json&indent=true";
     },*/

@@ -1,4 +1,4 @@
-TiaonaerApp.Views.LoginView = Backbone.View.extend({
+App.Views.LoginView = Backbone.View.extend({
     id: 'login-page',
     template: '#template-login-view',
     initialize:function () {
@@ -12,7 +12,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
     },
 
     events: {
-        "click #btn-user-register": function() { TiaonaerApp.vent.trigger("user:register"); },
+        "click #btn-user-register": function() { App.vent.trigger("user:register"); },
         "click #btn-user-login": "login",
         "keypress #user-password": function(e) { if ( e.keyCode === 13 ) this.login(); },
         "click #btn-login-cancel": "login_cancel",
@@ -32,7 +32,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         var self = this;
         $.ajax({
             type: "GET",
-            url: TiaonaerApp.ServiceUrl + "/testServer/login",
+            url: App.ServiceUrl + "/testServer/login",
             xhrFields: {
                 withCredentials: true
             },
@@ -48,19 +48,19 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         });
     */
         $('#for-display-error', this.el).hide();
-        TiaonaerApp.childWin = window.open(TiaonaerApp.ServiceUrl + "/" + type + "/login");
+        App.childWin = window.open(App.ServiceUrl + "/" + type + "/login");
         if ( isCordovaApp() ) {
             // loadstart only for mobile InAppBrowser, instead of loadstop because we might get login result in first page.
-            TiaonaerApp.childWin.addEventListener('exit', function(event) {
-                if ( TiaonaerApp.loopForChildWin ) {
-                    clearInterval(TiaonaerApp.loopForChildWin);
-                    TiaonaerApp.loopForChildWin = null;
+            App.childWin.addEventListener('exit', function(event) {
+                if ( App.loopForChildWin ) {
+                    clearInterval(App.loopForChildWin);
+                    App.loopForChildWin = null;
                 };
             });
 
             if ( type === 'weixin' ) {
-            TiaonaerApp.childWin.addEventListener("loadstop", function(event) {
-                TiaonaerApp.childWin.executeScript({ code:
+            App.childWin.addEventListener("loadstop", function(event) {
+                App.childWin.executeScript({ code:
                 //"function save(f) { alert(f);var w=window.open(f,'_blank');sleep(5); w.document.execCommand('SaveAs',null,'weixin_qrcode.jpg');w.close();};var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var a=document.createElement('a');var at=document.createTextNode('或者保存二微码图片到相册再用微信扫描');a.appendChild(at);a.href='#';a.onclick=function(e){save(ele.src);};v.appendChild(a);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);};"
                 //"function save(f) { var w=window.open(f);};var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var a=document.createElement('a');var at=document.createTextNode('或者保存二微码图片到相册再用微信扫描');a.appendChild(at);a.href='#';a.onclick=function(e){save(ele.src);};v.appendChild(a);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);};"
                 //"function save(f){I1.document.location=f;savepic();};function savepic(){if(I1.document.readyState=='complete') {I1.document.execCommand('saveas', null, 'test.jpg');} else {window.setTimeout('savepic()',10);}};var ele=document.getElementsByClassName('qrcode')[0];if (ele && !document.getElementById('saveqr')) {var v=document.createElement('div');v.className='status status_browser js_status normal';v.id='saveqr';var a=document.createElement('a');var at=document.createTextNode('或者保存二微码图片到相册再用微信扫描');a.appendChild(at);a.href='#';a.onclick=function(e){save(ele.src);};v.appendChild(a);var next=document.getElementById('wx_after_cancel');next.parentNode.insertBefore(v,next);var f=document.createElement('iframe');f.name='I1';f.style.display='none';document.body.appendChild(f);};"
@@ -70,12 +70,12 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             });
             }
 
-            TiaonaerApp.childWin.addEventListener("loadstart", function(event) {
-                if ( TiaonaerApp.loopForChildWin ) return;
-                TiaonaerApp.childWin.executeScript({ code: "localStorage.removeItem('LoginResult');" });
-                TiaonaerApp.childWin_loadstop = 0;
-                TiaonaerApp.loopForChildWin = setInterval(function() {
-                    TiaonaerApp.childWin.executeScript(
+            App.childWin.addEventListener("loadstart", function(event) {
+                if ( App.loopForChildWin ) return;
+                App.childWin.executeScript({ code: "localStorage.removeItem('LoginResult');" });
+                App.childWin_loadstop = 0;
+                App.loopForChildWin = setInterval(function() {
+                    App.childWin.executeScript(
                         {
                             code: "localStorage.getItem('LoginResult')"
                         },
@@ -84,20 +84,20 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
                             if ( result != null ) {
                               result = JSON.parse(result);
                               if ( typeof(result) === 'object' || typeof(result) === 'boolean' ) {
-                                clearInterval( TiaonaerApp.loopForChildWin );
-                                TiaonaerApp.loopForChildWin = null;
-                                if ( TiaonaerApp.childWin ) {
-                                    TiaonaerApp.childWin.close();
-                                    TiaonaerApp.childWin = null;
+                                clearInterval( App.loopForChildWin );
+                                App.loopForChildWin = null;
+                                if ( App.childWin ) {
+                                    App.childWin.close();
+                                    App.childWin = null;
                                 }
                                 ThirdPartyLoginInCallback(result);
                               } else if ( typeof(result) === 'string' ) {
                                 // should be url of qrcode jpg
-                                if ( TiaonaerApp.childWin_loadstop === 0 ) {
+                                if ( App.childWin_loadstop === 0 ) {
                                   //removeEventListener not take effect.
-                                  TiaonaerApp.childWin_loadstop = 1;
+                                  App.childWin_loadstop = 1;
                                   localStorage.removeItem('LoginResult');
-                                  TiaonaerApp.childWin.removeEventListener("loadstop", function() {});
+                                  App.childWin.removeEventListener("loadstop", function() {});
                                   alert('操作步骤: \n 右键选择保存二维码图片 \n 进入微信 \n 扫一扫 \n 点击右上角按钮，从相册选取二维码 \n');
                                   window.open(result, '_system', 'location=yes');
                                 }
@@ -120,14 +120,14 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
         //var pathname = $(location).attr('pathname');
         //var path = pathname.substring(0, pathname.lastIndexOf('/'));
 
-        /*$.post(TiaonaerApp.ServiceUrl + "/api/login", user, function(){
+        /*$.post(App.ServiceUrl + "/api/login", user, function(){
             console.log("Trigger user:loginSuccess");
-            TiaonaerApp.vent.trigger("user:loginSuccess");
+            App.vent.trigger("user:loginSuccess");
         });*/
         var self = this;
         $.ajax({
             type: "POST",
-            url: TiaonaerApp.ServiceUrl + "/api/login",
+            url: App.ServiceUrl + "/api/login",
             data: user,
             xhrFields: {
                 withCredentials: true
@@ -135,18 +135,18 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
             crossDomain: true,
             beforeSend: function(xhr) {
                 if ( isCordovaApp() ) {
-                    xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                    xhr.setRequestHeader("Origin",App.ServerHost);
                 }
             },
             success: function(user, status, xhr){
                 console.log("Trigger user:loginSuccess");
-                //TiaonaerApp.vent.trigger("user:loginSuccess");
-                var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+                //App.vent.trigger("user:loginSuccess");
+                var userHomeView = App.ViewContainer.findByCustom("UserHomeView");
                 if ( userHomeView ) {
                     userHomeView.userLoggedIn(user);
                     window.history.back();
                 } else {
-                    userHomeView = TiaonaerApp.showView("UserHomeView");
+                    userHomeView = App.showView("UserHomeView");
                     userHomeView.userLoggedIn(user);
                 }
             },
@@ -177,7 +177,7 @@ TiaonaerApp.Views.LoginView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
+App.Views.UserHomeView = Backbone.View.extend({
     /* Change to use el direclty, put a div with specified id directly in index.html
      * this way save some logic in showPage, dont need to set the "Page" class in el, and add el to body
      * el: '#home-page',
@@ -185,10 +185,10 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
      */
     id: 'home-page',
     template: "#template-home-view",
-    model: TiaonaerApp.Models.User,
+    model: App.Models.User,
     initialize:function () {
         //this.template = _.template(tpl.get('template-home-view'));
-        this.model = new TiaonaerApp.Models.User();
+        this.model = new App.Models.User();
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         // Cant listen to model here, we are using a fake model, without url.
         //this.listenTo(this.model, "change", this.render());
@@ -217,14 +217,14 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
     },
 */
     events: {
-        'click #btn_job': function() { TiaonaerApp.vent.trigger("job:list"); },
-        'click #btn_favorite': function() { TiaonaerApp.vent.trigger("favorite:list"); },
-        'click #btn_complain': function() { TiaonaerApp.vent.trigger("complain:list"); },
-        'click #btn_complain_admin': function() { TiaonaerApp.vent.trigger("complain:adminlist"); },
-        'click #btn_login': function() { TiaonaerApp.vent.trigger("user:login"); },
-        'click #btn_logout': function() { TiaonaerApp.vent.trigger("user:logout"); },
-        'click #btn_app_download': function() { TiaonaerApp.vent.trigger("app:download"); },
-        'click #btn_app_about': function() { TiaonaerApp.vent.trigger("app:about"); }
+        'click #btn_job': function() { App.vent.trigger("job:list"); },
+        'click #btn_favorite': function() { App.vent.trigger("favorite:list"); },
+        'click #btn_complain': function() { App.vent.trigger("complain:list"); },
+        'click #btn_complain_admin': function() { App.vent.trigger("complain:adminlist"); },
+        'click #btn_login': function() { App.vent.trigger("user:login"); },
+        'click #btn_logout': function() { App.vent.trigger("user:logout"); },
+        'click #btn_app_download': function() { App.vent.trigger("app:download"); },
+        'click #btn_app_about': function() { App.vent.trigger("app:about"); }
     },
 
     isUserLoggedIn: function () {
@@ -255,11 +255,11 @@ TiaonaerApp.Views.UserHomeView = Backbone.View.extend({
         });
         this.render();
 
-        TiaonaerApp.ViewContainer.apply("setValid", [false]);
+        App.ViewContainer.apply("setValid", [false]);
     }
 });
 
-TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
+App.Views.UserRegisterView = Backbone.View.extend({
     id: 'user-register-page',
     template: '#template-user-register-view',
     initialize:function () {
@@ -289,7 +289,7 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
         } else {
             var self = this;
             $.ajax({
-                url: TiaonaerApp.ServiceUrl + "/api/user/" + username,
+                url: App.ServiceUrl + "/api/user/" + username,
                 success: function(data, status, xhr){
                     if ( data ) {
                         $('#display-error', self.el).text(username + " 已被占用，换个名字试试！");
@@ -312,7 +312,7 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
         } else {
             var self = this;
             $.ajax({
-                url: TiaonaerApp.ServiceUrl + "/api/user",
+                url: App.ServiceUrl + "/api/user",
                 type: 'POST',
                 data: JSON.stringify({email: email}),
                 contentType: "application/json; charset=UTF-8",
@@ -341,7 +341,7 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
         var self = this;
         $.ajax({
             type: "POST",
-            url: TiaonaerApp.ServiceUrl + "/api/register",
+            url: App.ServiceUrl + "/api/register",
             data: JSON.stringify(user),
             contentType: "application/json; charset=UTF-8",
             xhrFields: {
@@ -350,12 +350,12 @@ TiaonaerApp.Views.UserRegisterView = Backbone.View.extend({
             crossDomain: true,
             beforeSend: function(xhr) {
                 if ( isCordovaApp() ) {
-                    xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                    xhr.setRequestHeader("Origin",App.ServerHost);
                 }
             },
             success: function(data, status, xhr){
                 console.log("Trigger user:registerSuccess");
-                TiaonaerApp.vent.trigger("user:registerSuccess", data);
+                App.vent.trigger("user:registerSuccess", data);
             },
             error: function(data, status, xhr) {
                 self.register_failed(data);

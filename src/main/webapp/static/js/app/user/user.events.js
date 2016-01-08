@@ -1,45 +1,45 @@
 function ThirdPartyLoginInCallback(result) {
     if ( typeof(result) === 'object' ) {
-        TiaonaerApp.vent.trigger("user:loginSuccess", result);
+        App.vent.trigger("user:loginSuccess", result);
     } else  {
-        TiaonaerApp.vent.trigger("user:loginFailed");
+        App.vent.trigger("user:loginFailed");
     }
 };
 
-TiaonaerApp.vent.on("routing:started", function(){
+App.vent.on("routing:started", function(){
     if( ! Backbone.History.started) {
         Backbone.history.start();
     }
 })
 
-TiaonaerApp.vent.on("user:register", function(){
+App.vent.on("user:register", function(){
     console.log("handle user:register")
     Backbone.history.navigate("#/user/register");
 });
 
-TiaonaerApp.vent.on("user:registerSuccess", function(user) {
+App.vent.on("user:registerSuccess", function(user) {
     console.log("handle user:registerSuccess");
     Backbone.history.navigate("#/");
-    TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedIn(user);
+    App.ViewContainer.findByCustom("UserHomeView").userLoggedIn(user);
 });
 
-TiaonaerApp.vent.on("user:login", function(){
+App.vent.on("user:login", function(){
     console.log("handle user:login")
     Backbone.history.navigate("#/user/login");
 });
 
-TiaonaerApp.vent.on("user:loginFailed", function() {
+App.vent.on("user:loginFailed", function() {
     // extend to include detail error info.
-    TiaonaerApp.ViewContainer.findByCustom("LoginView").login_failed();
+    App.ViewContainer.findByCustom("LoginView").login_failed();
 });
 
-TiaonaerApp.vent.on("user:loginSuccess", function(user) {
-    var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+App.vent.on("user:loginSuccess", function(user) {
+    var userHomeView = App.ViewContainer.findByCustom("UserHomeView");
     if ( userHomeView ) {
         userHomeView.userLoggedIn(user);
         window.history.back();
     } else {
-        userHomeView = TiaonaerApp.showView("UserHomeView");
+        userHomeView = App.showView("UserHomeView");
         userHomeView.userLoggedIn(user);
     }
 /*
@@ -47,7 +47,7 @@ TiaonaerApp.vent.on("user:loginSuccess", function(user) {
     $.ajax({
         //async: false,
         type: "GET",
-        url: TiaonaerApp.ServiceUrl + "/api/user",
+        url: App.ServiceUrl + "/api/user",
         xhrFields: {
             withCredentials: true
         },
@@ -57,14 +57,14 @@ TiaonaerApp.vent.on("user:loginSuccess", function(user) {
         success: function(user) {
             if (user.username && (user.username!=='anonymousUser')) {
                 console.log("Found logged in user: ", user);
-                var userHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+                var userHomeView = App.ViewContainer.findByCustom("UserHomeView");
                 if ( userHomeView ) {
                     userHomeView.userLoggedIn(user);
                     // restore back to the view triggered the login process.
                     window.history.back();
                 } else {
                     // in case access login page directly, homeview not created yet.
-                    userHomeView = TiaonaerApp.showView("UserHomeView");
+                    userHomeView = App.showView("UserHomeView");
                     userHomeView.userLoggedIn(user);
                 }
             } else {
@@ -75,11 +75,11 @@ TiaonaerApp.vent.on("user:loginSuccess", function(user) {
 */
 });
 
-TiaonaerApp.vent.on("user:logout", function() {
+App.vent.on("user:logout", function() {
     Backbone.history.navigate("#/user/logout");
 });
 
-TiaonaerApp.vent.on("user:logoutSuccess", function() {
-    TiaonaerApp.ViewContainer.findByCustom("UserHomeView").userLoggedOut();
+App.vent.on("user:logoutSuccess", function() {
+    App.ViewContainer.findByCustom("UserHomeView").userLoggedOut();
     Backbone.history.navigate("#/");
 });

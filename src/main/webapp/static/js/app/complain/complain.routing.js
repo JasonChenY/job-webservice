@@ -1,4 +1,4 @@
-TiaonaerApp.ComplainRouting = function(){
+App.ComplainRouting = function(){
     var ComplainRouting = {};
 
     ComplainRouting.Router = Backbone.Marionette.AppRouter.extend({
@@ -8,11 +8,11 @@ TiaonaerApp.ComplainRouting = function(){
         }
     });
 
-    TiaonaerApp.addInitializer(function(){
+    App.addInitializer(function(){
         ComplainRouting.router = new ComplainRouting.Router({
-            controller: TiaonaerApp.Controllers.ComplainController
+            controller: App.Controllers.ComplainController
         });
-        TiaonaerApp.vent.trigger("routing:started");
+        App.vent.trigger("routing:started");
     });
 
     return ComplainRouting;

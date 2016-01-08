@@ -22,6 +22,7 @@ if [ $1 = "create" ]; then
 
    echo "download plugins"
    cordova platform add android
+   cordova platform add ios
    cordova plugin add cordova-plugin-inappbrowser
    cordova plugin add cordova-plugin-splashscreen
    # <preference name="SplashScreenDelay" value="10000" />

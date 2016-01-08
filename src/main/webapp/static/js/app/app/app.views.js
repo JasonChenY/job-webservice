@@ -1,4 +1,4 @@
-TiaonaerApp.Views.AppDownloadView = Backbone.View.extend({
+App.Views.AppDownloadView = Backbone.View.extend({
     id: 'app-download-page',
     template: "#template-app-download-view",
     initialize:function () {
@@ -7,14 +7,14 @@ TiaonaerApp.Views.AppDownloadView = Backbone.View.extend({
     render:function () {
         $(this.el).html(this.template());
         if ( isCordovaApp() ) {
-            $("#download-android", this.el).attr("href", TiaonaerApp.ServiceUrl + "/" + $("#download-android", this.el).attr("href"));
-            $("#download-ios", this.el).attr("href", TiaonaerApp.ServiceUrl + "/" + $("#download-ios", this.el).attr("href"));
+            $("#download-android", this.el).attr("href", App.ServiceUrl + "/" + $("#download-android", this.el).attr("href"));
+            $("#download-ios", this.el).attr("href", App.ServiceUrl + "/" + $("#download-ios", this.el).attr("href"));
         };
         return this;
     },
 });
 
-TiaonaerApp.Views.AppAboutView = Backbone.View.extend({
+App.Views.AppAboutView = Backbone.View.extend({
     id: 'app-about-page',
     template: "#template-app-about-view",
     initialize:function () {
@@ -26,7 +26,7 @@ TiaonaerApp.Views.AppAboutView = Backbone.View.extend({
         cordova.getAppVersion.getVersionNumber(function(versionNumber) {
             $('#app-cur-version', self.el).html('v'+versionNumber);
         });
-        if ( TiaonaerApp.appVersion ) {
+        if ( App.appVersion ) {
            $("#app-about-version-p", this.el).css("color","red");
            $("#app-about-version-p", this.el).html('有新版本');
         }
@@ -36,10 +36,10 @@ TiaonaerApp.Views.AppAboutView = Backbone.View.extend({
         'click a#app-about-version': "app_about_version"
     },
     app_about_version: function(e) {
-        if ( TiaonaerApp.appVersion ) {
-            var r = confirm(TiaonaerApp.appVersion.description);
+        if ( App.appVersion ) {
+            var r = confirm(App.appVersion.description);
             if(r){
-               window.open(TiaonaerApp.appVersion.location, '_system', 'location=yes');
+               window.open(App.appVersion.location, '_system', 'location=yes');
             }
         }
     }

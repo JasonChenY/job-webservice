@@ -31,10 +31,10 @@ $.support.cors = true;
   };
 })();
 
-var TiaonaerApp = new Backbone.Marionette.Application();
+var App = new Backbone.Marionette.Application();
 
 /* Base View for views sensitive to different users */
-TiaonaerApp.View = Backbone.View.extend({
+App.View = Backbone.View.extend({
     constructor: function() {
         this.valid = true;
         Backbone.View.prototype.constructor.apply(this, arguments);
@@ -43,24 +43,24 @@ TiaonaerApp.View = Backbone.View.extend({
     setValid: function(valid) { this.valid = valid;}
 });
 /*
-_.extend(TiaonaerApp.View.prototype, {
+_.extend(App.View.prototype, {
     getValid: function() { return this.valid; },
     setValid: function(valid) { this.valid = valid;}
 });
 */
 
-TiaonaerApp.Collections = {};
-TiaonaerApp.Controllers = {};
-TiaonaerApp.Models = {};
-TiaonaerApp.Translations = {};
-TiaonaerApp.Vents = {};
-TiaonaerApp.Views = {};
-TiaonaerApp.ViewContainer = new Backbone.ChildViewContainer();
+App.Collections = {};
+App.Controllers = {};
+App.Models = {};
+App.Translations = {};
+App.Vents = {};
+App.Views = {};
+App.ViewContainer = new Backbone.ChildViewContainer();
 
-TiaonaerApp.ServerHost = "https://www.tiaonr.com";
-TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost;
+App.ServerHost = "https://www.tiaonr.com";
+App.ServiceUrl = App.ServerHost;
 /*
-TiaonaerApp.spinner = new Spinner({
+App.spinner = new Spinner({
     lines: 13, // The number of lines to draw
     length: 30, // The length of each line
     width: 7, // The line thickness
@@ -78,8 +78,8 @@ TiaonaerApp.spinner = new Spinner({
     left: 'auto' // Left position relative to parent in px
 });
 */
-TiaonaerApp.isAnonymousUser = function() {
-    var UserHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+App.isAnonymousUser = function() {
+    var UserHomeView = App.ViewContainer.findByCustom("UserHomeView");
     if ( !UserHomeView || !UserHomeView.isUserLoggedIn() ) {
         console.log('isAnonymousUser');
         return true;
@@ -88,8 +88,8 @@ TiaonaerApp.isAnonymousUser = function() {
     }
 };
 
-TiaonaerApp.getUserRole = function() {
-    var UserHomeView = TiaonaerApp.ViewContainer.findByCustom("UserHomeView");
+App.getUserRole = function() {
+    var UserHomeView = App.ViewContainer.findByCustom("UserHomeView");
     if ( !UserHomeView || !UserHomeView.isUserLoggedIn() ) {
         return 'ROLE_ANONYMOUS';
     } else {
@@ -97,62 +97,62 @@ TiaonaerApp.getUserRole = function() {
     }
 };
 
-TiaonaerApp.showView = function(viewName, model) {
-    var view = TiaonaerApp.ViewContainer.findByCustom(viewName);
+App.showView = function(viewName, model) {
+    var view = App.ViewContainer.findByCustom(viewName);
     if ( !view ) {
         switch ( viewName ) {
             case "UserHomeView":
-                view = new TiaonaerApp.Views.UserHomeView();
+                view = new App.Views.UserHomeView();
                 break;
             case "LoginView":
                 /* dont need this any more, we trust the certification
                 if ( isCordovaApp() ) {
-                    VerifySslCertificate(TiaonaerApp.ServerHost, "DA DC D0 FC B3 58 AD B9 56 CA 07 E1 E2 EB 5C F0 BB 5A F2 64");
+                    VerifySslCertificate(App.ServerHost, "DA DC D0 FC B3 58 AD B9 56 CA 07 E1 E2 EB 5C F0 BB 5A F2 64");
                 }
                 */
-                view = new TiaonaerApp.Views.LoginView();
+                view = new App.Views.LoginView();
                 break;
             case "UserRegisterView":
-                view = new TiaonaerApp.Views.UserRegisterView();
+                view = new App.Views.UserRegisterView();
                 break;
             case "JobListView":
-                view = new TiaonaerApp.Views.JobListView();
+                view = new App.Views.JobListView();
                 break;
             case "JobSearchView":
-                view = new TiaonaerApp.Views.JobSearchView();
+                view = new App.Views.JobSearchView();
                 break;
             case "JobDetailView":
-                view = new TiaonaerApp.Views.JobDetailView({model:model});
+                view = new App.Views.JobDetailView({model:model});
                 break;
             case "JobInfoView":
-                view = new TiaonaerApp.Views.JobInfoView({model:model});
+                view = new App.Views.JobInfoView({model:model});
                 break;
             case "FavoriteListView":
-                view = new TiaonaerApp.Views.FavoriteListView();
+                view = new App.Views.FavoriteListView();
                 break;
             case "ComplainListView":
-                view = new TiaonaerApp.Views.ComplainListView();
+                view = new App.Views.ComplainListView();
                 break;
             case "ComplainDetailView":
-                view = new TiaonaerApp.Views.ComplainDetailView({model:model});
+                view = new App.Views.ComplainDetailView({model:model});
                 break;
             case "ComplainAdminListView":
-                view = new TiaonaerApp.Views.ComplainAdminListView();
+                view = new App.Views.ComplainAdminListView();
                 break;
             case "ComplainAdminDetailView":
-                view = new TiaonaerApp.Views.ComplainAdminDetailView({model:model});
+                view = new App.Views.ComplainAdminDetailView({model:model});
                 break;
             case "AppDownloadView":
-                view = new TiaonaerApp.Views.AppDownloadView();
+                view = new App.Views.AppDownloadView();
                 break;
             case "AppAboutView":
-                view = new TiaonaerApp.Views.AppAboutView();
+                view = new App.Views.AppAboutView();
                 break;
         }
         $(view.el).attr('data-role', 'page');
         view.render();
         $('body').append($(view.el));
-        TiaonaerApp.ViewContainer.add(view, viewName);
+        App.ViewContainer.add(view, viewName);
     } else {
         if ( model ) {
             switch ( viewName ) {
@@ -186,40 +186,40 @@ TiaonaerApp.showView = function(viewName, model) {
 };
 
 $(document).bind('ajaxStart', function() {
-    //TiaonaerApp.spinner.spin(document.getElementById('activity-indicator'));
+    //App.spinner.spin(document.getElementById('activity-indicator'));
 }).bind('ajaxError', function(event, request ,settings) {
     console.log('ajaxError with status code: ', request.status);
-    //TiaonaerApp.spinner.stop();
+    //App.spinner.stop();
     if ( request.status === 401 ) {
-        TiaonaerApp.vent.trigger("user:login");
+        App.vent.trigger("user:login");
     } else if ( request.status === 500 ) {
         alert("非常抱歉，服务目前暂不可用，稍后重试！");
     }
     /*
     if (request.status !== 400) {
         if (request.status === 404) {
-            TiaonaerApp.vent.trigger("error:404");
+            App.vent.trigger("error:404");
         } else if (request.status === 401) {
-            if ( TiaonaerApp.isAnonymousUser() ) {
-                TiaonaerApp.vent.trigger("user:login");
+            if ( App.isAnonymousUser() ) {
+                App.vent.trigger("user:login");
             } else {
-                TiaonaerApp.vent.trigger("error:notAuthorized");
+                App.vent.trigger("error:notAuthorized");
             }
         } else {
-            TiaonaerApp.vent.trigger("error:error");
+            App.vent.trigger("error:error");
         }
     }
     */
 }).bind('ajaxStop', function() {
-    //TiaonaerApp.spinner.stop();
+    //App.spinner.stop();
 });
 
 function checkUpdate(){
-    var url = TiaonaerApp.ServiceUrl + '/api/checkupdate?device=' + window.device.platform;
+    var url = App.ServiceUrl + '/api/checkupdate?device=' + window.device.platform;
     cordova.getAppVersion.getVersionCode(function(versionCode) {
         $.get(url,{},function(version){
             if (versionCode < version.versionCode) {
-                TiaonaerApp.appVersion = version; //saved for later usage.
+                App.appVersion = version; //saved for later usage.
                 var r = confirm(version.description);
                 if(r){
                     window.open(version.location, '_system', 'location=yes');
@@ -233,7 +233,7 @@ $(document).ready(function(){
     /*
     i18n.init({
         debug: true,
-        resStore: TiaonaerApp.Translations.resources
+        resStore: App.Translations.resources
     });
     */
     /*tpl.loadTemplates([
@@ -253,11 +253,11 @@ $(document).ready(function(){
             'template-login-view'
         ],
         function () {
-            TiaonaerApp.start();
+            App.start();
         });
     */
 
-    TiaonaerApp.start();
+    App.start();
 
     if ( isCordovaApp() ) {
        setTimeout(function(){ checkUpdate(); },50);

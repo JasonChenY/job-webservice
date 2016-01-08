@@ -1,4 +1,4 @@
-TiaonaerApp.Views.ComplainAdminItemView = Backbone.View.extend({
+App.Views.ComplainAdminItemView = Backbone.View.extend({
     tagName: "li",
     template: '#template-complainitem-admin-view',
     initialize:function () {
@@ -12,19 +12,19 @@ TiaonaerApp.Views.ComplainAdminItemView = Backbone.View.extend({
     events: {
         'click input.accept': function(e) { this.model.updateAttr({status:1}); e.preventDefault();} ,
         'click input.reject': function(e) { this.model.updateAttr({status:2}); e.preventDefault();} ,
-        'click a.detail': function(e) { TiaonaerApp.vent.trigger("complain:admindetail", this.model); }
+        'click a.detail': function(e) { App.vent.trigger("complain:admindetail", this.model); }
     }
 });
 
-TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
+App.Views.ComplainAdminListView = App.View.extend({
     id: "complainlist-admin-page",
     template: '#template-complainlist-admin-view',
-    model: TiaonaerApp.Models.Complain,
+    model: App.Models.Complain,
 
     initialize:function () {
         console.log("ComplainAdminListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
-        this.collection = new TiaonaerApp.Collections.ComplainAdminList();
+        this.collection = new App.Collections.ComplainAdminList();
         this.listenTo(this.collection, "reset", this.collectionSwitched);
         this.switchCollection();
     },
@@ -57,7 +57,7 @@ TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
         console.log("enter collectionSwitched");
         this.$('#complainlist').empty();
         _.each(this.collection.models, function (item) {
-                this.$('#complainlist').append(new TiaonaerApp.Views.ComplainAdminItemView({model:item}).render().el);
+                this.$('#complainlist').append(new App.Views.ComplainAdminItemView({model:item}).render().el);
         }, this);
         this.$('#complainlist').listview().listview('refresh');
         this.$('.complainlist_iscroller_wrapper').iscrollview("scrollTo", 0, 0, 10, null);
@@ -103,15 +103,15 @@ TiaonaerApp.Views.ComplainAdminListView = TiaonaerApp.View.extend({
     }
 });
 
-TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
+App.Views.ComplainAdminDetailView = Backbone.View.extend({
     id: "complain-admin-detail-page",
     template: '#template-complain-admin-detail-view',
-    model: TiaonaerApp.Models.Complain,
+    model: App.Models.Complain,
     initialize:function() {
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
         this.listenTo(this.model, "change", this.modelAttrChanged);
         var self = this;
-        self.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        self.job_model = new App.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
         self.job_model_ready = false;
         self.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },
@@ -131,7 +131,7 @@ TiaonaerApp.Views.ComplainAdminDetailView = Backbone.View.extend({
         this.listenTo(this.model, "change", this.modelAttrChanged);
 
         var self = this;
-        self.job_model = new TiaonaerApp.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
+        self.job_model = new App.Models.Job({id:encodeURIComponent(this.model.get("job_id"))});
         self.job_model_ready = false;
         self.job_model.fetch({success:function() {self.job_model_ready = true; self.render();}});
     },

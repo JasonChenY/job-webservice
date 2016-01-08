@@ -1,4 +1,4 @@
-TiaonaerApp.AppRouting = function() {
+App.AppRouting = function() {
     var AppRouting = {};
     AppRouting.Router = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
@@ -7,11 +7,11 @@ TiaonaerApp.AppRouting = function() {
         }
     });
 
-    TiaonaerApp.addInitializer(function(){
+    App.addInitializer(function(){
         AppRouting.router = new AppRouting.Router({
-            controller: TiaonaerApp.Controllers.AppController
+            controller: App.Controllers.AppController
         });
-        TiaonaerApp.vent.trigger("routing:started");
+        App.vent.trigger("routing:started");
     });
 
     return AppRouting;

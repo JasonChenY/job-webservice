@@ -32,33 +32,33 @@ var parseQueryString = function (url) {
    return obj;
 };
 
-TiaonaerApp.Controllers.JobController = {
+App.Controllers.JobController = {
     list: function() {
         console.log("list in JobController");
-        TiaonaerApp.showView("JobListView");
+        App.showView("JobListView");
     },
     view: function(id) {
-        var job = new TiaonaerApp.Models.Job({id: id});
+        var job = new App.Models.Job({id: id});
         job.fetch({success:function() {
-            TiaonaerApp.showView("JobInfoView", job);
+            App.showView("JobInfoView", job);
         }});
     },
     update: function(id) {
-        if (TiaonaerApp.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
+        if (App.isAnonymousUser()) {
+            App.vent.trigger("user:login");
         }
         else {
-            var updateJobView = new TiaonaerApp.Views.UpdateJobView({id: id});
-            TiaonaerApp.mainRegion.show(updateJobView);
+            var updateJobView = new App.Views.UpdateJobView({id: id});
+            App.mainRegion.show(updateJobView);
         }
     },
 
     search: function() {
         // Only registered user can use search function.
-        //if (TiaonaerApp.isAnonymousUser()) {
-        //    TiaonaerApp.vent.trigger("user:login");
+        //if (App.isAnonymousUser()) {
+        //    App.vent.trigger("user:login");
         //} else {
-            TiaonaerApp.showView("JobSearchView");
+            App.showView("JobSearchView");
         //}
     },
 
@@ -67,16 +67,16 @@ TiaonaerApp.Controllers.JobController = {
     filter: function(filters) {
         console.log("Filter job entries:" + filters);
         // Only registered user can use search function.
-        //if (TiaonaerApp.isAnonymousUser()) {
-            //TiaonaerApp.vent.trigger("user:login");
+        //if (App.isAnonymousUser()) {
+            //App.vent.trigger("user:login");
         //} else {
-            if ( TiaonaerApp.filters ) {
-                var jobListView = TiaonaerApp.ViewContainer.findByCustom("JobListView");
+            if ( App.filters ) {
+                var jobListView = App.ViewContainer.findByCustom("JobListView");
                 //jobListView.switchCollection(filters?parseQueryString(filters):null);
-                jobListView.switchCollection(TiaonaerApp.filters);
-                TiaonaerApp.filters = null;
+                jobListView.switchCollection(App.filters);
+                App.filters = null;
             }
-            TiaonaerApp.showView("JobListView");
+            App.showView("JobListView");
         //}
     }
 };

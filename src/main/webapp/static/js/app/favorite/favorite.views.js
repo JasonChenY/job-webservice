@@ -1,4 +1,4 @@
-TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
+App.Views.FavoriteItemView = Backbone.View.extend({
     tagName: "li",
     template: '#template-favoriteitem-view',
     initialize:function () {
@@ -10,7 +10,7 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
     },
     events: {
         'click a.favorite': function(e) { this.favorite(); e.preventDefault();} ,
-        'click a.detail': function(e) {TiaonaerApp.vent.trigger("favorite:detail", this.model);}
+        'click a.detail': function(e) {App.vent.trigger("favorite:detail", this.model);}
     },
     favorite: function(e) {
         this.model.destroy({
@@ -21,7 +21,7 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
             crossDomain: true,
             beforeSend: function(xhr) {
                 if ( isCordovaApp() ) {
-                    xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                    xhr.setRequestHeader("Origin",App.ServerHost);
                 }
             },
             success: function(favorite) {
@@ -34,15 +34,15 @@ TiaonaerApp.Views.FavoriteItemView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.FavoriteListView = TiaonaerApp.View.extend({
+App.Views.FavoriteListView = App.View.extend({
     id: "favoritelist-page",
     template: '#template-favoritelist-view',
-    model: TiaonaerApp.Models.Favorite,
+    model: App.Models.Favorite,
 
     initialize:function () {
         console.log("FavoriteListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
-        this.collection = new TiaonaerApp.Collections.FavoriteList();
+        this.collection = new App.Collections.FavoriteList();
         this.listenTo(this.collection, "reset", this.collectionSwitched);
         this.listenTo(this.collection, "remove", this.itemRemoved);
         this.switchCollection();
@@ -83,7 +83,7 @@ TiaonaerApp.Views.FavoriteListView = TiaonaerApp.View.extend({
         console.log("enter collectionSwitched");
         this.$('#favoritelist').empty();
         _.each(this.collection.models, function (favoriteitem) {
-                this.$('#favoritelist').append(new TiaonaerApp.Views.FavoriteItemView({model:favoriteitem}).render().el);
+                this.$('#favoritelist').append(new App.Views.FavoriteItemView({model:favoriteitem}).render().el);
         }, this);
         this.$('#favoritelist').listview().listview('refresh');
         this.$('.favoritelist_iscroller_wrapper').iscrollview("scrollTo", 0, 0, 10, null);

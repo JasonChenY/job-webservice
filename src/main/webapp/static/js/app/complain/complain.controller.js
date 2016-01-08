@@ -1,18 +1,18 @@
-TiaonaerApp.Controllers.ComplainController = {
+App.Controllers.ComplainController = {
     list: function() {
         console.log("list in ComplainController");
-        if (TiaonaerApp.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
+        if (App.isAnonymousUser()) {
+            App.vent.trigger("user:login");
         } else {
-            TiaonaerApp.showView("ComplainListView");
+            App.showView("ComplainListView");
         }
     },
     adminlist: function() {
         console.log("adminlist in ComplainController");
-        if (TiaonaerApp.isAnonymousUser()) {
-            TiaonaerApp.vent.trigger("user:login");
+        if (App.isAnonymousUser()) {
+            App.vent.trigger("user:login");
         } else {
-            TiaonaerApp.showView("ComplainAdminListView");
+            App.showView("ComplainAdminListView");
         }
     }
 };

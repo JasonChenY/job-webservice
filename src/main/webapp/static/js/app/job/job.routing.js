@@ -1,4 +1,4 @@
-TiaonaerApp.JobRouting = function(){
+App.JobRouting = function(){
     var JobRouting = {};
 
     JobRouting.Router = Backbone.Marionette.AppRouter.extend({
@@ -12,12 +12,12 @@ TiaonaerApp.JobRouting = function(){
         }
     });
 
-    TiaonaerApp.addInitializer(function(){
+    App.addInitializer(function(){
         JobRouting.router = new JobRouting.Router({
-            controller: TiaonaerApp.Controllers.JobController
+            controller: App.Controllers.JobController
         });
 
-        TiaonaerApp.vent.trigger("routing:started");
+        App.vent.trigger("routing:started");
     });
 
     return JobRouting;

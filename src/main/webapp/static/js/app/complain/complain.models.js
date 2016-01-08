@@ -1,5 +1,5 @@
-TiaonaerApp.Models.Complain = Backbone.Model.extend({
-    urlRoot: TiaonaerApp.ServiceUrl + "/" + "api/complain",
+App.Models.Complain = Backbone.Model.extend({
+    urlRoot: App.ServiceUrl + "/" + "api/complain",
 
     updateAttr: function(attrs) {
         this.save(attrs,
@@ -11,7 +11,7 @@ TiaonaerApp.Models.Complain = Backbone.Model.extend({
                 crossDomain: true,
                 beforeSend: function(xhr) {
                     if ( isCordovaApp() ) {
-                        xhr.setRequestHeader("Origin",TiaonaerApp.ServerHost);
+                        xhr.setRequestHeader("Origin",App.ServerHost);
                     }
                 },
                 success: function(model) {
@@ -24,9 +24,9 @@ TiaonaerApp.Models.Complain = Backbone.Model.extend({
     }
 });
 
-TiaonaerApp.Collections.ComplainList = Backbone.PageableCollection.extend({
-    model: TiaonaerApp.Models.Complain,
-    url: TiaonaerApp.ServiceUrl + "/" + "api/complain",
+App.Collections.ComplainList = Backbone.PageableCollection.extend({
+    model: App.Models.Complain,
+    url: App.ServiceUrl + "/" + "api/complain",
     state: {
         firstPage: 1,
         order: 1,
@@ -53,9 +53,9 @@ TiaonaerApp.Collections.ComplainList = Backbone.PageableCollection.extend({
     }
 });
 
-TiaonaerApp.Collections.ComplainAdminList = Backbone.PageableCollection.extend({
-    model: TiaonaerApp.Models.Complain,
-    url: TiaonaerApp.ServiceUrl + "/" + "api/complain/admin",
+App.Collections.ComplainAdminList = Backbone.PageableCollection.extend({
+    model: App.Models.Complain,
+    url: App.ServiceUrl + "/" + "api/complain/admin",
     state: {
         firstPage: 1,
         order: 1,

@@ -1,4 +1,4 @@
-TiaonaerApp.FavoriteRouting = function(){
+App.FavoriteRouting = function(){
     var FavoriteRouting = {};
 
     FavoriteRouting.Router = Backbone.Marionette.AppRouter.extend({
@@ -10,11 +10,11 @@ TiaonaerApp.FavoriteRouting = function(){
         }
     });
 
-    TiaonaerApp.addInitializer(function(){
+    App.addInitializer(function(){
         FavoriteRouting.router = new FavoriteRouting.Router({
-            controller: TiaonaerApp.Controllers.FavoriteController
+            controller: App.Controllers.FavoriteController
         });
-        TiaonaerApp.vent.trigger("routing:started");
+        App.vent.trigger("routing:started");
     });
 
     return FavoriteRouting;

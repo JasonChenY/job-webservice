@@ -1,8 +1,8 @@
-TiaonaerApp.Controllers.AppController = {
+App.Controllers.AppController = {
     app_download: function() {
-        TiaonaerApp.showView("AppDownloadView");
+        App.showView("AppDownloadView");
     },
     app_about: function() {
-        TiaonaerApp.showView("AppAboutView");
+        App.showView("AppAboutView");
     }
 };

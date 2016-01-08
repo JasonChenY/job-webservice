@@ -1,4 +1,4 @@
-TiaonaerApp.Views.JobItemView = Backbone.View.extend({
+App.Views.JobItemView = Backbone.View.extend({
     tagName: "li",
     template: '#template-jobitem-view',
     initialize:function () {
@@ -21,25 +21,25 @@ TiaonaerApp.Views.JobItemView = Backbone.View.extend({
 
     favorite: function(e) {
         this.model.toggle_favorite();
-        var listview = TiaonaerApp.ViewContainer.findByCustom("FavoriteListView");
+        var listview = App.ViewContainer.findByCustom("FavoriteListView");
         if (listview) listview.setValid(false);
         e.preventDefault();
     },
 
     jobdetail: function(e) {
-        TiaonaerApp.vent.trigger("jobdetail:view", this.model);
+        App.vent.trigger("jobdetail:view", this.model);
     }
 });
 
-TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
+App.Views.JobListView = App.View.extend({
     id: "joblist-page",
     template: '#template-joblist-view',
-    model: TiaonaerApp.Models.Job,
+    model: App.Models.Job,
 
     initialize:function () {
         console.log("JobListView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
-        this.collection =  new TiaonaerApp.Collections.JobList();
+        this.collection =  new App.Collections.JobList();
         this.listenTo(this.collection, "reset", this.collectionSwitched);
         this.listenTo(this.collection, "change", this.collectionSwitched);
         this.setValid(false);
@@ -47,7 +47,7 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
     },
 
     events: {
-        'click #jobsearch' : function(e) { TiaonaerApp.vent.trigger("job:search"); e.preventDefault();},
+        'click #jobsearch' : function(e) { App.vent.trigger("job:search"); e.preventDefault();},
         'click a[data-rel="back"]': function(e) {Backbone.history.history.back(); e.stopPropagation(); return false;}
     },
 
@@ -56,7 +56,7 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
 
         this.$('#joblist').empty();
         _.each(this.collection.models, function (jobitem) {
-            this.$('#joblist').append(new TiaonaerApp.Views.JobItemView({model:jobitem}).render().el);
+            this.$('#joblist').append(new App.Views.JobItemView({model:jobitem}).render().el);
         }, this);
         this.$('#joblist').listview().listview('refresh');
         this.$('.joblist_iscroller_wrapper').iscrollview("scrollTo", 0, 0, 10, null);
@@ -107,10 +107,10 @@ TiaonaerApp.Views.JobListView = TiaonaerApp.View.extend({
     }
 });
 
-TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
+App.Views.JobDetailView = Backbone.View.extend({
     id: "jobdetail-page",
     template: '#template-jobdetail-view',
-    model: TiaonaerApp.Models.Job,
+    model: App.Models.Job,
     initialize:function() {
         console.log("JobDetailView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
@@ -129,13 +129,13 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     },
     favorite: function(e) {
         this.model.toggle_favorite();
-        var listview = TiaonaerApp.ViewContainer.findByCustom("FavoriteListView");
+        var listview = App.ViewContainer.findByCustom("FavoriteListView");
         if (listview) listview.setValid(false);
         e.preventDefault();
     },
     complain: function(e) {
         this.model.complain($('#complain_type :selected', this.el).val());
-        var listview = TiaonaerApp.ViewContainer.findByCustom("ComplainListView");
+        var listview = App.ViewContainer.findByCustom("ComplainListView");
         if (listview) listview.setValid(false);
         e.preventDefault();
     },
@@ -160,10 +160,10 @@ TiaonaerApp.Views.JobDetailView = Backbone.View.extend({
     }
 });
 
-TiaonaerApp.Views.JobInfoView = Backbone.View.extend({
+App.Views.JobInfoView = Backbone.View.extend({
     id: "jobinfo-page",
     template: '#template-jobinfo-view',
-    model: TiaonaerApp.Models.Job,
+    model: App.Models.Job,
     initialize:function() {
         console.log("JobInfoView's initialize");
         this.template = Marionette.TemplateCache.get(Marionette.getOption(this, "template"));
@@ -194,7 +194,7 @@ Date.prototype.minusDays = function(days) {
     return this;
 };
 
-TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
+App.Views.JobSearchView = App.View.extend({
     id: "jobsearch-page",
     template: '#template-jobsearch-view',
     initialize:function() {
@@ -203,7 +203,7 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
         // in order to decouple between joblist and jobsearch view, use ajax directly.
         var self = this;
         $.ajax({
-            url: TiaonaerApp.ServiceUrl + "/api/job?facet=true",
+            url: App.ServiceUrl + "/api/job?facet=true",
             dataType: 'json',
             xhrFields: {
                 withCredentials: true
@@ -220,7 +220,7 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
 
     render:function () {
         $(this.el).html(this.template());
-        /*!!!Strange problem!!!:
+        /*Strange problem:
          * It is possible to pre-add the PAGE DIV element in index.html,
          * and then use existing "el: '#div_id'" in Backbone.view to render the page.
          * BUT there is some problem with the "footer" element:
@@ -370,7 +370,7 @@ TiaonaerApp.Views.JobSearchView = TiaonaerApp.View.extend({
 
         console.log(filters);
 
-        TiaonaerApp.vent.trigger("job:filter", filters);
+        App.vent.trigger("job:filter", filters);
 
         e.preventDefault();
     }

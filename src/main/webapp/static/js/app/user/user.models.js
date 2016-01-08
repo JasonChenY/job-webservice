@@ -1,4 +1,4 @@
-TiaonaerApp.Models.User = Backbone.Model.extend({
+App.Models.User = Backbone.Model.extend({
     //idAttribute: "username",
     defaults: {
         "username":  "anonymous",

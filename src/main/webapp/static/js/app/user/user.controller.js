@@ -1,36 +1,36 @@
-TiaonaerApp.Controllers.UserController = {
+App.Controllers.UserController = {
     home: function() {
         console.log("Rendering initial home view.");
-        TiaonaerApp.showView("UserHomeView");
+        App.showView("UserHomeView");
     },
 
     login: function() {
         console.log("Rendering login page");
-        TiaonaerApp.showView("LoginView");
+        App.showView("LoginView");
     },
 
     register: function() {
         console.log("Rendering register page");
-        TiaonaerApp.showView("UserRegisterView");
+        App.showView("UserRegisterView");
     },
 
     logout: function() {
         console.log("Logging user out");
-        if ( !TiaonaerApp.isAnonymousUser() ) {
-            /*$.get(TiaonaerApp.ServiceUrl+"/api/logout", function(data) {
+        if ( !App.isAnonymousUser() ) {
+            /*$.get(App.ServiceUrl+"/api/logout", function(data) {
                 console.log("Logout successful. Received data: ", data);
-                TiaonaerApp.vent.trigger("user:logoutSuccess");
+                App.vent.trigger("user:logoutSuccess");
             });*/
             $.ajax({
                 type: "GET",
-                url: TiaonaerApp.ServiceUrl + "/api/logout",
+                url: App.ServiceUrl + "/api/logout",
                 xhrFields: {
                     withCredentials: true
                 },
                 crossDomain: true,
                 success: function(data, status, xhr){
                     console.log("Trigger user:logoutSuccess");
-                    TiaonaerApp.vent.trigger("user:logoutSuccess");
+                    App.vent.trigger("user:logoutSuccess");
                 }
             });
         } else {
