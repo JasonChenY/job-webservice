@@ -12,8 +12,9 @@ public class FavoriteDTO {
     private String job_id;
     private String job_title;
     private String job_company;
-
-
+    private String job_location;
+    private String job_description;
+    private String job_url;
 
     private Boolean job_expired;
 
@@ -64,6 +65,30 @@ public class FavoriteDTO {
 
     public void setJob_title(String job_title) {
         this.job_title = job_title;
+    }
+
+    public String getJob_location() {
+        return job_location;
+    }
+
+    public void setJob_location(String job_location) {
+        this.job_location = job_location;
+    }
+
+    public String getJob_description() {
+        return job_description;
+    }
+
+    public void setJob_description(String job_description) {
+        this.job_description = job_description;
+    }
+
+    public String getJob_url() {
+        return job_url;
+    }
+
+    public void setJob_url(String job_url) {
+        this.job_url = job_url;
     }
 
     public Boolean getJob_expired() {

@@ -16,7 +16,8 @@
 $(document).on({
     pageshow: function() {
         if ( window.opener ) {
-            window.opener.ThirdPartyLoginInCallback(false);
+            //window.opener.ThirdPartyLoginInCallback(false);
+            window.opener.postMessage('false', '*');
         } else {
             localStorage.setItem("LoginResult", JSON.stringify(false));
         }

@@ -114,6 +114,9 @@ public class FavoriteService {
         } else {
             dto.setJob_title(doc.getJob_title());
             dto.setJob_company(doc.getJob_company());
+            dto.setJob_description(doc.getJob_description());
+            dto.setJob_location(doc.getJob_location());
+            dto.setJob_url(doc.getJob_url());
             dto.setJob_expired(doc.getJob_expired());
             return dto;
         }

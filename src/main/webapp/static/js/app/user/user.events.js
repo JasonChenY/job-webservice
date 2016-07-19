@@ -1,3 +1,7 @@
+window.addEventListener('message',function(e) {
+   ThirdPartyLoginInCallback(e.data);
+},false);
+
 function ThirdPartyLoginInCallback(result) {
     if ( typeof(result) === 'object' ) {
         App.vent.trigger("user:loginSuccess", result);

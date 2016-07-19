@@ -23,7 +23,8 @@ $(document).on({
         if ( window.opener ) {
             $('#auto-close-hint').hide();
             $('#btn-close').show();
-            window.opener.ThirdPartyLoginInCallback(user);
+            //window.opener.ThirdPartyLoginInCallback(user);
+            window.opener.postMessage(user, '*');
         } else {
             localStorage.setItem("LoginResult", JSON.stringify(user));
             $('#auto-close-hint').show();
