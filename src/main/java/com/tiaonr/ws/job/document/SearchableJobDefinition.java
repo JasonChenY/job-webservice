@@ -12,6 +12,7 @@ public interface SearchableJobDefinition {
     String JOB_POST_DATE = "job_post_date";
     String JOB_EXPIRE_DATE = "job_expire_date";
     String JOB_DESCRIPTION = "job_description";
+    String JOB_DESCRIPTION_STRIPPED = "job_description_stripped";
     String JOB_INDEX_DATE= "job_index_date";
     String JOB_CATEGORY_DOMAIN = "job_category_domain";
     String JOB_EXPIRED = "job_expired";

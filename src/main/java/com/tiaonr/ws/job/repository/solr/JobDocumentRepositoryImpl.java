@@ -105,7 +105,7 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
         if ( query == null ) return null;
         if ( query.startsWith("\"") && query.endsWith("\"") ) {
             return new Criteria(JobDocument.JOB_TITLE).expression(query)
-                    .or(new Criteria(JobDocument.JOB_DESCRIPTION).expression(query));
+                    .or(new Criteria(JobDocument.JOB_DESCRIPTION_STRIPPED).expression(query));
         } else {
             String[] words = query.split(" ");
 
@@ -115,10 +115,11 @@ public class JobDocumentRepositoryImpl implements CustomJobDocumentRepository {
                 word = word.trim();
                 if ( word.isEmpty() ) continue;
                 if (conditions == null) {
-                    conditions = new Criteria(JobDocument.JOB_DESCRIPTION).contains(word);
+                    //conditions = new Criteria(JobDocument.JOB_DESCRIPTION_STRIPPED).contains(word).or(new Criteria(JobDocument.JOB_TITLE).contains(word));
+                    conditions = new Criteria(JobDocument.JOB_DESCRIPTION_STRIPPED).expression(word).or(new Criteria(JobDocument.JOB_TITLE).expression(word));
+                    conditions = conditions.connect();
                 } else {
-                    Criteria part = new Criteria(JobDocument.JOB_TITLE).contains(word)
-                            .or(new Criteria(JobDocument.JOB_DESCRIPTION).contains(word));
+                    Criteria part = new Criteria(JobDocument.JOB_TITLE).expression(word).or(new Criteria(JobDocument.JOB_DESCRIPTION_STRIPPED).expression(word));
                     conditions = part.connect().and(conditions);
                 }
             }

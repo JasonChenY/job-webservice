@@ -25,6 +25,7 @@ public class JobDocument implements SearchableJobDefinition {
     private @Indexed(JOB_POST_DATE) Date job_post_date;
     private @Indexed(JOB_EXPIRE_DATE) Date job_expire_date;
     private @Indexed(JOB_DESCRIPTION) String job_description;
+    private @Indexed(JOB_DESCRIPTION_STRIPPED) String job_description_stripped;
     private @Indexed(JOB_INDEX_DATE) Date job_index_date;
     private @Indexed(JOB_CATEGORY_DOMAIN) String job_category_domain;
     private @Indexed(JOB_EXPIRED) Boolean job_expired;
@@ -98,6 +99,13 @@ public class JobDocument implements SearchableJobDefinition {
     }
     public void setJob_description(String job_description) {
         this.job_description = job_description;
+    }
+
+    public String getJob_description_stripped() {
+        return job_description_stripped;
+    }
+    public void setJob_description_stripped(String job_description_stripped) {
+        this.job_description_stripped = job_description_stripped;
     }
 
     public Date getJob_index_date() {

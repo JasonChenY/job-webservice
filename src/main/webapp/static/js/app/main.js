@@ -58,7 +58,7 @@ App.Views = {};
 App.ViewContainer = new Backbone.ChildViewContainer();
 
 App.ServerHost = "https://www.tiaonr.com";
-App.ServiceUrl = App.ServerHost;
+App.ServiceUrl = App.ServerHost + "/jobws";
 /*
 App.spinner = new Spinner({
     lines: 13, // The number of lines to draw
