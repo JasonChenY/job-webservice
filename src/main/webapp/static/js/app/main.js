@@ -57,7 +57,7 @@ App.Vents = {};
 App.Views = {};
 App.ViewContainer = new Backbone.ChildViewContainer();
 
-App.ServerHost = "https://www.tiaonr.com";
+App.ServerHost = "http://www.tiaonr.com";
 App.ServiceUrl = App.ServerHost + "/jobws";
 /*
 App.spinner = new Spinner({

@@ -86,14 +86,20 @@
                maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
                clientAuth="false" sslProtocol="TLS" />
     -->
-    <Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
+    <!--Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"  
                maxThreads="150" scheme="https" secure="true"
-               sslProtocol="TLS"
-               keystoreFile="/sdk/memo/search/certificate/tomcat.keystore"
+               sslProtocol="TLS"   
+               keystoreFile="/sdk/memo/search/certificate/tomcat.keystore"  
+               keystorePass="tiaonaer"/-->
+
+    <Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"  
+               maxThreads="150" scheme="https" secure="true"
+               sslProtocol="TLS"   
+               keystoreFile="conf/tomcat.keystore"
                keystorePass="tomcat"
                keyAlias="1" 
                keyPass="tiaonr"/>
-
+    
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
 
@@ -107,7 +113,7 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
-    <Engine name="Catalina" defaultHost="localhost">
+    <Engine name="Catalina" defaultHost="www.tiaonr.com">
 
       <!--For clustering, please take a look at documentation at:
           /docs/cluster-howto.html  (simple how to)
@@ -127,8 +133,13 @@
                resourceName="UserDatabase"/>
       </Realm>
 
-      <Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true" crossContext="true">
+      <Host name="www.tiaonr.com"  appBase="webapps/tiaonr" unpackWARs="true" autoDeploy="true" crossContext="true">
+      </Host>
+
+      <Host name="www.fengfang.com"  appBase="webapps/fengfang" unpackWARs="true" autoDeploy="true" crossContext="true">
+      </Host>
+
+      <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true" crossContext="true">
 
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
@@ -143,15 +154,7 @@
                prefix="localhost_access_log" suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
-        <!--Context path="/jstest" reloadable="true" docBase="/sdk/tmp/webapps"/-->
-        <Context path="/jobs" reloadable="true" docBase="/sdk/tools/jobs/client/www"/>
-        <Context docBase="/sdk/tmp/spring/solr-pagination/target/jobws" path="/jobws" privileged="true" antiResourceLocking="false"></Context>
-        <!--To install jobws as the root application:
-        mv tomcat/webapps/ROOT tomcat/webapps/ROOT_BAK
-        main.js: TiaonaerApp.ServiceUrl = TiaonaerApp.ServerHost
-
-        or create conf/Catalina/localhost/ROOT.xml, and pointing to war files, and set path=""
-        -->
+        <Context path="/testapp" reloadable="true" docBase="/sdk/tmp/webapps"/>
       </Host>
     </Engine>
   </Service>
