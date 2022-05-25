@@ -35,7 +35,7 @@
         <spring.version>4.2.2.RELEASE</spring.version>
         <spring.data.version>1.9.0.RELEASE</spring.data.version>
         <spring.data.solr.version>1.5.0.RELEASE</spring.data.solr.version>
-        <spring.security.version>4.0.2.RELEASE</spring.security.version>
+        <spring.security.version>5.5.7</spring.security.version>
         <spring.security.oauth2.version>2.0.7.RELEASE</spring.security.oauth2.version>
         <solr.version>5.2.1</solr.version>
         <spring.data.commons.version>1.11.2.RELEASE</spring.data.commons.version>
